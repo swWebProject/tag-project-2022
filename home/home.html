@@ -5,7 +5,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Zootopedia</title>
-    <script src="home.js"></script>
     <script src="https://kit.fontawesome.com/c58241218c.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="home.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -49,5 +48,17 @@
             <h6 class="information_inner">씨애랑 2022 소프트웨어 전시회 태그팀</h6>
         </div>
     </footer>
+
+    <script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
+    <script>
+        let url_key = "22f10dd3863febae7e67b8df14051d8b";
+        
+        $.ajax({
+            method: "GET",
+            url: "http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=22f10dd3863febae7e67b8df14051d8b&targetDt=20221027&movieNm",
+        }).done(function(msg){
+                console.log(msg);
+            }); 
+    </script>
 </body>
 </html>
