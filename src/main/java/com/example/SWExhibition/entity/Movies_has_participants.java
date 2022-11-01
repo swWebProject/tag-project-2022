@@ -10,17 +10,18 @@ import javax.persistence.*;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
 @ToString
-public class Movies_has_genres {
+@Getter
+public class Movies_has_participants {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long moviesGenresId;  // 영화&장르 ID
-    @ManyToOne
-    @JoinColumn(name = "movies_moiveCd")
-    private Movies movieCd; // 영화 코드
+    private Long moviesParticipantsId;  // 영화&영화인 ID
 
     @ManyToOne
-    @JoinColumn(name = "genres_genreID")
-    private Genres genreID; // 장르 ID
+    @JoinColumn(name = "movies_moiveCd")
+    private Movies moiveCd; // 영화 코드
+
+    @ManyToOne
+    @JoinColumn(name = "participants_peopleCd")
+    private Participants peopleCd;  // 영화인 코드
 }
