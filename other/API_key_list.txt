@@ -1,0 +1,13 @@
+API 응답 키 정리
+
+영화진응위원회 API
+movieNm 영화이름
+audiAcc 누적관객수
+
+네이버 영화 검색 API
+rss/channel/item/link 영화정보
+rss/channel/item/image 영화썸네일
+rss/channel/item/pubDate 영화개봉일
+rss/channel/item/director 영화감독
+rss/channel/item/actor 영화배우
+rss/channel/item/userRating 평점
