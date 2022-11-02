@@ -28,6 +28,9 @@ dependencies {
 	// 웹 크롤링 JSOUP
 	implementation 'org.jsoup:jsoup:1.14.2'
 
+	// Spring Security
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-mustache'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
