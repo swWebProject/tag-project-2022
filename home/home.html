@@ -38,7 +38,7 @@
     <section id="section">
         <h3>일별 박스오피스 순위</h3>
 
-        <div>
+        <div id="section_main_div">
 
         </div>
 
@@ -69,14 +69,18 @@
                 })
                     // HTTP 요청이 성공하면 요청한 데이터가 done() 메소드로 전달됨.
                     .done(function (data) {
-                        alert("Conneted: " + data);
-                        // console.log(data);
+                        alert("Movie API Conneted!!");
                         let temp = data.boxOfficeResult.dailyBoxOfficeList;
-                        for (let i = 0; i <= temp.length; i++) {
+                        for (let i = 1; i <= temp.length+1; i++) {
                             this.movieNm = temp[i].movieNm;
                             this.audiAcc = temp[i].audiAcc;
-                            console.log(`영화이름: ${this.movieNm}, 누적 관객 수: ${this.audiAcc}`);
-                            // $("div").append(`${i} <br> 영화이름: ${this.movieNm}, 누적 관객 수: ${this.audiAcc}`);
+                            console.log(`${i} <br> 영화이름: ${this.movieNm}, 누적 관객 수: ${this.audiAcc}`);
+                            $("#section_main_div").append(
+                                `
+                                <br>
+                                <p id="section_movie_info">${i}</p> <br>
+                                <p>영화이름: ${this.movieNm}, 누적 관객 수: ${this.audiAcc}명</p>`
+                                );
                         }
                     });
             }
