@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://kit.fontawesome.com/c58241218c.js" crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="login.css">
+    <script src="login.js"></script>
+</head>
+<body>
+    <!-- header -->
+    <header>
+        <nav class="navbar">
+            <div id="nav_name">
+                <i class="fa-solid fa-film"></i>
+                <h2>주토피디아</h2>
+            </div>
+            <div id="search">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input id="movie_search" type="text" placeholder="원하는 영화 검색">
+            </div>
+            <div id="login_bar">
+                <a href="/Zoo/login/login.html"><h4>로그인</h4></a>
+                <a href="/Zoo/join/join.html"><h4>회원가입</h4></a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- section -->
+    <section id="section">
+        <h1>로그인</h1>
+        <div id="login"> <!-- id 입력하는 input 태그, password 입력하는 input 태그 묶는 div-->
+            <!-- 로그인 form -->
+            <form action="">
+                <!-- 아이디 -->
+                <div id="id"> 
+                    <label for="login_id" ><i class="fa-solid fa-user" style="font-size: 30px;"></i></label>
+                    <input id="login_id" type="text" placeholder="ID" required>
+                <!-- 패스워드 -->
+                </div>
+                <div id="password">
+                    <label for="login_pw"><i class="fa-solid fa-key" style="font-size: 30px;"></i></label>
+                    <input id="login_pw" type="password" placeholder="Password" required>
+                </div>
+                <!-- 그 외 -->
+                <div id="login_low">
+                    <input id="showPasswordCheckBox" type="checkbox" onclick="showPassword(event)">
+                    <button id="login_btn" type="submit" >로그인</button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <!-- footer -->
+    <footer id="footer">
+        <!-- 주토피디아, 주피 프로젝트, 깃허브 링크, 영화 평점 사이트 -->
+        <div id="information">
+            <h4 class="information_inner">주토피디아, 주피 프로젝트</h4>
+            <div class="information_inner">
+                <a href="https://github.com/swWebProject/tag-project-2022" target="_blank"><i class="fa-brands fa-github fa-2x"></i></a>
+                <h5>주피 프로젝트 깃허브</h5>
+            </div>
+            <h6 class="information_inner">씨애랑 2022 소프트웨어 전시회 태그팀</h6>
+        </div>
+    </footer>
+</body>

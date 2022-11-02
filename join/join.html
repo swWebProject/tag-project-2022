@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://kit.fontawesome.com/c58241218c.js" crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="join.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div id="nav_name">
+                <i class="fa-solid fa-film"></i>
+                <h2>주토피디아</h2>
+            </div>
+            <div id="search">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input id="movie_search" type="text" placeholder="원하는 영화 검색">
+            </div>
+            <div id="login_bar">
+                <a href="/Zoo/login/login.html"><h4>로그인</h4></a>
+                <a href="/Zoo/join/join.html"><h4>회원가입</h4></a>
+            </div>
+        </nav>
+    </header>
+    <section id="section">
+        <h1>회원가입</h1>
+        <div id="join"> 
+            <form id="joinForm" action="">
+                <!-- 아이디 -->
+                <label for="join_id"><h5>아이디</h5></label>
+                <input id="join_id" type="text" placeholder="아이디"> 
+                <!-- 비밀번호 -->
+                <label for="join_password"><h5>비밀번호</h5></label>
+                <input id="join_password" type="text" placeholder="비밀번호"> 
+                <!-- 닉네임 -->
+                <label for="join_nickname"><h5>닉네임</h5></label>
+                <input id="join_nickname" type="text" placeholder="닉네임">
+                <!-- 이메일 -->
+                <label for="join_email"><h5>이메일</h5></label>
+                <input id="join_email" type="email" placeholder="이메일">
+                <button id="join_btn" type="submit">완료</button>
+            </form>
+        </div>
+    </section>
+    <footer id="footer">
+        <!-- 주토피디아, 주피 프로젝트, 깃허브 링크, 영화 평점 사이트 -->
+        <div id="information">
+            <h4 class="information_inner">주토피디아, 주피 프로젝트</h4>
+            <div class="information_inner">
+                <a href="https://github.com/swWebProject/tag-project-2022" target="_blank"><i class="fa-brands fa-github fa-2x"></i></a>
+                <h5>주피 프로젝트 깃허브</h5>
+            </div>
+            <h6 class="information_inner">씨애랑 2022 소프트웨어 전시회 태그팀</h6>
+        </div>
+    </footer>
+</body>
