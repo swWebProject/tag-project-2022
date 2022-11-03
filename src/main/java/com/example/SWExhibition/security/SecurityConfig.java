@@ -35,8 +35,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf()
-                .disable()
+        http
+                .csrf()
+                    .disable()
                 .authorizeRequests()
                 // user 페이지 설정
                 .antMatchers("/")
@@ -55,12 +56,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // 로그아웃
                 .logout()
                     .logoutUrl("/user/logout")  // 로그아웃이 실제 이루어지는 곳
+                        .permitAll()
+                    .logoutSuccessUrl("/") // 로그아웃 성공시 / 로 이동
                     .invalidateHttpSession(true)    // 세션 초기화
                         .deleteCookies("JSESSIONID")    // 쿠키 제거
-                    .logoutSuccessUrl("/"); // 로그아웃 성공시 / 로 이동
+                ;
         http.sessionManagement()
                 .maximumSessions(1) //세션 최대 허용 수
-                .maxSessionsPreventsLogin(false); // false이면 중복 로그인하면 이전 로그인이 풀린다.
+                .maxSessionsPreventsLogin(false) // false이면 중복 로그인하면 이전 로그인이 풀린다.
+        ;
 
     }
 }
