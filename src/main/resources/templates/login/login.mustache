@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://kit.fontawesome.com/c58241218c.js" crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/login.css">
+    <script src="/js/login.js"></script>
+</head>
+<body>
+{{>layouts/header}}
+
+<!-- section -->
+<section id="section">
+    <h1>로그인</h1>
+    <div id="login"> <!-- id 입력하는 input 태그, password 입력하는 input 태그 묶는 div-->
+        <!-- 로그인 form -->
+        <form action="/user/login" method="post">
+            <!-- 아이디 -->
+            <div id="id">
+                <label for="login_id" ><i class="fa-solid fa-user" style="font-size: 30px;"></i></label>
+                <input id="login_id" type="text" name="username" placeholder="ID" required>
+                <!-- 패스워드 -->
+            </div>
+            <div id="password">
+                <label for="login_pw"><i class="fa-solid fa-key" style="font-size: 30px;"></i></label>
+                <input id="login_pw" type="password" name="password" placeholder="Password" required>
+            </div>
+            <span name="exception">
+                    <p id="valid" class="alert alert-danger" >{{#error}}{{exception}}{{/error}}</p>
+            </span>
+            <!-- 그 외 -->
+            <div id="login_low">
+                <input id="showPasswordCheckBox" type="checkbox" onclick="showPassword(event)">
+                <button id="login_btn" type="submit" >로그인</button>
+            </div>
+        </form>
+    </div>
+</section>
+
+{{>layouts/footer}}

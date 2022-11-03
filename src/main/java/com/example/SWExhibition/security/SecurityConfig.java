@@ -1,61 +1,55 @@
 package com.example.SWExhibition.security;
 
 import com.example.SWExhibition.service.UsersService;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 @RequiredArgsConstructor
-@AllArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UsersService usersService;
+    private final AuthenticationFailureHandler customFailureHandler;
 
     // password 암호화
     @Bean
-    public PasswordEncoder passwordEncoder() {
+    public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    // 인증을 무시하기 위한 설정
+    // static 관련설정은 무시
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("");
+        web.ignoring().antMatchers( "/css/**", "/js/**", "/img/**");
     }
 
-    // http 요청에 보안 설정
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                .antMatchers("/**").permitAll()
-                .and()
-                .formLogin()     // 로그인 설정
-                .loginPage("/login")      // login 페이지를 사용
-                .defaultSuccessUrl("/")      // 로그인 성공 시 이동할 페이지
+        http.csrf()
+                .disable()
+                .authorizeRequests()
+                // user 페이지 설정
+                .antMatchers("/")
+                .authenticated() // 로그인 필요
+                // 기타 url은 모두 허용
+                .anyRequest()
                 .permitAll()
                 .and()
-                .logout()
-                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .logoutSuccessUrl("/")
-                .invalidateHttpSession(true)    // 세션 초기화
-                .and()
-                .exceptionHandling();
-    }
-
-    // 로그인 인증 처리
-    @Override
-    public void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(usersService).passwordEncoder(passwordEncoder());
+                // 로그인 페이지 사용
+                .formLogin()
+                .loginPage("/login/login") // 로그인 페이지 경로 설정
+                .loginProcessingUrl("/user/login") // 로그인이 실제 이루어지는 곳
+                .failureHandler(customFailureHandler) // 로그인 실패 핸들러
+                .defaultSuccessUrl("/");   // 로그인 성공 후 기본적으로 리다이렉트되는 경로
     }
 }

@@ -2,17 +2,20 @@ package com.example.SWExhibition.entity;
 
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @NoArgsConstructor
 @ToString
 @Getter
+@Setter
 public class Users {
     @Id
-    private String id;  // 유저 ID
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+
+    @Column(nullable = false, unique = true)
+    private String userId;  // 유저 ID
 
     @Column(nullable = false)
     private String password;    // 비밀번호
@@ -20,16 +23,21 @@ public class Users {
     @Column(nullable = false, unique = true)
     private String nickname;    // 닉네임
 
+    @Column(nullable = false)
+    private String role;    // 권한
+
     @Builder
-    public Users(String id, String password, String nickname) {
+    public Users(Long id, String userId, String password, String nickname, String role) {
         this.id = id;
+        this.userId = userId;
         this.password = password;
         this.nickname = nickname;
+        this.role = role;
     }
 
     // 데이터 수정
     public void patch(Users user) {
-        if (this.id != user.getId())
+        if (this.userId != user.getUserId())
             throw new IllegalArgumentException("계정 수정 실패! 잘못된 ID가 입력되었습니다.");
 
         // 비밀번호 변경
