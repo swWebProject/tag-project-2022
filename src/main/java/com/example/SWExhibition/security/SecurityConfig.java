@@ -43,13 +43,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authenticated() // 로그인 필요
                 // 기타 url은 모두 허용
                 .anyRequest()
-                .permitAll()
+                    .permitAll()
                 .and()
                 // 로그인 페이지 사용
                 .formLogin()
-                .loginPage("/login/login") // 로그인 페이지 경로 설정
-                .loginProcessingUrl("/user/login") // 로그인이 실제 이루어지는 곳
-                .failureHandler(customFailureHandler) // 로그인 실패 핸들러
-                .defaultSuccessUrl("/");   // 로그인 성공 후 기본적으로 리다이렉트되는 경로
+                    .loginPage("/login/login") // 로그인 페이지 경로 설정
+                    .loginProcessingUrl("/user/login") // 로그인이 실제 이루어지는 곳
+                    .failureHandler(customFailureHandler) // 로그인 실패 핸들러
+                    .defaultSuccessUrl("/")   // 로그인 성공 후 기본적으로 리다이렉트되는 경로
+                .and()
+                // 로그아웃
+                .logout()
+                    .logoutUrl("/user/logout")  // 로그아웃이 실제 이루어지는 곳
+                    .logoutSuccessUrl("/"); // 로그아웃 성공시 / 로 이동
+        http.sessionManagement()
+                .maximumSessions(1) //세션 최대 허용 수
+                .maxSessionsPreventsLogin(false); // false이면 중복 로그인하면 이전 로그인이 풀린다.
+
     }
 }

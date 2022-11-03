@@ -4,6 +4,7 @@ import com.example.SWExhibition.dto.UsersDto;
 import com.example.SWExhibition.entity.Users;
 import com.example.SWExhibition.repository.UsersRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,6 +16,7 @@ import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class UsersService {
 
     private final UsersRepository usersRepository;
@@ -25,7 +27,20 @@ public class UsersService {
         userDto.setPassword(passwordEncoder.encode(userDto.getPassword())); // password를 암호화 한 뒤 dp에 저장
 
         Users join = userDto.toEntity();
-        join.setRole("USER");
+
+        // 권한 설정
+        if (join.getUserId().equals("admin"))
+            join.setRole("ADMIN");
+        join.setRole("USER");   // 기본 권한
+
+        if (userIdOverlopCheck(join.getUserId()) && nicknameOverlopCheck(join.getNickname())) {
+            log.info("아이디 또는 닉네임 중복 발생!");
+            return;
+        }
+
+
+
+        log.info(join.toString());
 
         usersRepository.save(join);
     }
@@ -44,5 +59,15 @@ public class UsersService {
         return validatorResult;
     }
 
+    // userId 값 중복 확인
+    @Transactional(readOnly = true)
+    public boolean userIdOverlopCheck(String userId) {
+        return usersRepository.existsByUserId(userId);
+    }
 
+    // nickname 값 중복 확인
+    @Transactional(readOnly = true)
+    public  boolean nicknameOverlopCheck(String nickname) {
+        return usersRepository.existsByNickname(nickname);
+    }
 }

@@ -9,6 +9,7 @@
             <i class="fa-solid fa-magnifying-glass"></i>
             <input id="movie_search" type="text" placeholder="원하는 영화 검색">
         </div>
+        {{^user}}
         <div id="login">
             <a href="/user/login">
                 <h4>로그인</h4>
@@ -17,5 +18,16 @@
                 <h4>회원가입</h4>
             </a>
         </div>
+        {{/user}}
+        {{#user}}
+        <div id="login">
+            <a href="/user/mypage">
+                <h4>{{user.nickname}}</h4>
+            </a>
+            <a href="/user/logout">
+                <h4>로그아웃</h4>
+            </a>
+        </div>
+        {{/user}}
     </nav>
 </header>

@@ -12,7 +12,7 @@ import javax.persistence.*;
 public class Users {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private Long id;    // 객체 id
 
     @Column(nullable = false, unique = true)
     private String userId;  // 유저 ID

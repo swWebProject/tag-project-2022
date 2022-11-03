@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.Map;
 
@@ -20,10 +21,12 @@ import java.util.Map;
 public class UsersController {
 
     private final UsersService usersService;
+    private final HttpSession httpSession;
 
     // 메인 페이지
     @GetMapping("/")
     public String home() {
+
         return "/home/home";
     }
 
