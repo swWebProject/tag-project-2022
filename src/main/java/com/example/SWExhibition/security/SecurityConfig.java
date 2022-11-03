@@ -27,7 +27,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
-    // static 관련설정은 무시
+    // css, js 등등 static 관련설정은 무시
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers( "/css/**", "/js/**", "/img/**");
@@ -55,6 +55,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // 로그아웃
                 .logout()
                     .logoutUrl("/user/logout")  // 로그아웃이 실제 이루어지는 곳
+                    .invalidateHttpSession(true)    // 세션 초기화
+                        .deleteCookies("JSESSIONID")    // 쿠키 제거
                     .logoutSuccessUrl("/"); // 로그아웃 성공시 / 로 이동
         http.sessionManagement()
                 .maximumSessions(1) //세션 최대 허용 수

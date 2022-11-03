@@ -22,6 +22,7 @@ public class UsersService {
     private final UsersRepository usersRepository;
 
     // 회원가입
+    @Transactional(readOnly = true)
     public void signUp(UsersDto userDto) {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         userDto.setPassword(passwordEncoder.encode(userDto.getPassword())); // password를 암호화 한 뒤 dp에 저장
@@ -30,9 +31,10 @@ public class UsersService {
 
         // 권한 설정
         if (join.getUserId().equals("admin"))
-            join.setRole("ADMIN");
-        join.setRole("USER");   // 기본 권한
+            join.setRole("ROLE_ADMIN");
+        join.setRole("ROLE_ADMIN");   // 기본 권한
 
+        // 중복이 발생하면 종료
         if (userIdOverlopCheck(join.getUserId()) && nicknameOverlopCheck(join.getNickname())) {
             log.info("아이디 또는 닉네임 중복 발생!");
             return;

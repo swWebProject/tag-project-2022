@@ -31,7 +31,10 @@ public class UsersDto {
 
     private String role;    // 권한
 
-    /// DTO -> Entity
+    public UsersDto(Users user) {
+    }
+
+    // DTO -> Entity
     public Users toEntity() {
         return Users.builder()
                 .id(id)
