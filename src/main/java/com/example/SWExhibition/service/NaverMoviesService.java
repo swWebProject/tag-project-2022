@@ -1,7 +1,6 @@
 package com.example.SWExhibition.service;
 
 import com.example.SWExhibition.dto.NaverMovieDto;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONArray;
@@ -31,9 +30,9 @@ public class NaverMoviesService {
     private final String NaverMovieUrl = "https://openapi.naver.com/v1/search/movie.json?query="; // 네이버 영화 api url
 
     // 영화 정보 불러오기
-    public List<NaverMovieDto> naverMovieInfo(String movieNm) throws ParseException, JsonProcessingException {
-        // 받아온 영화 이름을 url 넣음
-        String apiUrl = new StringBuffer(NaverMovieUrl)
+    public List<NaverMovieDto> naverMovieInfo(String movieNm) throws ParseException {
+        // 받아온 영화 이름을 url에 넣음
+        String apiUrl = new StringBuilder(NaverMovieUrl)
                 .append(movieNm)
                 .toString();
 
@@ -45,6 +44,7 @@ public class NaverMoviesService {
 
         // 네이버 api로 받은 정보에서 Body 값만 받음
         String data = restTemplate.exchange(apiUrl, HttpMethod.GET, entity, String.class).getBody();
+        log.info(data);
 
         // 응답 값 파싱
         JSONParser jsonParser = new JSONParser();
@@ -52,6 +52,7 @@ public class NaverMoviesService {
 
         // 영화 정보를 배열로 담은 items 파싱
         JSONArray jsonItems = (JSONArray) jsonObject.get("items");
+        log.info(jsonItems.toString());
 
         List<NaverMovieDto> naverMovieDtoList = new ArrayList<>();  // 필요한 데이터만 담은 Dto List
 
@@ -59,6 +60,7 @@ public class NaverMoviesService {
         for (Object o : jsonItems) {
             JSONObject item = (JSONObject) o;
             naverMovieDtoList.add(toDto(item));
+            log.info(toDto(item).toString());
         }
 
         return naverMovieDtoList;
@@ -69,9 +71,11 @@ public class NaverMoviesService {
 
         return NaverMovieDto.builder()
                 .title((String) item.get("title"))
+                .subtitle((String) item.get("subtitle"))
                 .image((String) item.get("image"))
                 .pubDate((String) item.get("pubDate"))
                 .director((String) item.get("director"))
+                .actor((String) item.get("actor"))
                 .build();
     }
 }

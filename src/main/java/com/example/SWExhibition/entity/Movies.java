@@ -33,14 +33,4 @@ public class Movies {
 
     @Column(name = "average_rating")
     private Float averageRating;    // 평균 평점
-
-    @ManyToOne
-    @JoinColumn(name = "participant_ID")
-    private Participants participant;    // 감독이나 배우 코드
-
-    @ManyToOne
-    @JoinColumn(name = "genre_ID")
-    private Genres genre;    // 장르 키 값
-
-
 }

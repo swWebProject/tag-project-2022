@@ -14,7 +14,7 @@ import javax.persistence.*;
 @ToString
 public class Genres {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer genreID;   // 장르 ID
 
     @Column(nullable = false, unique = true)
