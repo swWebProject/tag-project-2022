@@ -13,13 +13,17 @@ import javax.persistence.*;
 @DynamicUpdate  // 변경된 값만 업데이트
 public class Movies {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;    // 객체 id
+
+    @Column(nullable = false, unique = true)
     private String movieCd; // 영화 코드
 
     @Column(nullable = false)
     private String movieNm; // 영화 이름
 
     @Column
-    private byte[] poster;  // 포스터 사진 파일
+    private String poster;  // 포스터 사진 url
 
     @Column(nullable = false)
     private String openDtr; // 개봉일

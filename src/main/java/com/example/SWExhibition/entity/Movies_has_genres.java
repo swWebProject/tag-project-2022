@@ -14,8 +14,9 @@ import javax.persistence.*;
 @ToString
 public class Movies_has_genres {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long moviesGenresId;  // 영화&장르 ID
+
     @ManyToOne
     @JoinColumn(name = "movies_moiveCd")
     private Movies movieCd; // 영화 코드

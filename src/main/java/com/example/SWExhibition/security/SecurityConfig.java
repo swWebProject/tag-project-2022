@@ -44,7 +44,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authenticated() // 로그인 필요
                 // 기타 url은 모두 허용
                 .anyRequest()
-                    .permitAll()
+                    .permitAll()    // 모든 사용자 접근 가능
                 .and()
                 // 로그인 페이지 사용
                 .formLogin()
@@ -56,7 +56,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // 로그아웃
                 .logout()
                     .logoutUrl("/user/logout")  // 로그아웃이 실제 이루어지는 곳
-                        .permitAll()
+                        .permitAll()    // 모든 사용자 접근 가능
                     .logoutSuccessUrl("/") // 로그아웃 성공시 / 로 이동
                     .invalidateHttpSession(true)    // 세션 초기화
                         .deleteCookies("JSESSIONID")    // 쿠키 제거
