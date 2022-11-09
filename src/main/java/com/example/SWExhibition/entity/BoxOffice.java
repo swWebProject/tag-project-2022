@@ -15,8 +15,8 @@ import javax.persistence.*;
 @Getter
 public class BoxOffice {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long boxOfficeId;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
     @JoinColumn(name = "movies_movieCd")
     private String movieCd; // 영화 코드

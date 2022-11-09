@@ -73,7 +73,6 @@ public class NaverMoviesService {
                 .title((String) item.get("title"))
                 .subtitle((String) item.get("subtitle"))
                 .image((String) item.get("image"))
-                .pubDate((String) item.get("pubDate"))
                 .director((String) item.get("director"))
                 .actor((String) item.get("actor"))
                 .build();
