@@ -11,6 +11,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap" rel="stylesheet">
+    <script src="/Zoo/app.js"></script>
 </head>
 
 <body>
@@ -20,16 +21,24 @@
         <nav class="navbar">
             <div id="nav_name">
                 <a href="/Zoo/home/home.html"><i class="fa-solid fa-film"></i></a>
-                <a href="/Zoo/home/home.html"><h2>주토피디아</h2></a>
+                <a href="/Zoo/home/home.html">
+                    <h2>주토피디아</h2>
+                </a>
             </div>
             <div id="search">
                 <i class="fa-solid fa-magnifying-glass"></i>
                 <input id="movie_search" type="text" placeholder="원하는 영화 검색">
             </div>
-            <div id="login">
-                <a href="/Zoo/home/home.html"><h4>홈</h4></a>
-                <a href="/Zoo/login/login.html"><h4>로그인</h4></a>
-                <a href="/Zoo/join/join.html"><h4>회원가입</h4></a>
+            <div id="login_bar">
+                <a href="/Zoo/home/home.html">
+                    <h4>홈</h4>
+                </a>
+                <a href="/Zoo/login/login.html">
+                    <h4>로그인</h4>
+                </a>
+                <a href="/Zoo/join/join.html">
+                    <h4>회원가입</h4>
+                </a>
             </div>
         </nav>
     </header>
@@ -47,81 +56,8 @@
             integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
         <!-- 스크립트 -->
         <script>
-            /* 영화진흥위원회 API */
-            /* 영화 이름, 누적 관객 수 / api response: movieNm, audiAcc */
-            let movieNm = "", audiAcc = "";
-
-            let api_key_movie = "22f10dd3863febae7e67b8df14051d8b"; // API 키
-
-            /** 영화진흥위원회 API Ajax 호출 함수 */
-            function callAjaxMovie() {
-                $.ajax({
-                    method: "GET", // HTTP 요청 메소드(GET, POST 등)
-                    url: "http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json", // 클라이언트가 HTTP 요청을 보낼 서버의 URL 주소
-                    data: {
-                        key: api_key_movie,
-                        targetDt: "20221030",
-                        itemPerPage: "",
-                        multiMovieYn: "",
-                        repNationCd: "",
-                        wideAreaCd: ""
-                    }
-                })
-                    // HTTP 요청이 성공하면 요청한 데이터가 done() 메소드로 전달됨.
-                    .done(function (data) {
-                        alert("Movie API Conneted!!");
-                        let temp = data.boxOfficeResult.dailyBoxOfficeList;
-                        for (let i = 1; i <= temp.length+1; i++) {
-                            this.movieNm = temp[i].movieNm;
-                            this.audiAcc = temp[i].audiAcc;
-                            console.log(`${i} <br> 영화이름: ${this.movieNm}, 누적 관객 수: ${this.audiAcc}`);
-                            $("#section_main_div").append(
-                                `
-                                <br>
-                                <p id="section_movie_info">${i}</p> <br>
-                                <p>영화이름: ${this.movieNm}, 누적 관객 수: ${this.audiAcc}명</p>`
-                                );
-                        }
-                    });
-            }
-
-            /* 네이버 영화 검색 API */
-            /*
-            영화정보, 영화썸네일, 영화개봉일, 영화감독, 영화배우, 평점
-            api respone
-            rss/channel/item/link
-            rss/channel/item/image
-            rss/channel/item/pubDate
-            rss/channel/item/director
-            rss/channel/item/actor
-            rss/channel/item/userRating
-            */
-            // let movieLink = "", movieImg = "", moviePubDate = "", movieDirector = "", movieActor = "", movieUserRating = "";
-
-            // let api_key_naver = "62UzBxjz8nqOli5tiZjO"; // 네이버 API 키
-            // let api_key_naver_secret = "QgJu2vI55p"; // 네이버 시크릿 API 키
-
-            // /** 네이버 영화검색 API Ajax 호출 함수 */
-            // function callAjaxNaver() {
-            //     $.ajax({
-            //         method: "GET",   // HTTP 요청 메소드(GET, POST 등)
-            //         url: "https://openapi.naver.com/v1/search/movie.json", // 클라이언트가 HTTP 요청을 보낼 서버의 URL 주소
-            //         data: {query: encodeURI("공조2") },
-            //         headers: {
-            //             'X-Naver-Client-Id': api_key_naver,
-            //             'X-Naver-Client-Secret': api_key_naver_secret
-            //         }
-            //     })
-            //         // HTTP 요청이 성공하면 요청한 데이터가 done() 메소드로 전달됨.
-            //         .done(function (json) {
-            //             console.log(json)
-            //         });
-            
-            // }
-
-            callAjaxMovie();
+            // callAjaxMovie();
             // callAjaxNaver();
-
         </script>
 
     </section>

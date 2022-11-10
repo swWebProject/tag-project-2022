@@ -1,0 +1,276 @@
+* {
+    margin: 0px;
+    padding: 0px;
+}
+
+html, body {
+    height: 100%;
+}
+
+body {
+    background-color: rgb(126, 126, 126);
+    font-family: 'Nanum Gothic', sans-serif;
+    /* footer 하단 고정 : flex 추가 */
+    display: flex; 
+    flex-direction: column;
+    margin: 0;
+}
+
+section {
+    flex: 1;
+}
+/* footer 하단 고정 */
+
+nav.navbar {
+    background-color: rgb(248, 248, 248);
+    width: 100%;
+    height: 73px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* navbar-> name(주토피디아) */
+#nav_name { 
+    margin-left: 15px;
+    display: flex;
+    width: 165px; 
+}
+
+#nav_name > a {
+    text-decoration: none;
+    color: black;
+}
+
+#nav_name > a > h2 {
+    padding: 5px 0 0 12px;
+}
+i.fa-solid { 
+    font-size: 35px;
+    padding-top: 2px;
+}
+
+/* navbar -> search */
+#search {
+    display: flex;
+}
+
+#search > #movie_search {
+    width: 370px;
+    height: 40px;
+    position: center;
+    border-radius: 5px;
+    border-width: 1px;
+    margin-left: 10px;
+    padding-left: 10px;
+}
+
+/* navbar -> login_bar */
+#login_bar { 
+    display: flex;
+    margin-right: 12px;
+}
+
+#login_bar > a {
+    margin: 10px;
+    text-decoration: none;
+    color: black;
+}
+
+/* section */
+    /* section -> img & title */
+#movie_img_title {
+    display: flex;
+    margin: 20px 0 0 20px;
+}
+
+#movie_title {
+    display: flex;
+    color: rgb(248, 248, 248);
+    flex-direction: column;
+    margin-left: 15px;
+    font-weight: 800;
+}
+
+#movie_title > * {
+    margin-bottom: 10px;
+}
+
+#current_star {
+    display: flex;
+    margin-top: 15px;
+}
+
+#current_star > i {
+    font-size: 17px;
+    padding-top: 1%;
+}
+
+#current_star > * {
+    margin-right: 5px;
+}
+
+#movie_img {
+    height: 242px;
+    width: 169px;
+    background-color: rgb(248, 248, 248); /* test */
+}
+
+    /* section -> Rating */
+.star_rating {
+    display: flex;
+    flex-direction: row-reverse;
+    font-size: 2.25rem;
+    line-height: 2.5rem;
+    justify-content: space-around;
+    padding-right: 0.2em;
+    padding-top: 1em;
+    text-align: center;
+    width: 5em;
+}
+       
+.star_rating input {
+    display: none;
+}
+       
+.star_rating label {
+    /*-webkit-text-fill-color: transparent; /* Will override color (regardless of order) 
+    -webkit-text-stroke-width: 2.3px;*/
+    color:#ccc;
+    cursor: pointer;
+}
+       
+.star_rating :checked ~ label {
+    -webkit-text-fill-color: gold;
+}
+       
+/*.star_rating label:hover,
+.star_rating label:hover ~ label {
+    -webkit-text-fill-color: rgb(248, 248, 248);
+}*/
+
+    /* 보고싶어요, 보는 중, 영화 촬영지 정보 */
+#movie_user_want {
+    display: flex;
+    color: rgb(248, 248, 248);
+    padding-top: 150px;
+    padding-left: 70px;
+    width: 500px;
+}
+
+#movie_user_want > * {
+    margin-right: 50px;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+#movie_user_want > * > h6 {
+    margin-bottom: 10px;
+    text-align: center;
+    font-size: 15px;
+}
+
+#movie_user_want a {
+    color: rgb(248, 248, 248);
+}
+
+.movie_user_want_a:hover i {
+    color: rgba(223, 223, 223, 0.706);
+    transition: all 300ms ease-in;
+    transform: scale(1.1);
+}
+    /* 영화 정보 */
+#movie_information {
+    display: flex;
+    flex-direction: column;
+    color: rgb(248, 248, 248);
+    margin: 20px 0 0 20px;
+}
+
+#movie_information > h4 {
+    font-size: 20px;
+}
+
+#movie_information > * {
+    margin-bottom: 10px;
+}
+
+#information_div {
+    margin-top: 10px;
+}
+
+    /* section -> comment */
+#movie_evaluate {
+    display: flex;
+    color: rgb(248, 248, 248);
+    flex-direction: column;
+    margin: 20px 0 0 20px;
+}
+
+#movie_evaluate > h4 {
+    margin-bottom: 10px;
+    font-size: 20px;
+}
+
+#comment_button {
+    display: flex;
+}
+
+#comment_button > textarea {
+    width: 450px;
+    height: 50px;
+    resize: none;
+    border: 2px solid rgb(77, 77, 77);
+    font-family: inherit;
+    padding: 3px;
+}
+
+#comment_button > input {
+    background-color: rgb(248, 248, 248);
+    border-color: rgb(248, 248, 248);
+    color: rgb(77, 77, 77);
+    border-radius: 5px;
+    font-family: 'Nanum Gothic', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    text-align: center;
+    width: 60px;
+    height: 60px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+#movie_evaluate > div.movie_evaluate_user {
+    margin: 10px 0 10px 0;
+    width: 50%;
+    border-top: 1px solid rgb(96, 96, 96);
+    border-bottom: 1px solid rgb(96, 96, 96);
+    padding: 8px;
+}
+
+#comment_user_name {
+    font-weight: 700;
+    font-size: 17px;
+}
+
+/*footer*/
+#information {
+    background-color: rgb(248, 248, 248);
+    padding-top: 20px;
+    padding-bottom: 9px;
+    text-align: center;
+}
+
+#information > .information_inner {
+    padding-bottom: 9px;
+}
+
+#information > .information_inner > a {
+    text-decoration: none;
+    color: black;
+}
+
+i.fa-github {
+    color: rgb(77, 77, 77);
+}
