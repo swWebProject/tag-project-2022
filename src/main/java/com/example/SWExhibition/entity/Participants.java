@@ -17,6 +17,9 @@ import javax.persistence.*;
 public class Participants {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;    // 객체 id
+
+    @Column(nullable = false, unique = true)
     private Long peopleCd;  // 영화인 코드
 
     @Column(nullable = false)

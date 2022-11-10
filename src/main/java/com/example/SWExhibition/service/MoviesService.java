@@ -2,8 +2,12 @@ package com.example.SWExhibition.service;
 
 import com.example.SWExhibition.dto.MovieDto;
 import com.example.SWExhibition.dto.NaverMovieDto;
+import com.example.SWExhibition.entity.Genres;
 import com.example.SWExhibition.entity.Movies;
+import com.example.SWExhibition.entity.Movies_has_genres;
+import com.example.SWExhibition.repository.GenresRepository;
 import com.example.SWExhibition.repository.MoviesRepository;
+import com.example.SWExhibition.repository.Movies_has_genresRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONArray;
@@ -16,6 +20,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringTokenizer;
 
 @RequiredArgsConstructor
 @Service
@@ -24,6 +29,9 @@ public class MoviesService {
 
     private final NaverMoviesService naverMoviesService;
     private final MoviesRepository moviesRepository;
+    private final GenresService genresService;
+    private final GenresRepository genresRepository;
+    private final Movies_has_genresRepository movies_has_genresRepository;
     private final RestTemplate restTemplate;    // rest 방식 api 호출
 
     private final String movieDetailedUrl = "http://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.json?";  // 영화진흥위원회 영화 상세정보 api url
@@ -155,6 +163,7 @@ public class MoviesService {
     public void save(String movieNm) throws ParseException {
         List<NaverMovieDto> naverMovieDtoList = naverMoviesService.naverMovieInfo(movieNm); // naver api로 받아온 정보들
         List<MovieDto> movieDtoList = movieInfo(movieNm);   // 영화진흥위원회 api로 받아온 정보들
+        StringTokenizer st;  // 장르 구분
 
         // 두 api의 결과값으로 같은 영화를 찾음
         for (MovieDto ob : movieDtoList) {
@@ -166,20 +175,41 @@ public class MoviesService {
                     Movies entity = ob.toEntity(o);
                     log.info(entity.toString());
 
-                    // 저장
+                    // 영화 저장
                     moviesRepository.save(entity);
+
+                    // 장르 저장
+                    st = new StringTokenizer(ob.getGenreAlt(), ",");
+                    while(st.hasMoreTokens()) {
+                        Genres genreEntity = genresService.saveGenre(st.nextToken());
+
+                        if (!movies_has_genresRepository.existsByMovieIdAndGenreID(entity, genreEntity))
+                            movies_has_genresRepository.save(toEntity(entity, genreEntity));
+                    }
+
                     break;
                 }
             }
-            if (!moviesRepository.existsByMovieCd(ob.getMovieCd()))
-                moviesRepository.save(ob.toEntity());   // 포스터가 없음
+
+            if (!moviesRepository.existsByMovieCd(ob.getMovieCd())) {
+                Movies entity = moviesRepository.save(ob.toEntity());   // 포스터가 없음
+
+                // 장르 저장
+                st = new StringTokenizer(ob.getGenreAlt(), ",");
+                while(st.hasMoreTokens()) {
+                    Genres genreEntity = genresService.saveGenre(st.nextToken());
+
+                    if (!movies_has_genresRepository.existsByMovieIdAndGenreID(entity, genreEntity))
+                        movies_has_genresRepository.save(toEntity(entity, genreEntity));
+                }
+            }
         }
     }
 
     // 주어진 이름과 관련있는 영화 리스트를 반환
     @Transactional
    public List<Movies> search(String movieNm) throws ParseException {
-       List<MovieDto> searchList = movieInfo(movieNm); // 영화진흥위원회 api 결과값
+        List<MovieDto> searchList = movieInfo(movieNm); // 영화진흥위원회 api 결과값
 
        // Dto 정보로 DB에서 데이터 가져오기
        List<Movies> resultList = new ArrayList<>();
@@ -193,6 +223,7 @@ public class MoviesService {
             // DB에 없으면 저장하고 불러오기
             else {
                 save(o.getMovieNm());
+
                 Movies entity = moviesRepository.findByMovieCd(o.getMovieCd());
                 log.info(entity.toString());
                 resultList.add(entity);
@@ -249,6 +280,14 @@ public class MoviesService {
                 .openDt((String) item.get("openDt"))
                 .genreAlt(genreAlt)
                 .directors(directors)
+                .build();
+    }
+
+    // Movies + Genres -> Movie_has_genres Entity
+    public Movies_has_genres toEntity(Movies movies, Genres genres) {
+        return Movies_has_genres.builder()
+                .genreID(genres)
+                .movieCd(movies)
                 .build();
     }
 }

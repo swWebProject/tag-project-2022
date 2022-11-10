@@ -10,11 +10,11 @@ import javax.persistence.*;
 @Getter
 public class BoxOffice {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;    // 객체 id
 
     @OneToOne
-    @JoinColumn(name = "movies_movieCd")
+    @JoinColumn(name = "movies_movieid")
     private Movies movies; // 영화 객체
 
     @Column(nullable = false)
