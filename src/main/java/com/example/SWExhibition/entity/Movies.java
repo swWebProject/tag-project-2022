@@ -15,7 +15,7 @@ public class Movies {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;    // 객체 id
 
-    @Column
+    @Column(nullable = false, unique = true)
     private String movieCd; // 영화 코드
 
     @Column(nullable = false)

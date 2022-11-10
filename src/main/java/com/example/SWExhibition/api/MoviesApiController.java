@@ -17,7 +17,7 @@ public class MoviesApiController {
     private final MoviesService moviesService;
 
     // 주어진 이름과 관련있는 영화들 찾기
-    @GetMapping("/api/movie/search/movieNm={movieNm}")
+    @GetMapping("/api/movie/movieNm={movieNm}")
     public List<Movies> searchMovie(@PathVariable String movieNm) throws ParseException {
         return moviesService.search(movieNm);
     }

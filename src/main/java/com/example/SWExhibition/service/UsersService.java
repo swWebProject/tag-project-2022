@@ -30,7 +30,7 @@ public class UsersService {
         Users join = userDto.toEntity();
 
         // 권한 설정
-        if (join.getUserId().equals("admin"))
+        if (join.getUserId().equals("admin863"))
             join.setRole("ROLE_ADMIN");
         join.setRole("ROLE_ADMIN");   // 기본 권한
 
