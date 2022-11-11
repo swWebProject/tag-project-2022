@@ -8,7 +8,6 @@ import lombok.ToString;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "Sub-Comments")
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString

@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Setter
 public class Users {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;    // 객체 id
 
     @Column(nullable = false, unique = true)

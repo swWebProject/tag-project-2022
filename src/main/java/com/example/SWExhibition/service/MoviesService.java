@@ -5,7 +5,6 @@ import com.example.SWExhibition.dto.NaverMovieDto;
 import com.example.SWExhibition.entity.Genres;
 import com.example.SWExhibition.entity.Movies;
 import com.example.SWExhibition.entity.Movies_has_genres;
-import com.example.SWExhibition.repository.GenresRepository;
 import com.example.SWExhibition.repository.MoviesRepository;
 import com.example.SWExhibition.repository.Movies_has_genresRepository;
 import lombok.RequiredArgsConstructor;
@@ -30,25 +29,21 @@ public class MoviesService {
     private final NaverMoviesService naverMoviesService;
     private final MoviesRepository moviesRepository;
     private final GenresService genresService;
-    private final GenresRepository genresRepository;
     private final Movies_has_genresRepository movies_has_genresRepository;
     private final RestTemplate restTemplate;    // rest 방식 api 호출
 
     private final String movieDetailedUrl = "http://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.json?";  // 영화진흥위원회 영화 상세정보 api url
-
     private final String movieUrl = "http://kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieList.json?"; // 영화진흥위원회 영화 목록 api url
     private final String apiKey = "key=4801347d5095e67e89bbba73e7650760";   // api 키 값
 
     // 영화 목록
     // 영화 정보 불러오기
-    @Transactional(readOnly = true)
     public List<MovieDto> movieInfo(String movieNm) throws ParseException {
         // 받아온 영화 이름을 url에 넣음
-        String url = new StringBuilder(movieUrl)
-                .append(apiKey)
-                .append("&movieNm=")
-                .append(movieNm)
-                .toString();
+        String url = movieUrl +
+                apiKey +
+                "&movieNm=" +
+                movieNm;
 
         // 영화 목록 api를 결과를 String 형태로 받음
         String data = restTemplate.getForObject(url, String.class);
@@ -92,14 +87,12 @@ public class MoviesService {
 
     // 영화 상세정보
     // 영화 정보 불러오기
-    @Transactional(readOnly = true)
     public MovieDto movieDetailedInfo(String movieCd) throws ParseException {
         // 받아온 영화 이름을 url에 넣음
-        String url = new StringBuilder(movieDetailedUrl)
-                .append(apiKey)
-                .append("&movieCd=")
-                .append(movieCd)
-                .toString();
+        String url = movieDetailedUrl +
+                apiKey +
+                "&movieCd=" +
+                movieCd;
 
         // 영화 목록 api를 결과를 String 형태로 받음
         String data = restTemplate.getForObject(url, String.class);
@@ -232,11 +225,10 @@ public class MoviesService {
 
        return resultList;
     }
-
-    // 박스오피스 전용
+    
     // 주어진 영화 코드에 맞는 정보 반환
     @Transactional
-    public Movies searchForBoxOffice(String movieCd) throws ParseException {
+    public Movies findWithMovieCode(String movieCd) throws ParseException {
         MovieDto search = movieDetailedInfo(movieCd); // 영화진흥위원회 영화 상세정보 api 결과값
 
         // DB에 있으면 불러오기
@@ -284,7 +276,7 @@ public class MoviesService {
     }
 
     // Movies + Genres -> Movie_has_genres Entity
-    public Movies_has_genres toEntity(Movies movies, Genres genres) {
+    private Movies_has_genres toEntity(Movies movies, Genres genres) {
         return Movies_has_genres.builder()
                 .genreID(genres)
                 .movieCd(movies)

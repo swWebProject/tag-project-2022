@@ -16,11 +16,11 @@ public class Movies_has_genres {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;  // 영화&장르 ID
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne
     @JoinColumn(name = "movies_id")
     private Movies movieId; // 영화 코드
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne
     @JoinColumn(name = "genres_genreID")
     private Genres genreID; // 장르 ID
 

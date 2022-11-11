@@ -1,6 +1,6 @@
 package com.example.SWExhibition.entity;
 
-import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -9,7 +9,7 @@ import org.hibernate.annotations.DynamicUpdate;
 import javax.persistence.*;
 
 @Entity
-@AllArgsConstructor
+@Table(name = "movies_participants")
 @NoArgsConstructor
 @Getter
 @ToString
@@ -20,14 +20,31 @@ public class Participants {
     private Long id;    // 객체 id
 
     @Column(nullable = false, unique = true)
-    private Long peopleCd;  // 영화인 코드
+    private String peopleCd;  // 영화인 코드
 
     @Column(nullable = false)
     private String peopleNm;    // 이름
 
+    @Column
+    private String peopleNmEn;  // 영어 이름
+
+    @Column
+    private String sex; // 성별
+
     @Column(nullable = false)
-    private String repRoleNm;   // 분야 (감독 or 배우)
+    private String repRoleNm;   // 영화인 분류명 (배우 or 감독)
 
     @Column(columnDefinition = "INT default 0")
     private Long like;  // 좋아요 수
+
+    @Builder
+    public Participants(Long id, String peopleCd, String peopleNm, String peopleNmEn, String sex, String repRoleNm, Long like) {
+        this.id = id;
+        this.peopleCd = peopleCd;
+        this.peopleNm = peopleNm;
+        this.peopleNmEn = peopleNmEn;
+        this.sex = sex;
+        this.repRoleNm = repRoleNm;
+        this.like = like;
+    }
 }

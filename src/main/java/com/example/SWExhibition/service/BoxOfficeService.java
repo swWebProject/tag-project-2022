@@ -14,6 +14,7 @@ import org.json.simple.parser.ParseException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -48,11 +49,10 @@ public class BoxOfficeService {
     // 영화 정보 불러오기
     public List<BoxOfficeDto> dailyBoxOfficeInfo() throws ParseException {
         // 받아온 영화 이름을 url에 넣음
-        String url = new StringBuilder(boxOffieUrl)
-                .append(apiKey)
-                .append("&targetDt=")
-                .append(this.targetDt)
-                .toString();
+        String url = boxOffieUrl +
+                apiKey +
+                "&targetDt=" +
+                this.targetDt;
 
         // 영화 목록 api를 결과를 String 형태로 받음
         String data = restTemplate.getForObject(url, String.class);
@@ -82,14 +82,14 @@ public class BoxOfficeService {
     }
 
     // 박스 오피스 DB에 저장
-    public void save() throws ParseException {
+    public void save() throws ParseException, IOException {
         List<BoxOfficeDto> boxOfficeDtoList = dailyBoxOfficeInfo();
 
         // DB에 없으면 저장
         for (BoxOfficeDto dto : boxOfficeDtoList) {
             // DB에 영화가 저장되어 있지 않으면 영화와 박스오피스 둘 다 저장
             if (!moviesRepository.existsByMovieCd(dto.getMovieCd())) {
-                Movies movies = moviesService.searchForBoxOffice(dto.getMovieCd());
+                Movies movies = moviesService.findWithMovieCode(dto.getMovieCd());
                 log.info(movies.toString());
 
                 BoxOffice entity = toEntity(dto);

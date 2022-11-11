@@ -32,9 +32,8 @@ public class NaverMoviesService {
     // 영화 정보 불러오기
     public List<NaverMovieDto> naverMovieInfo(String movieNm) throws ParseException {
         // 받아온 영화 이름을 url에 넣음
-        String apiUrl = new StringBuilder(NaverMovieUrl)
-                .append(movieNm)
-                .toString();
+        String apiUrl = NaverMovieUrl +
+                movieNm;
 
         // 해더 값 지정
         HttpHeaders headers = new HttpHeaders();
