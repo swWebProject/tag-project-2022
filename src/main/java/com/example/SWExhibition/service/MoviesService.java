@@ -1,10 +1,11 @@
 package com.example.SWExhibition.service;
 
+import com.example.SWExhibition.dto.FilmoInfo;
 import com.example.SWExhibition.dto.MovieDto;
 import com.example.SWExhibition.dto.NaverMovieDto;
-import com.example.SWExhibition.entity.Genres;
-import com.example.SWExhibition.entity.Movies;
-import com.example.SWExhibition.entity.Movies_has_genres;
+import com.example.SWExhibition.dto.ParticipantsDto;
+import com.example.SWExhibition.entity.*;
+import com.example.SWExhibition.repository.Movie_has_participantsRepository;
 import com.example.SWExhibition.repository.MoviesRepository;
 import com.example.SWExhibition.repository.Movies_has_genresRepository;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +31,8 @@ public class MoviesService {
     private final MoviesRepository moviesRepository;
     private final GenresService genresService;
     private final Movies_has_genresRepository movies_has_genresRepository;
+    private final ParticipantsService participantsService;
+    private final Movie_has_participantsRepository movie_has_participantsRepository;
     private final RestTemplate restTemplate;    // rest 방식 api 호출
 
     private final String movieDetailedUrl = "http://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.json?";  // 영화진흥위원회 영화 상세정보 api url
@@ -42,6 +45,7 @@ public class MoviesService {
         // 받아온 영화 이름을 url에 넣음
         String url = movieUrl +
                 apiKey +
+                "&itemPerPage=50" +
                 "&movieNm=" +
                 movieNm;
 
@@ -156,14 +160,14 @@ public class MoviesService {
     public void save(String movieNm) throws ParseException {
         List<NaverMovieDto> naverMovieDtoList = naverMoviesService.naverMovieInfo(movieNm); // naver api로 받아온 정보들
         List<MovieDto> movieDtoList = movieInfo(movieNm);   // 영화진흥위원회 api로 받아온 정보들
-        StringTokenizer st;  // 장르 구분
+        StringTokenizer st;  // 장르 구분, 배우명 구분
 
         // 두 api의 결과값으로 같은 영화를 찾음
         for (MovieDto ob : movieDtoList) {
             for (NaverMovieDto o : naverMovieDtoList) {
-                String realMovieNm = o.getTitle().substring(3, o.getTitle().length()-4);    // <b></b> 값 제거
+                String compareMovieNm = "<b>" + ob.getMovieNm() + "</b>";    // 사이에 <b></b> 값 추가
                 // 감독명, 영어 제목 또는 원제를 비교 해서 같으면 저장
-                if (o.getDirector().equals(ob.getDirectors()) && (o.getSubtitle().equalsIgnoreCase(ob.getMovieNmEn()) || realMovieNm.equals(ob.getMovieNm())) && !moviesRepository.existsByMovieCd(ob.getMovieCd())) {
+                if (o.getDirector().equals(ob.getDirectors()) && (o.getSubtitle().equalsIgnoreCase(ob.getMovieNmEn()) || compareMovieNm.equals(ob.getMovieNm())) && !moviesRepository.existsByMovieCd(ob.getMovieCd())) {
                     // 두 Dto를 하나의 Entity로 변환
                     Movies entity = ob.toEntity(o);
                     log.info(entity.toString());
@@ -178,6 +182,32 @@ public class MoviesService {
 
                         if (!movies_has_genresRepository.existsByMovieIdAndGenreID(entity, genreEntity))
                             movies_has_genresRepository.save(toEntity(entity, genreEntity));
+                    }
+
+                    // 감독, 주요 배우들 저장
+                    if ((o.getActors() + ob.getDirectors()) != null) {
+                        st = new StringTokenizer(o.getActors() + ob.getDirectors(), "|");
+                        while (st.hasMoreTokens()) {
+                            List<ParticipantsDto> participantsDtoList = participantsService.peopleDetailedInfo(st.nextToken()); // 배우의 이름으로 정보 가져오기
+                            participantsService.save(participantsDtoList);  // 배우들 정보를 DB에 저장
+
+                            for (ParticipantsDto dto : participantsDtoList) {
+                                Participants participant = participantsService.findPeopleCd(dto.getPeopleCd());
+
+                                List<FilmoInfo> filmoInfoList = dto.getFilmoInfoList(); // 필모그래피에 대한 정보 리스트
+                                for (FilmoInfo info : filmoInfoList) {
+                                    String moviePartNm = info.getMoviePartNm(); // 참여 분야
+                                    Movies movies = findWithMovieCode(info.getMovieCd());   // 해당 영화 코드에 맞는 정보 가져오기
+
+                                    // 영화, 영화인, 참여분야 세 가지를 중복하는 값이 없으면 저장
+                                    if (!movie_has_participantsRepository.existsByMoiveIdAndPeopleIdAndMoviePartNm(movies, participant, moviePartNm)) {
+                                        Movies_has_participants mapping = toEntity(movies, participant, moviePartNm);  // 영화 & 영화인 entity
+                                        movie_has_participantsRepository.save(mapping); // 매핑한 값 저장
+                                        log.info(mapping.toString());
+                                    }
+                                }
+                            }
+                        }
                     }
 
                     break;
@@ -195,6 +225,131 @@ public class MoviesService {
                     if (!movies_has_genresRepository.existsByMovieIdAndGenreID(entity, genreEntity))
                         movies_has_genresRepository.save(toEntity(entity, genreEntity));
                 }
+
+                // 감독 저장 ( NaverMovieDto만 배우 정보를 가지고 있어서 배우는 저장 못함 )
+                if (ob.getDirectors() != null) {
+                    st = new StringTokenizer(ob.getDirectors(), "|");
+                    while (st.hasMoreTokens()) {
+                        List<ParticipantsDto> participantsDtoList = participantsService.peopleDetailedInfo(st.nextToken()); // 배우의 이름으로 정보 가져오기
+                        participantsService.save(participantsDtoList);  // 배우들 정보를 DB에 저장
+
+                        for (ParticipantsDto dto : participantsDtoList) {
+                            Participants participant = participantsService.findPeopleCd(dto.getPeopleCd());
+
+                            List<FilmoInfo> filmoInfoList = dto.getFilmoInfoList(); // 필모그래피에 대한 정보 리스트
+                            for (FilmoInfo info : filmoInfoList) {
+                                String moviePartNm = info.getMoviePartNm(); // 참여 분야
+                                Movies movies = findWithMovieCode(info.getMovieCd());   // 해당 영화 코드에 맞는 정보 가져오기
+
+                                // 영화, 영화인, 참여분야 세 가지를 중복하는 값이 없으면 저장
+                                if (!movie_has_participantsRepository.existsByMoiveIdAndPeopleIdAndMoviePartNm(movies, participant, moviePartNm)) {
+                                    Movies_has_participants mapping = toEntity(movies, participant, moviePartNm);  // 영화 & 영화인 entity
+                                    movie_has_participantsRepository.save(mapping); // 매핑한 값 저장
+                                    log.info(mapping.toString());
+                                }
+                            }
+                        }
+                    }
+                }
+
+            }
+        }
+    }
+
+    // 해당 영화를 Movies Table에 저장
+    @Transactional
+    public void save(MovieDto ob) throws ParseException {
+        List<NaverMovieDto> naverMovieDtoList = naverMoviesService.naverMovieInfo(ob.getMovieNm()); // naver api로 받아온 정보들
+        StringTokenizer st;  // 장르 구분, 배우명 구분
+
+        // 두 api의 결과값으로 같은 영화를 찾음
+        for (NaverMovieDto o : naverMovieDtoList) {
+            String compareMovieNm = "<b>" + ob.getMovieNm() + "</b>";    // 사이에 <b></b> 값 추가
+            // 감독명, 영어 제목 또는 원제를 비교 해서 같으면 저장
+            if (o.getDirector().equals(ob.getDirectors()) && (o.getSubtitle().equalsIgnoreCase(ob.getMovieNmEn()) || compareMovieNm.equals(ob.getMovieNm())) && !moviesRepository.existsByMovieCd(ob.getMovieCd())) {
+                // 두 Dto를 하나의 Entity로 변환
+                Movies entity = ob.toEntity(o);
+                log.info(entity.toString());
+
+                // 영화 저장
+                moviesRepository.save(entity);
+
+                // 장르 저장
+                st = new StringTokenizer(ob.getGenreAlt(), ",");
+                while(st.hasMoreTokens()) {
+                    Genres genreEntity = genresService.saveGenre(st.nextToken());
+
+                    if (!movies_has_genresRepository.existsByMovieIdAndGenreID(entity, genreEntity))
+                        movies_has_genresRepository.save(toEntity(entity, genreEntity));
+                    }
+
+                // 감독, 주요 배우들 저장
+                if ((o.getActors() + ob.getDirectors()) != null) {
+                    st = new StringTokenizer(o.getActors() + ob.getDirectors(), "|");
+                    while (st.hasMoreTokens()) {
+                        List<ParticipantsDto> participantsDtoList = participantsService.peopleDetailedInfo(st.nextToken()); // 배우의 이름으로 정보 가져오기
+                        participantsService.save(participantsDtoList);  // 배우들 정보를 DB에 저장
+
+                        for (ParticipantsDto dto : participantsDtoList) {
+                            Participants participant = participantsService.findPeopleCd(dto.getPeopleCd());
+
+                            List<FilmoInfo> filmoInfoList = dto.getFilmoInfoList(); // 필모그래피에 대한 정보 리스트
+                            for (FilmoInfo info : filmoInfoList) {
+                                String moviePartNm = info.getMoviePartNm(); // 참여 분야
+                                Movies movies = findWithMovieCode(info.getMovieCd());   // 해당 영화 코드에 맞는 정보 가져오기
+
+                                // 영화, 영화인, 참여분야 세 가지를 중복하는 값이 없으면 저장
+                                if (!movie_has_participantsRepository.existsByMoiveIdAndPeopleIdAndMoviePartNm(movies, participant, moviePartNm)) {
+                                    Movies_has_participants mapping = toEntity(movies, participant, moviePartNm);  // 영화 & 영화인 entity
+                                    movie_has_participantsRepository.save(mapping); // 매핑한 값 저장
+                                    log.info(mapping.toString());
+                                }
+                            }
+                        }
+                    }
+
+                    break;
+                }
+            }
+
+            if (!moviesRepository.existsByMovieCd(ob.getMovieCd())) {
+                Movies entity = moviesRepository.save(ob.toEntity());   // 포스터가 없음
+
+                // 장르 저장
+                st = new StringTokenizer(ob.getGenreAlt(), ",");
+                while(st.hasMoreTokens()) {
+                    Genres genreEntity = genresService.saveGenre(st.nextToken());
+
+                    if (!movies_has_genresRepository.existsByMovieIdAndGenreID(entity, genreEntity))
+                        movies_has_genresRepository.save(toEntity(entity, genreEntity));
+                }
+
+                // 감독 저장 ( NaverMovieDto만 배우 정보를 가지고 있어서 배우는 저장 못함 )
+                if (ob.getDirectors() != null) {
+                    st = new StringTokenizer(ob.getDirectors(), "|");
+                    while (st.hasMoreTokens()) {
+                        List<ParticipantsDto> participantsDtoList = participantsService.peopleDetailedInfo(st.nextToken()); // 배우의 이름으로 정보 가져오기
+                        participantsService.save(participantsDtoList);  // 배우들 정보를 DB에 저장
+
+                        for (ParticipantsDto dto : participantsDtoList) {
+                            Participants participant = participantsService.findPeopleCd(dto.getPeopleCd());
+
+                            List<FilmoInfo> filmoInfoList = dto.getFilmoInfoList(); // 필모그래피에 대한 정보 리스트
+                            for (FilmoInfo info : filmoInfoList) {
+                                String moviePartNm = info.getMoviePartNm(); // 참여 분야
+                                Movies movies = findWithMovieCode(info.getMovieCd());   // 해당 영화 코드에 맞는 정보 가져오기
+
+                                // 영화, 영화인, 참여분야 세 가지를 중복하는 값이 없으면 저장
+                                if (!movie_has_participantsRepository.existsByMoiveIdAndPeopleIdAndMoviePartNm(movies, participant, moviePartNm)) {
+                                    Movies_has_participants mapping = toEntity(movies, participant, moviePartNm);  // 영화 & 영화인 entity
+                                    movie_has_participantsRepository.save(mapping); // 매핑한 값 저장
+                                    log.info(mapping.toString());
+                                }
+                            }
+                        }
+                    }
+                }
+
             }
         }
     }
@@ -229,18 +384,17 @@ public class MoviesService {
     // 주어진 영화 코드에 맞는 정보 반환
     @Transactional
     public Movies findWithMovieCode(String movieCd) throws ParseException {
-        MovieDto search = movieDetailedInfo(movieCd); // 영화진흥위원회 영화 상세정보 api 결과값
-
         // DB에 있으면 불러오기
-        if (moviesRepository.existsByMovieCd(search.getMovieCd())) {
-            Movies entity = moviesRepository.findByMovieCd(search.getMovieCd());
+        if (moviesRepository.existsByMovieCd(movieCd)) {
+            Movies entity = moviesRepository.findByMovieCd(movieCd);
             log.info(entity.toString());
 
             return entity;
         }
 
         // DB에 없으면 저장하고 불러오기
-        save(search.getMovieNm());
+        MovieDto search = movieDetailedInfo(movieCd); // 영화진흥위원회 영화 상세정보 api 결과값
+        save(search);
         Movies entity = moviesRepository.findByMovieCd(search.getMovieCd());
         log.info(entity.toString());
 
@@ -280,6 +434,15 @@ public class MoviesService {
         return Movies_has_genres.builder()
                 .genreID(genres)
                 .movieCd(movies)
+                .build();
+    }
+
+    // Movies + Participants -> Mvoie_has_participants Entity
+    private Movies_has_participants toEntity(Movies movies, Participants participants, String moviePartNm) {
+        return Movies_has_participants.builder()
+                .peopleId(participants)
+                .moviePartNm(moviePartNm)
+                .moiveId(movies)
                 .build();
     }
 }

@@ -23,9 +23,4 @@ public class MoviesApiController {
     public List<Movies> searchMovie(@PathVariable String movieNm) throws ParseException {
         return moviesService.search(movieNm);
     }
-
-    @GetMapping("/test")
-    public void test() throws ParseException {
-        participantsService.save("박해일");
-    }
 }

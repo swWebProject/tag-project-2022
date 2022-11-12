@@ -11,6 +11,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
@@ -41,28 +42,34 @@ public class NaverMoviesService {
         headers.set("X-Naver-Client-Secret", NaverClientSecret);
         HttpEntity<String> entity = new HttpEntity<>(headers);
 
-        // 네이버 api로 받은 정보에서 Body 값만 받음
-        String data = restTemplate.exchange(apiUrl, HttpMethod.GET, entity, String.class).getBody();
-        log.info(data);
+        try {
+            // 네이버 api로 받은 정보에서 Body 값만 받음
+            String data = restTemplate.exchange(apiUrl, HttpMethod.GET, entity, String.class).getBody();
+            log.info(data);
 
-        // 응답 값 파싱
-        JSONParser jsonParser = new JSONParser();
-        JSONObject jsonObject = (JSONObject) jsonParser.parse(data);
+            // 응답 값 파싱
+            JSONParser jsonParser = new JSONParser();
+            JSONObject jsonObject = (JSONObject) jsonParser.parse(data);
 
-        // 영화 정보를 배열로 담은 items 파싱
-        JSONArray jsonItems = (JSONArray) jsonObject.get("items");
-        log.info(jsonItems.toString());
+            // 영화 정보를 배열로 담은 items 파싱
+            JSONArray jsonItems = (JSONArray) jsonObject.get("items");
+            log.info(jsonItems.toString());
 
-        List<NaverMovieDto> naverMovieDtoList = new ArrayList<>();  // 필요한 데이터만 담은 Dto List
+            List<NaverMovieDto> naverMovieDtoList = new ArrayList<>();  // 필요한 데이터만 담은 Dto List
 
-        // JSON 객체를 Dto로 변환하고 List에 추가
-        for (Object o : jsonItems) {
-            JSONObject item = (JSONObject) o;
-            naverMovieDtoList.add(toDto(item));
-            log.info(toDto(item).toString());
-        }
+            // JSON 객체를 Dto로 변환하고 List에 추가
+            for (Object o : jsonItems) {
+                JSONObject item = (JSONObject) o;
+                naverMovieDtoList.add(toDto(item));
+                log.info(toDto(item).toString());
+            }
 
         return naverMovieDtoList;
+
+        } catch (HttpClientErrorException hcee) {
+            log.error(hcee.getMessage());
+            return null;
+        }
     }
 
     // JSONObject -> Dto, 필요한 데이터만 담음
@@ -73,7 +80,7 @@ public class NaverMoviesService {
                 .subtitle((String) item.get("subtitle"))
                 .image((String) item.get("image"))
                 .director((String) item.get("director"))
-                .actor((String) item.get("actor"))
+                .actors((String) item.get("actor"))
                 .build();
     }
 }

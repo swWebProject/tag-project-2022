@@ -23,7 +23,6 @@ import java.util.List;
 public class ParticipantsService {
 
     private final ParticipantsRepository participantsRepository;
-    private final Movies_has_participantsService movies_has_participantsService;
     private final RestTemplate restTemplate;
 
     private final String participantsUrl = "http://kobis.or.kr/kobisopenapi/webservice/rest/people/searchPeopleList.json?"; // 영화인 목록 api url
@@ -130,8 +129,7 @@ public class ParticipantsService {
 
     // 영화인 정보 저장
     @Transactional
-    public void save(String peopleNm) throws ParseException {
-        List<ParticipantsDto> participantsDtoList = peopleDetailedInfo(peopleNm);   // 완성된 영화인 정보 불러오기
+    public void save(List<ParticipantsDto> participantsDtoList) throws ParseException {
         Participants entity;
 
         // DB에 존재 여부로 저장하기
@@ -140,14 +138,17 @@ public class ParticipantsService {
             log.info(entity.toString());
             // Db에 없으면 해당 영화인 저장
             if (!participantsRepository.existsByPeopleCd(dto.getPeopleCd())) {
-                participantsRepository.save(entity);    // 영화인 저장
                 log.info(dto.toString());
+                participantsRepository.save(entity);    // 영화인 저장
             }
-
-            movies_has_participantsService.save(dto);   // 영화 & 영화인 저장
         }
     }
-
+    
+    // 코드로 특정 인물 찾기
+    @Transactional(readOnly = true)
+    public Participants findPeopleCd(String peopleCd) {
+        return participantsRepository.findByPeopleCd(peopleCd);
+    }
 
     // JSONObject -> Dto, 필요한 데이터만 담음
     private ParticipantsDto toDto(JSONObject item) {

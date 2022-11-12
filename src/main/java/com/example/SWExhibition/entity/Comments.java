@@ -31,5 +31,5 @@ public class Comments {
     private String comment; // 댓글 내용
 
     @Column(columnDefinition = "INT default 0")
-    private Long like;  // 좋아요 수
+    private Long likeCnt;  // 좋아요 수
 }

@@ -9,7 +9,7 @@ import org.hibernate.annotations.DynamicUpdate;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "movies_participants")
+@Table(name = "participants")
 @NoArgsConstructor
 @Getter
 @ToString
@@ -35,16 +35,16 @@ public class Participants {
     private String repRoleNm;   // 영화인 분류명 (배우 or 감독)
 
     @Column(columnDefinition = "INT default 0")
-    private Long like;  // 좋아요 수
+    private Long likeCnt;  // 좋아요 수
 
     @Builder
-    public Participants(Long id, String peopleCd, String peopleNm, String peopleNmEn, String sex, String repRoleNm, Long like) {
+    public Participants(Long id, String peopleCd, String peopleNm, String peopleNmEn, String sex, String repRoleNm, Long likeCnt) {
         this.id = id;
         this.peopleCd = peopleCd;
         this.peopleNm = peopleNm;
         this.peopleNmEn = peopleNmEn;
         this.sex = sex;
         this.repRoleNm = repRoleNm;
-        this.like = like;
+        this.likeCnt = likeCnt;
     }
 }
