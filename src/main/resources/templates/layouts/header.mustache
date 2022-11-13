@@ -1,3 +1,4 @@
+<body>
 <!------ header ------>
 <header>
     <nav class="navbar">
@@ -21,7 +22,7 @@
         {{/user}}
         {{#user}}
         <div id="login" >
-            <a href="/user/mypage">
+            <a href="/mypage/{{userId}}">
                 <h4>{{user.nickname}}</h4>
             </a>
             <a href="/user/logout" methods="post">

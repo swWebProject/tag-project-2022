@@ -1,6 +1,5 @@
 package com.example.SWExhibition.security;
 
-import com.example.SWExhibition.service.UsersService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,8 +16,7 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-
-    private final UsersService usersService;
+    
     private final AuthenticationFailureHandler customFailureHandler;
 
     // password 암호화
@@ -40,11 +38,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .disable()
                 .authorizeRequests()
                 // user 페이지 설정
-                .antMatchers("/")
-                .authenticated() // 로그인 필요
-                // 기타 url은 모두 허용
+                .antMatchers("/mypage")
+                    .authenticated()    // 로그인 필요
+                // 그 외 url은 모두 허용
                 .anyRequest()
-                    .permitAll()    // 모든 사용자 접근 가능
+                    .permitAll() // 모든 사용자 접근 가능
                 .and()
                 // 로그인 페이지 사용
                 .formLogin()
