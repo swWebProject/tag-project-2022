@@ -34,7 +34,8 @@ public class NaverMoviesService {
     public List<NaverMovieDto> naverMovieInfo(String movieNm) throws ParseException {
         // 받아온 영화 이름을 url에 넣음
         String apiUrl = NaverMovieUrl +
-                movieNm;
+                movieNm +
+                "&display=30";
 
         // 해더 값 지정
         HttpHeaders headers = new HttpHeaders();

@@ -12,9 +12,9 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -31,9 +31,9 @@ public class BoxOfficeService {
     private final RestTemplate restTemplate;    // rest 방식 api 호출
 
     private final String boxOffieUrl = "http://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?"; // 영화 진흥 위원회 일별 박스오피스 api url
-    private final String apiKey = "key=4801347d5095e67e89bbba73e7650760";   // api 키 값
+    private final String apiKey = "key=e6ce283cc89c58ec3419fe19ade59b0e";   // api 키 값
 
-    private final String targetDt = yesterday();   // 어제 날짜
+    private String targetDt = yesterday();   // 어제 날짜
 
 
     // 어제 날짜 구하기 yyyymmdd
@@ -82,7 +82,8 @@ public class BoxOfficeService {
     }
 
     // 박스 오피스 DB에 저장
-    public void save() throws ParseException, IOException {
+    @Transactional
+    public void save() throws ParseException {
         List<BoxOfficeDto> boxOfficeDtoList = dailyBoxOfficeInfo();
 
         // DB에 없으면 저장
@@ -110,6 +111,7 @@ public class BoxOfficeService {
     }
 
     // DB에 저장되어 있는 일별 박스오피스 값 주기
+    @Transactional(readOnly = true)
     public List<BoxOffice> returnBoxOffice() throws ParseException {
         return boxOfficeRepository.findAll();
     }

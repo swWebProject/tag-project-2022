@@ -22,7 +22,7 @@ public class UsersService {
     private final UsersRepository usersRepository;
 
     // 회원가입
-    @Transactional(readOnly = true)
+    @Transactional
     public void signUp(UsersDto userDto) {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         userDto.setPassword(passwordEncoder.encode(userDto.getPassword())); // password를 암호화 한 뒤 dp에 저장
@@ -48,7 +48,7 @@ public class UsersService {
     }
 
     // 회원가입 시, 유효성 체크
-    @Transactional(readOnly = true)
+    @Transactional
     public Map<String, String> validateHandling(Errors errors) {
         Map<String, String> validatorResult = new HashMap<>();
 
