@@ -128,35 +128,77 @@ i.fa-pen {
     margin-top: 1px;
  }
 
- /* section -> mypage comment 담을 박스 */
- #mypage_comment {
+/* section -> mypage comment 담을 박스 */
+#mypage_comment {
     display: flex;
- }
+    margin: 13px 0 0 25px;
+    width: 95%;
+    height: 137px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+    padding-bottom: 22px;
+    scroll-padding: 3px;
+}
+    /* scroll bar css */
+#mypage_comment::-webkit-scrollbar {
+    height: 13px;
+}
 
+#mypage_comment::-webkit-scrollbar-track {
+    background-color: rgb(248, 248, 248);
+    border-radius: 5px;
+}
+
+#mypage_comment::-webkit-scrollbar-thumb {
+    background-color: rgb(126, 126, 126);
+    background-clip: padding-box;
+    border: 3px solid transparent;
+    border-radius: 5px;
+    width: 10px;
+}
+    /* mypage 상자들 */
 #mypage_comment > div.mypage_review {
-    width: 243px;
-    height: 121px;
-    color: rgb(248, 248, 248);
+    min-width: 243px;
+    min-height: 121px;
+    background-color: rgb(248, 248, 248);
+    padding: 10px;
+    margin-bottom: 5px;
+    font-size: 14px;
+    margin-right: 10px;
+    white-space: nowrap;
+}
+
+#mypage_comment > div.mypage_review > .mypage_review_in {
+    margin-bottom: 7px;
 }
 
 /* section -> 보고싶은 영화 담을 박스 */
 #mypage_want {
     display: flex;
+    margin: 3px 0 35px 25px;
+    flex-wrap: wrap;
 }
 
 #mypage_want > div {
-    width: 124px;
-    height: 184px;
+    background-color: rgb(248, 248, 248); /* test */
+    min-width: 124px;
+    min-height: 184px;
+    margin: 10px 10px 0 0;
 }
 
 /* section -> 보는 중 영화 담을 박스*/
 #mypage_watching {
     display: flex;
+    margin: 3px 0 30px 25px;
+    flex-wrap: wrap;
 }
 
 #mypage_watching > div {
-    width: 124px;
-    height: 184px;
+    background-color: rgb(248, 248, 248); /* test */
+    min-width: 124px;
+    min-height: 184px;
+    margin: 10px 10px 0 0;
 }
 
 /*footer*/

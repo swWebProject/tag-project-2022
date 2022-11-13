@@ -12,23 +12,34 @@
     <link rel="stylesheet" href="mypage.css">
 </head>
 <body>
+    <!------ header ------>
     <header>
         <nav class="navbar">
             <div id="nav_name">
                 <a href="/Zoo/home/home.html"><i class="fa-solid fa-film"></i></a>
-                <a href="/Zoo/home/home.html"><h2>주토피디아</h2></a>
+                <a href="/Zoo/home/home.html">
+                    <h2>주토피디아</h2>
+                </a>
             </div>
             <div id="search">
                 <i class="fa-solid fa-magnifying-glass"></i>
                 <input id="movie_search" type="text" placeholder="원하는 영화 검색">
             </div>
             <div id="login_bar">
-                <a href="/Zoo/home/home.html"><h4>홈</h4></a>
-                <a href=""><h4>로그인</h4></a>
-                <a href=""><h4>회원가입</h4></a>
+                <a href="/Zoo/home/home.html">
+                    <h4 id="login_home">홈</h4>
+                </a>
+                <a href="/Zoo/login/login.html">
+                    <h4 id="login_log">로그인</h4>
+                </a>
+                <a href="/Zoo/join/join.html">
+                    <h4 id="login_join">회원가입</h4>
+                </a>
             </div>
         </nav>
     </header>
+    
+    <!------ section ------>
     <section id="section">
         <div id="section_name">
             <div></div>
@@ -40,7 +51,12 @@
             <i class="fa-solid fa-pen fa-flip-horizontal"></i>
         </div>
         <div id="mypage_comment">
-            <div class="mypage_review"></div>
+            <div class="mypage_review">
+                <p class="mypage_review_in"><i><b>Spider-Man: No Way Home</b></i></p>
+                <p class="mypage_review_in">2022, 누적관객수, 별점</p>
+                <hr class="mypage_review_in">
+                <p class="mypage_review_in">comment</p>
+            </div>
         </div>
 
         <div class="mypage_movie">

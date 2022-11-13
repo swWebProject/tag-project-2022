@@ -11,7 +11,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap" rel="stylesheet">
-    <script src="/Zoo/movie/movie.js"></script>
+    <script src="movie.js"></script>
+    <script src="/Zoo/app.js"></script>
 </head>
 
 <body>
@@ -21,16 +22,24 @@
         <nav class="navbar">
             <div id="nav_name">
                 <a href="/Zoo/home/home.html"><i class="fa-solid fa-film"></i></a>
-                <a href="/Zoo/home/home.html"><h2>주토피디아</h2></a>
+                <a href="/Zoo/home/home.html">
+                    <h2>주토피디아</h2>
+                </a>
             </div>
             <div id="search">
                 <i class="fa-solid fa-magnifying-glass"></i>
                 <input id="movie_search" type="text" placeholder="원하는 영화 검색">
             </div>
             <div id="login_bar">
-                <a href="/Zoo/home/home.html"><h4>홈</h4></a>
-                <a href="/Zoo/login/login.html"><h4>로그인</h4></a>
-                <a href="/Zoo/join/join.html"><h4>회원가입</h4></a>
+                <a href="/Zoo/home/home.html">
+                    <h4 id="login_home">홈</h4>
+                </a>
+                <a href="/Zoo/login/login.html">
+                    <h4 id="login_log">로그인</h4>
+                </a>
+                <a href="/Zoo/join/join.html">
+                    <h4 id="login_join">회원가입</h4>
+                </a>
             </div>
         </nav>
     </header>
@@ -47,33 +56,28 @@
                     <i class="fa-solid fa-star"></i>
                     <h3>5.0</h3>
                 </div>
-                <p>선택한 별점 표시</p>
-                <div class="star_rating">
-                    <!-- https://codepen.io/chris22smith/pen/MJzLJN -->
-                    <input type="radio" id="5-stars" name="rating" value="5" v-model="ratings"/>
-                    <label for="5-stars" class="star pr-4">★</label>
-                    <input type="radio" id="4-stars" name="rating" value="4" v-model="ratings"/>
-                    <label for="4-stars" class="star">★</label>
-                    <input type="radio" id="3-stars" name="rating" value="3" v-model="ratings"/>
-                    <label for="3-stars" class="star">★</label>
-                    <input type="radio" id="2-stars" name="rating" value="2" v-model="ratings"/>
-                    <label for="2-stars" class="star">★</label>
-                    <input type="radio" id="1-star" name="rating" value="1" v-model="ratings" />
-                    <label for="1-star" class="star">★</label>
+                <div id="star_rating">
+                    <!-- https://gurtn.tistory.com/80 -->
+                    <p>선택한 별점 표시</p>
+                    <span class="star">
+                        ★★★★★
+                        <span>★★★★★</span>
+                        <input type="range" oninput="drawStar(this)" value="1" step="1" min="0" max="10">
+                    </span>
                 </div>
             </div>
             <div id="movie_user_want">
                 <div id="user_want_watch">
                     <h6>보고싶어요</h6>
-                    <a href="" class="movie_user_want_a"><i class="fa-solid fa-folder-closed" onclick="service()"></i></a>
+                    <a href="" class="movie_user_want_a"><i class="fa-solid fa-folder-closed"></i></a>
                 </div>
                 <div id="user_watching">
                     <h6>보는 중</h6>
-                    <a href="" class="movie_user_want_a"><i class="fa-solid fa-laptop" onclick="service()"></i></a>
+                    <a href="" class="movie_user_want_a"><i class="fa-solid fa-laptop"></i></a>
                 </div>
                 <div id="user_want_location">
                     <h6>영화 촬영지 정보</h6>
-                    <a href="" class="movie_user_want_a"><i class="fa-solid fa-camera"  onclick="service()"></i></a>
+                    <a href="" class="movie_user_want_a"><i class="fa-solid fa-camera"></i></a>
                 </div>
             </div>
         </div>
@@ -87,7 +91,7 @@
             <h4>코멘트</h4>
             <div id="comment_button">
                 <textarea name="comment" rows="10" cols="50"></textarea>
-                <input type="button" value="완료" onclick="service()">
+                <input type="button" value="완료">
             </div>
             <div class="movie_evaluate_user">
                 <p id="comment_user_name">user name</p>
