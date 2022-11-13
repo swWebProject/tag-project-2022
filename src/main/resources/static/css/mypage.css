@@ -1,0 +1,223 @@
+* {
+    margin: 0px;
+    padding: 0px;
+}
+
+html, body {
+    height: 100%;
+}
+
+body {
+    background-color: rgb(126, 126, 126);
+    font-family: 'Nanum Gothic', sans-serif;
+    /* footer 하단 고정 : flex 추가 */
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+}
+
+section {
+    flex: 1;
+}
+/* footer 하단 고정 */
+
+nav.navbar {
+    background-color: rgb(248, 248, 248);
+    width: 100%;
+    height: 73px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* navbar -> search */
+#search {
+    display: flex;
+}
+
+#search > #movie_search {
+    width: 370px;
+    height: 40px;
+    position: center;
+    border-radius: 5px;
+    border-width: 1px;
+    margin-left: 10px;
+    padding-left: 10px;
+}
+
+/* navber-> name(주토피디아) */
+#nav_name {
+    margin: 15px;
+    display: flex;
+}
+
+#nav_name > a {
+    text-decoration: none;
+    color: black;
+}
+
+#nav_name > a > h2 {
+    padding: 5px 0 0 12px;
+}
+
+i.fa-solid {
+    font-size: 40px;
+}
+
+/* navbar -> login */
+#login_bar {
+    display: flex;
+    margin-right: 12px;
+}
+
+#login_bar > a {
+    margin: 10px;
+    text-decoration: none;
+    color: black;
+}
+
+/* section */
+/* section -> | 마이페이지 */
+#section > #section_name > div {
+    background-color: rgb(248, 248, 248);
+    width: 5px;
+    height: 32px;
+}
+
+#section > #section_name {
+    display: flex;
+    margin: 20px 0 0 20px;
+}
+
+#section > #section_name > h3 {
+    color: rgb(248, 248, 248);
+    font-weight: 900;
+    padding: 5px 0 5px 10px;
+}
+
+/* section -> " > 보고싶은 영화 " 틀 + 아이콘 사이즈, margin 조정*/
+#section > div.mypage_movie {
+    color: rgb(248, 248, 248);
+    margin: 20px 0 0 20px;
+    display: flex;
+    height: 22px;
+    line-height: 22px;
+}
+
+i.fa-greater-than {
+    font-size: 17px;
+    margin-right: 10px;
+    margin-top: 1.5px;
+}
+
+i.fa-pen {
+    font-size: 15px;
+    margin-left: 5px;
+    margin-top: 3.5px;
+}
+
+i.fa-folder-closed {
+    font-size: 18px;
+    margin-left: 6px;
+    margin-top: 2.5px;
+}
+
+i.fa-ticket {
+    font-size: 20px;
+    margin-left: 6px;
+    margin-top: 1px;
+}
+
+/* section -> mypage comment 담을 박스 */
+#mypage_comment {
+    display: flex;
+    margin: 13px 0 0 25px;
+    width: 95%;
+    height: 137px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+    padding-bottom: 22px;
+    scroll-padding: 3px;
+}
+/* scroll bar css */
+#mypage_comment::-webkit-scrollbar {
+    height: 13px;
+}
+
+#mypage_comment::-webkit-scrollbar-track {
+    background-color: rgb(248, 248, 248);
+    border-radius: 5px;
+}
+
+#mypage_comment::-webkit-scrollbar-thumb {
+    background-color: rgb(126, 126, 126);
+    background-clip: padding-box;
+    border: 3px solid transparent;
+    border-radius: 5px;
+    width: 10px;
+}
+/* mypage 상자들 */
+#mypage_comment > div.mypage_review {
+    min-width: 243px;
+    min-height: 121px;
+    background-color: rgb(248, 248, 248);
+    padding: 10px;
+    margin-bottom: 5px;
+    font-size: 14px;
+    margin-right: 10px;
+    white-space: nowrap;
+}
+
+#mypage_comment > div.mypage_review > .mypage_review_in {
+    margin-bottom: 7px;
+}
+
+/* section -> 보고싶은 영화 담을 박스 */
+#mypage_want {
+    display: flex;
+    margin: 3px 0 35px 25px;
+    flex-wrap: wrap;
+}
+
+#mypage_want > div {
+    background-color: rgb(248, 248, 248); /* test */
+    min-width: 124px;
+    min-height: 184px;
+    margin: 10px 10px 0 0;
+}
+
+/* section -> 보는 중 영화 담을 박스*/
+#mypage_watching {
+    display: flex;
+    margin: 3px 0 30px 25px;
+    flex-wrap: wrap;
+}
+
+#mypage_watching > div {
+    background-color: rgb(248, 248, 248); /* test */
+    min-width: 124px;
+    min-height: 184px;
+    margin: 10px 10px 0 0;
+}
+
+/*footer*/
+#information {
+    background-color: rgb(248, 248, 248);
+    padding-top: 20px;
+    padding-bottom: 9px;
+    text-align: center;
+}
+
+#information > .information_inner {
+    padding-bottom: 9px;
+}
+
+#information > .information_inner > a {
+    text-decoration: none;
+    color: black;
+}
+
+i.fa-github {
+    color: rgb(77, 77, 77);
+}

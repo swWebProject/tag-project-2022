@@ -25,12 +25,13 @@ public class PrincipalDetails implements UserDetails {
     }
 
 
-    //비밀번호를 가지고 오는 메소드
+    // 비밀번호를 가지고 오는 메소드
     @Override
     public String getPassword() {
         return user.getPassword();
     }
 
+    // 유저 ID를 가지고 오는 메소드
     @Override
     public String getUsername() {
         return user.getUserId();

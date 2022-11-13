@@ -1,9 +1,12 @@
 package com.example.SWExhibition.controller;
 
 import com.example.SWExhibition.dto.UsersDto;
+import com.example.SWExhibition.entity.Users;
+import com.example.SWExhibition.security.PrincipalDetails;
 import com.example.SWExhibition.service.UsersService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -38,6 +41,14 @@ public class UsersController {
         model.addAttribute("exception", exception);
 
         return "/login/login";
+    }
+
+    // 마이 페이지
+    @GetMapping("/mypage/{userId}")
+    public String myPage(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
+        Users userInfo = usersService.findUser(principalDetails.getUsername()).orElse(null);
+        model.addAttribute("userInfo", userInfo);
+        return "/mypage/mypage";
     }
 
     // 회원가입 페이지

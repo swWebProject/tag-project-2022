@@ -13,6 +13,7 @@ import org.springframework.validation.FieldError;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -32,7 +33,7 @@ public class UsersService {
         // 권한 설정
         if (join.getUserId().equals("admin863"))
             join.setRole("ROLE_ADMIN");
-        join.setRole("ROLE_ADMIN");   // 기본 권한
+        join.setRole("ROLE_MEMBER");   // 기본 권한
 
         // 중복이 발생하면 종료
         if (userIdOverlopCheck(join.getUserId()) && nicknameOverlopCheck(join.getNickname())) {
@@ -71,5 +72,9 @@ public class UsersService {
     @Transactional(readOnly = true)
     public  boolean nicknameOverlopCheck(String nickname) {
         return usersRepository.existsByNickname(nickname);
+    }
+
+    public Optional<Users> findUser(String userId) {
+        return usersRepository.findByUserId(userId);
     }
 }

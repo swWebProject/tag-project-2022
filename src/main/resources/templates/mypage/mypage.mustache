@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zootopedia</title>
+    <script src="https://kit.fontawesome.com/c58241218c.js" crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/mypage.css">
+</head>
+
+{{>layouts/header}}
+
+{{#user}}
+<!------ section ------>
+<section id="section">
+    <div id="section_name">
+        <div></div>
+        <h3>마이페이지</h3>
+    </div>
+    <div class="mypage_movie">
+        <i class="fa-regular fa-greater-than"></i>
+        <h4>내가 평가한 영화목록</h4>
+        <i class="fa-solid fa-pen fa-flip-horizontal"></i>
+    </div>
+    <div id="mypage_comment">
+        <div class="mypage_review">
+            <p class="mypage_review_in"><i><b>Spider-Man: No Way Home</b></i></p>
+            <p class="mypage_review_in">2022, 누적관객수, 별점</p>
+            <hr class="mypage_review_in">
+            <p class="mypage_review_in">comment</p>
+        </div>
+    </div>
+
+    <div class="mypage_movie">
+        <i class="fa-regular fa-greater-than"></i>
+        <h4>보고싶은 영화</h4>
+        <i class="fa-solid fa-folder-closed fa-flip-horizontal"></i>
+    </div>
+    <div id="mypage_want">
+        <div></div>
+    </div>
+
+    <div class="mypage_movie">
+        <i class="fa-regular fa-greater-than"></i>
+        <h4>보는 중 영화</h4>
+        <i class="fa-solid fa-ticket"></i>
+    </div>
+    <div id="mypage_watching">
+        <div></div>
+    </div>
+</section>
+{{/user}}
+
+<script>
+    fetch()
+            .then((response) => response.json())
+            .then((data) => console.log(data));
+</script>
+
+{{>layouts/footer}}
