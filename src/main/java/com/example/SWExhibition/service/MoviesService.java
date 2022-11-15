@@ -569,4 +569,42 @@ public class MoviesService {
         return chosung;
 
     }
+    @Transactional
+    public List<MovieDto> searchMovies(String keyword) {
+        List<Movies> movies = moviesRepository.findByTitle(keyword);
+        List<MovieDto> movieDtoList = new ArrayList<>();
+
+        if(movies.isEmpty()) return movieDtoList;
+
+        for(Movies movie : movies) {
+            movieDtoList.add(this.convertEntityToDto(movie));
+        }
+        return movieDtoList;
+    }
+
+    private MovieDto convertEntityToDto(Movies movie) {
+        return MovieDto.builder()
+                .movieNm(movie.getMovieNm())
+                .build();
+    }
+    @Transactional
+    public List<NaverMovieDto> searchMoviesImage(String keyword) {
+        List<Movies> movieImage = moviesRepository.findByTitle(keyword);
+        List<NaverMovieDto> naverMovieDtoList = new ArrayList<>();
+
+        if(movieImage.isEmpty()) return naverMovieDtoList;
+
+        for(Movies movie : movieImage) {
+            naverMovieDtoList.add(this.convertToDto(movie));
+        }
+        return naverMovieDtoList;
+    }
+    private NaverMovieDto convertToDto(Movies movie) {
+        return NaverMovieDto.builder()
+                .title(movie.getMovieNm())
+                .image(movie.getPoster())
+                .build();
+    }
+
+
 }
