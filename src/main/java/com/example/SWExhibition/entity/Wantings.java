@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
 @AllArgsConstructor
@@ -16,7 +15,7 @@ import java.time.LocalDateTime;
 public class Wantings {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long wantingID; // 보고싶은 영화 ID
+    private Long id; // 보고싶은 영화 ID
 
     @ManyToOne
     @JoinColumn(name = "users_id")
@@ -27,5 +26,5 @@ public class Wantings {
     private Movies movie; // 영화 코드
 
     @Column(nullable = false)
-    private LocalDateTime date; // 등록된 날짜와 시간
+    private String date; // 등록된 날짜와 시간
 }

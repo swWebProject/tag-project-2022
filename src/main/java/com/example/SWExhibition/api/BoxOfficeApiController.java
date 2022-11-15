@@ -23,7 +23,7 @@ public class BoxOfficeApiController {
         return boxOfficeService.returnBoxOffice();
     }
 
-    @GetMapping("/api/get/dailyBoxOffic")
+    @GetMapping("/api/search/dailyBoxOffice")
     public List<?> daiyBoxOffice() {
         return boxOfficeRepository.findAll();
     }

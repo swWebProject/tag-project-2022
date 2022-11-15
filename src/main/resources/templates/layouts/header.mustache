@@ -1,17 +1,23 @@
 <body>
+
 <!------ header ------>
 <header>
     <nav class="navbar">
         <div id="nav_name">
-            <i class="fa-solid fa-film"></i>
-            <h2>주토피디아</h2>
+            <a href="/"><i class="fa-solid fa-film"></i></a>
+            <a href="/">
+                <h2>주토피디아</h2>
+            </a>
         </div>
         <div id="search">
             <i class="fa-solid fa-magnifying-glass"></i>
             <input id="movie_search" type="text" placeholder="원하는 영화 검색">
         </div>
         {{^user}}
-        <div id="login">
+            <div id="login_bar">
+                <a href="/">
+                    <h4>홈</h4>
+                </a>
             <a href="/user/login">
                 <h4>로그인</h4>
             </a>
@@ -21,7 +27,10 @@
         </div>
         {{/user}}
         {{#user}}
-        <div id="login" >
+        <div id="login_bar" >
+            <a href="/">
+                <h4>홈</h4>
+            </a>
             <a href="/mypage/{{userId}}">
                 <h4>{{user.nickname}}</h4>
             </a>

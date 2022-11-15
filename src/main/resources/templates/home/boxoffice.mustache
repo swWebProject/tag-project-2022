@@ -1,22 +1,7 @@
 <section id="section">
     <h3>일별 박스오피스 순위</h3>
-
-    <div>
+    <div id="section_main_div">
 
     </div>
+
 </section>
-
-<script>
-    fetch("api/get/dailyBoxOffic")
-            .then((response) => response.json())
-            .then((data) => {
-                alert();
-                console.log(data);
-
-                for(let i = 9; i >= 0; i--){
-                    let result = data[i].movies.movieNm;
-                    console.log(result);
-
-                }
-            });
-</script>
