@@ -112,7 +112,7 @@ public class BoxOfficeService {
 
     // DB에 저장되어 있는 일별 박스오피스 값 주기
     @Transactional(readOnly = true)
-    public List<BoxOffice> returnBoxOffice() throws ParseException {
+    public List<BoxOffice> returnBoxOffice() {
         return boxOfficeRepository.findAll();
     }
 

@@ -7,7 +7,6 @@ import lombok.ToString;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
 @AllArgsConstructor
@@ -18,7 +17,7 @@ import java.time.LocalDateTime;
 public class Ratings {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long ratingID;  // 평점 ID
+    private Long id;  // 평점 ID
 
     @ManyToOne
     @JoinColumn(name = "users_id")
@@ -32,5 +31,5 @@ public class Ratings {
     private Float rating;   // 평점
 
     @Column(nullable = false)
-    private LocalDateTime date; // 등록된 날짜와 시간
+    private String date; // 등록된 날짜와 시간
 }

@@ -38,7 +38,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .disable()
                 .authorizeRequests()
                 // user 페이지 설정
-                .antMatchers("/mypage")
+                .antMatchers("/mypage/{userId}")
                     .authenticated()    // 로그인 필요
                 // 그 외 url은 모두 허용
                 .anyRequest()

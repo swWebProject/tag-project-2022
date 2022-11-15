@@ -366,6 +366,13 @@ public class MoviesService {
     }
 
 
+    // DB에서 코드에 맞는 영화 가져오기
+    @Transactional(readOnly = true)
+    public Movies show(String movieCd) {
+        return moviesRepository.findByMovieCd(movieCd);
+    }
+
+
 
     // JSONObject -> Dto, 필요한 데이터만 담음
     private MovieDto toDto(JSONObject item, String directors) {

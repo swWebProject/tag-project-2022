@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zootopedia</title>
+    <script src="https://kit.fontawesome.com/c58241218c.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/css/movie.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap" rel="stylesheet">
+    <script src="/js/movie.js"></script>
+</head>
+
+{{>layouts/header}}
+
+<!------ section ------>
+<section id="section">
+    <div id="movie_img_title">
+        <div id="movie_img"><img src="{{movieInfo.poster}}"></div>
+        <div id="movie_title">
+            <h2>{{movieInfo.movieNm}}</h2>
+            <h4><i>{{openYear}} / {{genres}} / {{movieInfo.nationAlt}}</i></h4>
+            <div id="current_star">
+                <h3>현재 별점</h3>
+                <i class="fa-solid fa-star"></i>
+                <h3>5.0</h3>
+            </div>
+            <div id="star_rating">
+                <!-- https://gurtn.tistory.com/80 -->
+                <p>선택한 별점 표시</p>
+                <span class="star">
+                        ★★★★★
+                        <span>★★★★★</span>
+                        <input type="range" oninput="drawStar(this)" value="1" step="1" min="0" max="10">
+                    </span>
+            </div>
+        </div>
+        <div id="movie_user_want">
+            <div id="user_want_watch">
+                <h6>보고싶어요</h6>
+                <a href="" class="movie_user_want_a"><i class="fa-solid fa-folder-closed"></i></a>
+            </div>
+            <div id="user_watching">
+                <h6>보는 중</h6>
+                <a href="" class="movie_user_want_a"><i class="fa-solid fa-laptop"></i></a>
+            </div>
+            <div id="user_want_location">
+                <h6>영화 촬영지 정보</h6>
+                <a href="" class="movie_user_want_a"><i class="fa-solid fa-camera"></i></a>
+            </div>
+        </div>
+    </div>
+    <div id="movie_information">
+        <h4>영화 정보</h4>
+        <p>{{movieInfo.movieNm}}</p>
+        <p>{{openYear}} | {{genres}} | {{movieInfo.nationAlt}}</p>
+        <div id="information_div">정보들</div>
+    </div>
+    <div id="movie_evaluate">
+        <h4>코멘트</h4>
+        <div id="comment_button">
+            <textarea name="comment" rows="10" cols="50"></textarea>
+            <input type="button" value="완료">
+        </div>
+        <div class="movie_evaluate_user">
+            <p id="comment_user_name">{{#user}}{{nickname}}{{/user}}</p>
+            <p id="comment_user"></p>
+        </div>
+    </div>
+</section>
+
+{{>layouts/footer}}
