@@ -571,7 +571,7 @@ public class MoviesService {
     }
     @Transactional
     public List<Movies> searchMovies(String keyword) {
-        List<Movies> movies = moviesRepository.findByTitle(keyword);
+        List<Movies> movies = moviesRepository.findBymovieNm(keyword);
         List<Movies> movieDtoList = new ArrayList<>();
 
         if(movies.isEmpty()) return movieDtoList;
