@@ -25,15 +25,15 @@ public class CommentApiController {
 
     /* UPDATE */
     @PutMapping({"{movieCd}"})
-    public ResponseEntity update(@PathVariable Long id, @RequestBody CommentRequestDto dto) {
-        commentsService.update(id, dto);
-        return ResponseEntity.ok(id);
+    public ResponseEntity update(@PathVariable String movieCd, @RequestBody CommentRequestDto dto) {
+        commentsService.update(Long.valueOf(movieCd), dto);
+        return ResponseEntity.ok(movieCd);
     }
 
     /* DELETE */
     @DeleteMapping("{movieCd}")
-    public ResponseEntity delete(@PathVariable Long id) {
-        commentsService.delete(id);
-        return ResponseEntity.ok(id);
+    public ResponseEntity delete(@PathVariable String movieCd) {
+        commentsService.delete(Long.valueOf(movieCd));
+        return ResponseEntity.ok(movieCd);
     }
 }
