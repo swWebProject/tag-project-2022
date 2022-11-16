@@ -1,9 +1,10 @@
 package com.example.SWExhibition.entity;
 
-import lombok.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.hibernate.annotations.DynamicUpdate;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 
@@ -27,17 +28,8 @@ public class Comments {
 
     @Column(nullable = false)
     private String comment; // 댓글 내용
-
-    @Column(name = "created_date")
-    @CreatedDate
-    private String createDate;
-
-    @Column(name = "modified_date")
-    @LastModifiedDate
-    private String modifiedDate;
-
     @ManyToOne
-    @Column(columnDefinition = "INT default 0")
+    @JoinColumn(columnDefinition = "INT default 0")
     private Likes likeCnt;  // 좋아요 수
 
     @Builder
@@ -47,5 +39,9 @@ public class Comments {
         this.movie = movie;
         this.comment = comment;
         this.likeCnt = likeCnt;
+    }
+
+    public void update(String comment) {
+        this.comment = comment;
     }
 }

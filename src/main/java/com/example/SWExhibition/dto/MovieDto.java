@@ -4,6 +4,8 @@ import com.example.SWExhibition.entity.Movies;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class MovieDto {
 
@@ -15,6 +17,7 @@ public class MovieDto {
     private String nationAlt;   // 제작 국가
     private String genreAlt;    // 장르, ','으로 구분
     private String directors;    // 감독명, '|'으로 감독명 구분
+    private List<CommentResponseDto> comments;
 
     @Builder
     public MovieDto(String movieCd, String movieNm, String movieNmEn, String openDt, String nationAlt, String genreAlt, String directors) {
@@ -59,4 +62,9 @@ public class MovieDto {
                 .poster("https://velog.velcdn.com/images/johnbl030102/post/60146e6e-8481-432f-9de6-dd1a7534684a/image.png")
                 .build();
     }
+
+
 }
+
+
+
