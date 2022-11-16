@@ -4,9 +4,7 @@ import com.example.SWExhibition.entity.Movies;
 import com.example.SWExhibition.service.MoviesService;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.parser.ParseException;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -28,7 +26,12 @@ public class MoviesApiController {
     }
 
     @GetMapping("/api/movie/peopleNm={peopleNm}&movieNm={movieNm}")
-    public void saveMovie1(@PathVariable String peopleNm, @PathVariable String movieNm) throws ParseException {
+    public void saveMovie1(@RequestParam(value = "peopleNm") String peopleNm, @RequestParam(value = "movieNm") String movieNm) throws ParseException {
         moviesService.saveAsPeople(peopleNm, movieNm);
+    }
+
+    @PutMapping("/api/movie/poster/url={posterUrl}&movieCd={movieCd}")
+    public Movies updatePoster(@RequestParam(value = "posterUrl") String posterUrl, @RequestParam(value = "movieCd") String movieCd) {
+        return moviesService.updatePoster(posterUrl, movieCd);
     }
 }

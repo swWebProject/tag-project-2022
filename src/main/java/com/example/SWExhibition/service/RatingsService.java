@@ -12,7 +12,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,16 +25,19 @@ public class RatingsService {
     private final UsersRepository usersRepository;
 
     // 영화의 평균 평점
+    @Transactional(readOnly = true)
     public Float avgRating(Movies movies) {
         return ratingsRepository.avg(movies);
     }
 
     // 해당 영화의 평가 수
+    @Transactional(readOnly = true)
     public Long countRating(Movies movies) {
         return ratingsRepository.countByMovie(movies);
     }
 
     // 유저가 평가한 영화 리스트
+    @Transactional(readOnly = true)
     public List<Movies> ratedMovie(Users users) {
         List<Ratings> ratingsList = ratingsRepository.findByUser(users);
         log.info(ratingsList.toString());
@@ -67,14 +69,13 @@ public class RatingsService {
         else if (target == null)
             ratingsRepository.save(rating); // 그냥 저장
 
+        // 영화의 평균 별점 업데이트
+        Movies updatedMovie = moviesRepository.findByMovieCd(rating.getMovie().getMovieCd());   // 평균 별점을 업데이트 시킬 영화
+        Float averageRating = ratingsRepository.avg(updatedMovie);  // 평가한 영화의 평균 별점
+        updatedMovie.setAverageRating(averageRating);   // 새로운 평균 별정 넣기
+        moviesRepository.save(updatedMovie);    // 업데이트 시킴
+
         return rating;
-    }
-
-    // 현재 날짜와 시간을 알아옴
-    public String ratedDateTime() {
-        LocalDateTime localDateTime = LocalDateTime.now();
-
-        return localDateTime.toString();
     }
 
     // Dto -> Entity
@@ -83,7 +84,6 @@ public class RatingsService {
                 .user(usersRepository.findByUserId(ratingsDto.getUserId()).orElse(null))
                 .movie(moviesRepository.findByMovieCd(ratingsDto.getMovieId()))
                 .rating(ratingsDto.getRating())
-                .date(ratedDateTime())
                 .build();
     }
 }

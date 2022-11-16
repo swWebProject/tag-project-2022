@@ -45,7 +45,7 @@ public class MoviesService {
         // 받아온 영화 이름을 url에 넣음
         String url = movieUrl +
                 apiKey +
-                "&itemPerPage=30" +
+                "&itemPerPage=20" +
                 "&movieNm=" +
                 movieNm;
 
@@ -222,7 +222,7 @@ public class MoviesService {
         for (NaverMovieDto o : naverMovieDtoList) {
             String compareMovieNm = "<b>" + ob.getMovieNm() + "</b>";    // 사이에 <b></b> 값 추가
             // 감독명, 영어 제목 또는 원제를 비교 해서 같으면 저장
-            if (o.getDirector().equals(ob.getDirectors()) && (o.getSubtitle().equalsIgnoreCase(ob.getMovieNmEn()) || compareMovieNm.equals(o.getTitle())) && !moviesRepository.existsByMovieCd(ob.getMovieCd())) {
+            if ((o.getDirector().equals(ob.getDirectors()) || convertName(o.getDirector()).equals(convertName(ob.getDirectors()))) && (o.getSubtitle().equalsIgnoreCase(ob.getMovieNmEn()) || compareMovieNm.equals(o.getTitle())) && !moviesRepository.existsByMovieCd(ob.getMovieCd())) {
                 // 두 Dto를 하나의 Entity로 변환
                 Movies entity = ob.toEntity(o);
                 log.info(entity.toString());
@@ -372,7 +372,15 @@ public class MoviesService {
         return moviesRepository.findByMovieCd(movieCd);
     }
 
+    // 영화 포스터 Url 수정
+    @Transactional
+    public Movies updatePoster(String posterUrl, String movieCd) {
+        Movies updated = moviesRepository.findByMovieCd(movieCd);   // 업데이트 할 Entity
+        updated.setPoster(posterUrl);
+        log.info(updated.toString());
 
+        return moviesRepository.save(updated);
+    }
 
     // JSONObject -> Dto, 필요한 데이터만 담음
     private MovieDto toDto(JSONObject item, String directors) {
@@ -570,6 +578,7 @@ public class MoviesService {
 
     }
 
+    // 영화 이름으로 검색
     @Transactional(readOnly = true)
     public List<Movies> searchMovies(String keyword) {
         List<Movies> movies = moviesRepository.findBymovieNm(keyword);

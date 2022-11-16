@@ -12,7 +12,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -25,19 +24,21 @@ public class WantingsService {
     private final UsersRepository usersRepository;
 
     @Transactional
-    public Wantings updateWanting(PrincipalDetails principalDetails, WantingsDto dto) {
+    // 보고 싶은 영화 목록에 추가 또는 삭제
+    public Integer updateWanting(PrincipalDetails principalDetails, WantingsDto dto) {
         Wantings entity = toEntity(principalDetails, dto);
         log.info(entity.toString());
 
-        // key 값이 0이 아니면 저장
-        if (dto.getKeyValue() != 0) {
+        // DB에 없으면 저장
+        if (!wantingsRepository.existsByMovieAndUser(entity.getMovie(), entity.getUser())) {
             wantingsRepository.save(entity);
+            return 1;
         }
-        // 0이면 삭제
-        else
+        // 있으면 삭제
+        else {
             wantingsRepository.deleteByMovieAndUser(entity.getMovie(), entity.getUser());
-
-        return entity;
+            return 0;
+        }
     }
 
     // 유저가 보고 싶은 영화 목록
@@ -50,19 +51,12 @@ public class WantingsService {
         return wantingsList;
     }
 
-    // 현재 날짜와 시간을 알아옴
-    public String wantedDate() {
-        LocalDateTime localDateTime = LocalDateTime.now();
-
-        return localDateTime.toString();
-    }
 
     // Dto -> Entity
     public Wantings toEntity(PrincipalDetails principalDetails, WantingsDto dto) {
         return Wantings.builder()
                 .movie(moviesRepository.findByMovieCd(dto.getMovieId()))
                 .user(usersRepository.findByUserId(principalDetails.getUsername()).orElse(null))
-                .date(wantedDate())
                 .build();
     }
 }

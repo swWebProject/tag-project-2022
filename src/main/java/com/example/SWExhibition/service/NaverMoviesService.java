@@ -35,7 +35,7 @@ public class NaverMoviesService {
         // 받아온 영화 이름을 url에 넣음
         String apiUrl = NaverMovieUrl +
                 movieNm +
-                "&display=30";
+                "&display=20";
 
         // 해더 값 지정
         HttpHeaders headers = new HttpHeaders();

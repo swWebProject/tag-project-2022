@@ -23,10 +23,10 @@ public class WatchingsApiController {
 
     // 보는 중인 영화 추가
     @PostMapping("/api/post/watching")
-    public ResponseEntity<Watchings> postWanting(@AuthenticationPrincipal PrincipalDetails principalDetails, @RequestBody WatchingsDto dto) {
-        Watchings watching = watchingsService.updateWatching(principalDetails, dto);    // 세션 정보와 보내준 값으로 보고 싶은 영화 업데이트 ( 추가 또는 삭제)
+    public ResponseEntity<Integer> postWanting(@AuthenticationPrincipal PrincipalDetails principalDetails, @RequestBody WatchingsDto dto) {
+        Integer watching = watchingsService.updateWatching(principalDetails, dto);    // 세션 정보와 보내준 값으로 보고 싶은 영화 업데이트 ( 추가 또는 삭제)
 
-        return ResponseEntity.status(HttpStatus.OK).body(watching);
+        return ResponseEntity.status(HttpStatus.OK).body(watching); // 1이면 보고 싶은 영화, 0이면 보고 싶지 않은 영화 ( DB에서 삭제)
     }
 
     // 유저의 보고 싶은 영화 목록

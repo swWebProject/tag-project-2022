@@ -11,7 +11,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap" rel="stylesheet">
-    <script src="/js/movie.js"></script>
 </head>
 
 {{>layouts/header}}
@@ -32,19 +31,23 @@
         <div id="movie_user_want">
             <div id="user_want_watch">
                 <h6>보고싶어요</h6>
-                <a href="" class="movie_user_want_a"><i class="fa-solid fa-folder-closed"></i></a>
+                <button id="wantButton" type="button" class="movie_user_want_a">
+                    <i class="fa-solid fa-folder-closed"></i>
+                    <input id="wantMovieId" type="hidden" value={{movieInfo.movieCd}} name="movieId">
+                    <input id="wantUserId" type="hidden" value={{#user}}{{userId}}{{/user}} name="userId">
+                </button>
             </div>
+
             <div id="user_watching">
                 <h6>보는 중</h6>
-                <a href="" class="movie_user_want_a"><i class="fa-solid fa-laptop"></i></a>
+                <button id="watchButton" class="movie_user_want_a">
+                    <i class="fa-solid fa-laptop"></i>
+                    <input id="watchMovieId" type="hidden" value={{movieInfo.movieCd}} name="movieId">
+                    <input id="watchUserId" type="hidden" value={{#user}}{{userId}}{{/user}} name="userId">
+                </button>
             </div>
-            <div id="user_want_location">
-                <h6>영화 촬영지 정보</h6>
-                <a href="" class="movie_user_want_a"><i class="fa-solid fa-camera"></i></a>
-            </div>
-        </div>
-    </div>
-    <div id="movie_information">
+
+            <div id="movie_information">
         <h4>영화 정보</h4>
         <p>{{movieInfo.movieNm}}</p>
         <p>{{openYear}} | {{genres}} | {{movieInfo.nationAlt}}</p>
@@ -61,6 +64,7 @@
             <p id="comment_user"></p>
         </div>
     </div>
+            <script src="/js/movie.js"></script>
 </section>
 
 {{>layouts/footer}}

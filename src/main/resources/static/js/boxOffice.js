@@ -19,13 +19,13 @@ let targetDt = "&targetDt=" + movieSearch;
 
 const movie_url = "http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?" + api_key_movie + targetDt;
 const movie_detail_url = "http://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.json?" + api_key_movie + "&movieCd=";
-
+let cnt = 1;
 /** 일별 박스오피스 호출 API fetch 함수*/
 function callFetchMovie() {
     fetch("api/search/dailyBoxOffice")
         .then(response => response.json())
         .then(function (json) {
-            for (let i = 0; i < json.length; i++) {
+            for (let i = json.length - 1; i >= 0 ; i--) {
                 let movieJson = json[i].movies;
                 console.log(movieJson);
 
@@ -51,7 +51,7 @@ function callFetchMovie() {
                 new_pTag_movieImg.setAttribute('type', 'image');
                 new_pTag_movieImg.setAttribute('src', `${movieJson.poster}`);
 
-                new_pTag_movieRank.append(`${i + 1}`);
+                new_pTag_movieRank.append(`${cnt}`);
                 new_pTag_movieNm.append(`${movieJson.movieNm}`);
                 new_pTag_movieOpenDt.append(`${movieJson.openDt.substr(0, 4)}`);
                 new_pTag_movieNation.append(`${movieJson.nationAlt}`);
@@ -66,7 +66,8 @@ function callFetchMovie() {
 
                 plusSection.appendChild(new_aTag);
 
-                console.log(movieJson.movieCd);
+                console.log(movieJson.movieCd)
+                cnt++;
             } // for end
 
         }); // second then func end
