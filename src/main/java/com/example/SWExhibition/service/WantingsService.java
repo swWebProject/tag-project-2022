@@ -39,11 +39,15 @@ public class WantingsService {
 
         return entity;
     }
-    
+
+    // 유저가 보고 싶은 영화 목록
     public List<Wantings> showWantings(PrincipalDetails principalDetails) {
         Users user = usersRepository.findByUserId(principalDetails.getUsername()).orElse(null); // 유저 정보 가져 오기
-        
-        return wantingsRepository.findByUser(user); // 유저가 보고 싶은 영화 목록 반환
+
+        List<Wantings> wantingsList = wantingsRepository.findByUser(user); // 유저가 보고 싶은 영화 목록 반환
+        log.info(wantingsList.toString());
+
+        return wantingsList;
     }
 
     // 현재 날짜와 시간을 알아옴
