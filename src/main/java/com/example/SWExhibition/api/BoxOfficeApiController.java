@@ -1,6 +1,5 @@
 package com.example.SWExhibition.api;
 
-import com.example.SWExhibition.repository.BoxOfficeRepository;
 import com.example.SWExhibition.service.BoxOfficeService;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.parser.ParseException;
@@ -14,8 +13,8 @@ import java.util.List;
 public class BoxOfficeApiController {
 
     private final BoxOfficeService boxOfficeService;
-    private final BoxOfficeRepository boxOfficeRepository;
 
+    // 박스오피스 데이터를 초기화 시키고 DB에 저장
     @GetMapping("/api/get/dailyBoxOffice")
     public List<?> dailyBoxOffice() throws ParseException {
         boxOfficeService.deleteAll();   // 초기화
@@ -23,8 +22,9 @@ public class BoxOfficeApiController {
         return boxOfficeService.returnBoxOffice();
     }
 
+    // 박스오피스 데이터를 DB에서 내보내기
     @GetMapping("/api/search/dailyBoxOffice")
     public List<?> daiyBoxOffice() {
-        return boxOfficeRepository.findAll();
+        return boxOfficeService.returnBoxOffice();
     }
 }

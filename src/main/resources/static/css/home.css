@@ -80,10 +80,61 @@ i.fa-solid {
 }
 
 /* section */
+#movie_a {
+    text-decoration: none;
+    color: rgb(248, 248, 248);
+}
+
+#movie_img[src="https://velog.velcdn.com/images/johnbl030102/post/60146e6e-8481-432f-9de6-dd1a7534684a/image.png"] {
+    width: 164px;
+    height: 251px;
+}
+
 #section > h3 {
     color: rgb(248, 248, 248);
     font-weight: 900;
     margin: 20px 0 0 20px;
+}
+
+#section_main_div {
+    display: flex;
+    width: 98%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    white-space: nowrap;
+    flex-wrap: wrap;
+    padding-bottom: 20px;
+}
+
+#new_pTag {
+    color: #f8f8f8;
+    display: flex;
+    flex-direction:column;
+    margin: 20px 0 0 20px;
+    width: 165px;
+}
+
+#new_pTag > #movie_rank {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+
+#new_pTag > #movie_title {
+    font-size: 15px;
+    width: 164px;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    word-wrap:normal;
+    overflow:hidden;
+    margin-top: 5px;
+}
+
+#movie_img {
+    width: 164px;
+    height: 251px;
+    border-radius: 5px;
+    background-color: rgb(248, 248, 248);
 }
 
 /*footer*/

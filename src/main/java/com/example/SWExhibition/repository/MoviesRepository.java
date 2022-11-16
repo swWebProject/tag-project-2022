@@ -11,6 +11,6 @@ public interface MoviesRepository extends JpaRepository<Movies, Long> {
     boolean existsByMovieCd(String movieCd);    // DB에 해당 영화 코드가 있는지 검사
     Movies findByMovieCd(String movieCd); // DB에서 MovieCd로 데이터 불러오기
 
-    List<Movies> findBymovieNm(String keyword);
+    List<Movies> findByTitle(String keyword);
 
 }

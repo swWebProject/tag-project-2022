@@ -1,14 +1,10 @@
 package com.example.SWExhibition.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
-@AllArgsConstructor
 @NoArgsConstructor
 @ToString
 @Getter
@@ -27,4 +23,12 @@ public class Wantings {
 
     @Column(nullable = false)
     private String date; // 등록된 날짜와 시간
+
+    @Builder
+    public Wantings(Long id, Users user, Movies movie, String date) {
+        this.id = id;
+        this.user = user;
+        this.movie = movie;
+        this.date = date;
+    }
 }

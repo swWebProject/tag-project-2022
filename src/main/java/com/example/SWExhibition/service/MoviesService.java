@@ -570,9 +570,9 @@ public class MoviesService {
 
     }
     @Transactional
-    public List<Movies> searchMovies(String keyword) {
-        List<Movies> movies = moviesRepository.findBymovieNm(keyword);
-        List<Movies> movieDtoList = new ArrayList<>();
+    public List<MovieDto> searchMovies(String keyword) {
+        List<Movies> movies = moviesRepository.findByTitle(keyword);
+        List<MovieDto> movieDtoList = new ArrayList<>();
 
         if(movies.isEmpty()) return movieDtoList;
 
@@ -582,10 +582,29 @@ public class MoviesService {
         return movieDtoList;
     }
 
-    private Movies convertEntityToDto(Movies movie) {
-        return Movies.builder()
+    private MovieDto convertEntityToDto(Movies movie) {
+        return MovieDto.builder()
                 .movieNm(movie.getMovieNm())
-                .poster(movie.getPoster())
                 .build();
     }
+    @Transactional
+    public List<NaverMovieDto> searchMoviesImage(String keyword) {
+        List<Movies> movieImage = moviesRepository.findByTitle(keyword);
+        List<NaverMovieDto> naverMovieDtoList = new ArrayList<>();
+
+        if(movieImage.isEmpty()) return naverMovieDtoList;
+
+        for(Movies movie : movieImage) {
+            naverMovieDtoList.add(this.convertToDto(movie));
+        }
+        return naverMovieDtoList;
+    }
+    private NaverMovieDto convertToDto(Movies movie) {
+        return NaverMovieDto.builder()
+                .title(movie.getMovieNm())
+                .image(movie.getPoster())
+                .build();
+    }
+
+
 }

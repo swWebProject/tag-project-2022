@@ -1,0 +1,21 @@
+{{#user}}
+    <div id="current_star">
+        <h3>현재 별점</h3>
+        <i class="fa-solid fa-star"></i>
+        <h3 id="movie_star"></h3>
+    </div>
+{{/user}}
+<<form id="star_frm" action="/movie/rating" method="post">
+    <div id="star_rating">
+        <!-- https://gurtn.tistory.com/80 -->
+        <p>선택한 별점 표시</p>
+        <span class="star">
+                        ★★★★★
+                        <span>★★★★★</span>
+                        <input id="input_star" type="range" oninput="drawStar(this)" value="1" step="1" min="0"
+                               max="10" name="rating"/>
+                    <input type="hidden" value={{movieInfo.movieCd}} name="movieId">
+                    <input type="hidden" value={{#user}}{{userId}}{{/user}} name="userId">
+                    </span>
+    </div>
+</form>

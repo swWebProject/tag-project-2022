@@ -1,19 +1,14 @@
 package com.example.SWExhibition.controller;
 
-import com.example.SWExhibition.entity.Movies;
+import com.example.SWExhibition.dto.MovieDto;
+import com.example.SWExhibition.dto.NaverMovieDto;
 import com.example.SWExhibition.service.MoviesService;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
-@Controller
-@Slf4j
-@RequestMapping("/home/search")
 public class SearchController {
 
     private final MoviesService moviesService;
@@ -22,13 +17,14 @@ public class SearchController {
         this.moviesService = moviesService;
     }
 
-    @GetMapping("/{keyword}")
-    public String searchMovie(@RequestParam String keyword, Model model) {
-        List<Movies> movieList = moviesService.searchMovies(keyword);
-        model.addAttribute("movieList",movieList);
+    @GetMapping("/home/search/{keyword}")
+    public String searchMovie(@RequestParam(value = "keyword") String keyword, Model model) {
+        List<MovieDto> movieDtoList = moviesService.searchMovies(keyword);
+        List<NaverMovieDto> movieImage = moviesService.searchMoviesImage(keyword);
+        model.addAttribute("movieDtoList",movieDtoList);
+        model.addAttribute("movieImage", movieImage);
 
-
-        return "home/search";
+        return "home/search.html";
     }
 
 }

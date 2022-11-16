@@ -11,6 +11,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
@@ -109,6 +110,14 @@ public class BoxOfficeService {
             }
         }
     }
+
+    // 자정 때마다 전날 박스오피스 정보 초기화 하고 저장
+    @Scheduled(cron = "0 0 00 * * ?")
+    public void boxOfficeInitialization() throws ParseException {
+        deleteAll();    // 초기화
+        save(); // 저장
+    }
+
 
     // DB에 저장되어 있는 일별 박스오피스 값 주기
     @Transactional(readOnly = true)

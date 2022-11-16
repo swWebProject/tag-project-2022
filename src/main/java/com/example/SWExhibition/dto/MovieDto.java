@@ -46,7 +46,7 @@ public class MovieDto {
                 .build();
     }
 
-    // 영화진흥위원회 api에만 있는 영화, 포스터는 없음
+    // 영화진흥위원회 api에만 있는 영화, 포스터는 없음 (대체 사진)
     // Dto -> Entity
     public Movies toEntity() {
         return Movies.builder()
@@ -56,6 +56,7 @@ public class MovieDto {
                 .movieNmEn(movieNmEn)
                 .nationAlt(nationAlt)
                 .openDt(openDt)
+                .poster("https://velog.velcdn.com/images/johnbl030102/post/60146e6e-8481-432f-9de6-dd1a7534684a/image.png")
                 .build();
     }
 }
