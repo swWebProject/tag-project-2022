@@ -39,7 +39,7 @@ public class Movies {
     @Column
     private Float averageRating;    // 평균 평점
 
-    @Column
+    @ManyToOne
     @JoinColumn(name = "comment_comment")
     private Comments comments;
 

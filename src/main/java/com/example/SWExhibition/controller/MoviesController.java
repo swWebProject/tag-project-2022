@@ -29,7 +29,7 @@ public class MoviesController {
 
     // 영화 상세 페이지
     @GetMapping("/movie/{movieCd}")
-    public String show(@PathVariable String movieCd, Model model) {
+    public String show(@PathVariable String movieCd, Model model, @AuthenticationPrincipal PrincipalDetails user) {
         Movies movie = moviesService.show(movieCd); // DB에서 데이터를 가져옴
         String genres = movies_has_genresService.getGenres(movie);   // 해당 영화와 매핑된 장르 정보들 불러오기
         String openYear = "미개봉";    // 개봉년도 디폴트 값
@@ -43,13 +43,8 @@ public class MoviesController {
         model.addAttribute("genres", genres);
         model.addAttribute("openYear", openYear);
 
-        return "/movie/movie";
-    }
-
-    @GetMapping("/movie/{movieCd}")
-    public String read(@PathVariable String movieCd, @AuthenticationPrincipal PrincipalDetails user, Model model) {
-        Movies dto = moviesService.show(movieCd);
-        List<CommentResponseDto> comments = (List<CommentResponseDto>) dto.getComments();
+        //댓글 기능
+        List<CommentResponseDto> comments = (List<CommentResponseDto>) movie.getComments();
 
         /* 댓글 관련 */
         if (comments != null && !comments.isEmpty()) {
@@ -61,7 +56,7 @@ public class MoviesController {
             model.addAttribute("user", user.getNickname());
 
             /*게시글 작성자 본인인지 확인*/
-            if (dto.getComments().getUser().equals(user.getNickname())) {
+            if (movie.getComments().getUser().equals(user.getNickname())) {
                 model.addAttribute("writer", true);
             }
             for (int i = 0; i < comments.size(); i++) {
@@ -71,7 +66,8 @@ public class MoviesController {
                 model.addAttribute("isWriter",isWriter);
             }
         }
-        model.addAttribute("movie", dto);
+        model.addAttribute("movie", movie);
+
         return "/movie/movie";
     }
 
