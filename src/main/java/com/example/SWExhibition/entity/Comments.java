@@ -1,15 +1,13 @@
 package com.example.SWExhibition.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import org.hibernate.annotations.DynamicUpdate;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 
 @Entity
-@AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @ToString
@@ -30,6 +28,24 @@ public class Comments {
     @Column(nullable = false)
     private String comment; // 댓글 내용
 
+    @Column(name = "created_date")
+    @CreatedDate
+    private String createDate;
+
+    @Column(name = "modified_date")
+    @LastModifiedDate
+    private String modifiedDate;
+
+    @ManyToOne
     @Column(columnDefinition = "INT default 0")
-    private Long likeCnt;  // 좋아요 수
+    private Likes likeCnt;  // 좋아요 수
+
+    @Builder
+    public Comments(Long commentID, Users user, Movies movie, String comment, Likes likeCnt) {
+        this.commentID = commentID;
+        this.user = user;
+        this.movie = movie;
+        this.comment = comment;
+        this.likeCnt = likeCnt;
+    }
 }

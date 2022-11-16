@@ -3,6 +3,7 @@ package com.example.SWExhibition.controller;
 import com.example.SWExhibition.entity.Movies;
 import com.example.SWExhibition.repository.RatingsRepository;
 import com.example.SWExhibition.repository.UsersRepository;
+import com.example.SWExhibition.service.CommentsService;
 import com.example.SWExhibition.service.MoviesService;
 import com.example.SWExhibition.service.Movies_has_genresService;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +20,7 @@ public class MoviesController {
     private final Movies_has_genresService movies_has_genresService;
     private final RatingsRepository ratingsRepository;
     private final UsersRepository usersRepository;
+    private final CommentsService commentsService;
 
     // 영화 상세 페이지
     @GetMapping("/movie/{movieCd}")

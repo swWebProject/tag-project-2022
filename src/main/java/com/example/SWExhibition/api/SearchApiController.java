@@ -19,5 +19,4 @@ public class SearchApiController {
     public List<Movies> keywordMovieSearch(@PathVariable String keyword) throws ParseException {
         return moviesService.searchMovies(keyword);
     }
-
 }
