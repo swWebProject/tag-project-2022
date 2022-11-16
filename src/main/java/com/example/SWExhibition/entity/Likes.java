@@ -16,10 +16,12 @@ public class Likes {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long likeId;
 
+    //좋야요 한 유저 아이디
     @ManyToOne
     @JoinColumn(name = "users_Id")
     private Users userId;
 
+    //좋아요 한 댓글
     @ManyToOne
     @JoinColumn(name = "comments_commentId")
     private Comments comments;
