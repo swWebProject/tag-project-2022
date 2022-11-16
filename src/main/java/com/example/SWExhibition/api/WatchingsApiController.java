@@ -8,10 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -34,5 +31,13 @@ public class WatchingsApiController {
     public List<Watchings> getWantingList(@AuthenticationPrincipal PrincipalDetails principalDetails) {
 
         return watchingsService.showWatchings(principalDetails);
+    }
+
+    // 보는 중인 영화에 대한 참, 거짓
+    @GetMapping("/api/get/wanting/movieCd={movieCd}")
+    public ResponseEntity<Boolean> getWatching(@AuthenticationPrincipal PrincipalDetails principalDetails, @PathVariable String movieCd) {
+        Boolean existWanting = watchingsService.show(principalDetails, movieCd);
+
+        return ResponseEntity.status(HttpStatus.OK).body(existWanting);
     }
 }

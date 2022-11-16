@@ -45,7 +45,7 @@ public class MoviesService {
         // 받아온 영화 이름을 url에 넣음
         String url = movieUrl +
                 apiKey +
-                "&itemPerPage=20" +
+                "&itemPerPage=30" +
                 "&movieNm=" +
                 movieNm;
 
@@ -584,7 +584,7 @@ public class MoviesService {
         List<Movies> movies = moviesRepository.findBymovieNm(keyword);
         List<Movies> movieDtoList = new ArrayList<>();
 
-        if(movies.isEmpty()) return movieDtoList;
+        if (movies.isEmpty()) return null;
 
         for(Movies movie : movies) {
             movieDtoList.add(movie);

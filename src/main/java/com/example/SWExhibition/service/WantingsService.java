@@ -1,6 +1,7 @@
 package com.example.SWExhibition.service;
 
 import com.example.SWExhibition.dto.WantingsDto;
+import com.example.SWExhibition.entity.Movies;
 import com.example.SWExhibition.entity.Users;
 import com.example.SWExhibition.entity.Wantings;
 import com.example.SWExhibition.repository.MoviesRepository;
@@ -43,12 +44,21 @@ public class WantingsService {
 
     // 유저가 보고 싶은 영화 목록
     public List<Wantings> showWantings(PrincipalDetails principalDetails) {
-        Users user = usersRepository.findByUserId(principalDetails.getUsername()).orElse(null); // 유저 정보 가져 오기
+        Users user = usersRepository.findByUserId(principalDetails.getUsername()).orElse(null); // 유저 정보 가져오기
 
         List<Wantings> wantingsList = wantingsRepository.findByUser(user); // 유저가 보고 싶은 영화 목록 반환
         log.info(wantingsList.toString());
 
         return wantingsList;
+    }
+    
+    // 영화와 사용자 정에 해당하는 값 불러오기
+    @Transactional(readOnly = true)
+    public Boolean show(PrincipalDetails principalDetails, String movieCd) {
+        Users user = usersRepository.findByUserId(principalDetails.getUsername()).orElse(null); // 유저 정보 가져오기
+        Movies movie = moviesRepository.findByMovieCd(movieCd); // 요청 영화 정보 가져오기
+        
+        return wantingsRepository.existsByMovieAndUser(movie, user);    // 존재 여부 확인
     }
 
 

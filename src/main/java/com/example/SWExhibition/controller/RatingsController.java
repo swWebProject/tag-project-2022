@@ -17,9 +17,10 @@ public class RatingsController {
 
     // 평점 정보 받아오기
     @PostMapping("/movie/rating")
-    public String getRating(RatingsDto dto) {
+    public String postRating(RatingsDto dto) {
         Ratings rating = ratingsService.save(dto);    // 평점 정보 저장
 
         return "redirect:/movie/" + rating.getMovie().getMovieCd();
     }
+
 }

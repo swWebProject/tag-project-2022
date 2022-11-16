@@ -1,6 +1,19 @@
 <body>
 
 <!------ header ------>
+<script>
+    const clickEnter = () => {
+        const searchKey = document.getElementById('movie_search').value;
+        fetch('api/search/' + `${searchKey}`)
+                .then(response => response.json())
+                .then(function (json) {
+                    console.log(json);
+                })
+                .catch((err) => {
+                    console.log(err);
+                })
+    }
+</script>
 <header>
     <nav class="navbar">
         <div id="nav_name">
@@ -9,11 +22,8 @@
                 <h2>주토피디아</h2>
             </a>
         </div>
-        <div id="search">
-            <i class="fa-solid fa-magnifying-glass"></i>
-            <input id="movie_search" type="text" placeholder="원하는 영화 제목 검색"
-                   onkeyup="if (window.event.keyCode===13){alert(`hi`)}" />
-        </div>
+        <input id="movie_search" type="text" placeholder="원하는 영화 제목 검색"
+               onkeyup="if(window.event.keyCode==13){clickEnter();}" />
         {{^user}}
             <div id="login_bar">
                 <a href="/">

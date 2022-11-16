@@ -7,6 +7,7 @@ import com.example.SWExhibition.entity.Users;
 import com.example.SWExhibition.repository.MoviesRepository;
 import com.example.SWExhibition.repository.RatingsRepository;
 import com.example.SWExhibition.repository.UsersRepository;
+import com.example.SWExhibition.security.PrincipalDetails;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -49,6 +50,15 @@ public class RatingsService {
         }
         
         return movieList;
+    }
+    
+    // 유저와 영화 값에 해당하는 평점 정보 
+    @Transactional(readOnly = true)
+    public Ratings getRating(PrincipalDetails principalDetails, String movieCd) {
+        Users user = usersRepository.findByUserId(principalDetails.getUsername()).orElse(null); // 유저에 대한 정보
+        Movies movie = moviesRepository.findByMovieCd(movieCd); // 해당 영화에 대한 정보
+        
+        return ratingsRepository.findByUserAndMovie(user, movie);
     }
 
     // 저장

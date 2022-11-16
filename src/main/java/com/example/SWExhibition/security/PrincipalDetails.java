@@ -36,7 +36,10 @@ public class PrincipalDetails implements UserDetails {
     public String getUsername() {
         return user.getUserId();
     }
-
+    //닉네임을 가지고 오는 메소드
+    public String getNickname() {
+        return user.getNickname();
+    }
 
     // 계정 만료 확인
     @Override
