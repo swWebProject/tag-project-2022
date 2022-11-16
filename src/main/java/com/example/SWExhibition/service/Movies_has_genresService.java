@@ -19,7 +19,8 @@ public class Movies_has_genresService {
 
     // 장르명을 하나의 문자열로 만듦
     public String getGenres(Movies movie) {
-        List<Movies_has_genres> moviesHasGenresList = movies_has_genresRepository.findByMovieId(movie);
+        List<Movies_has_genres> moviesHasGenresList = movies_has_genresRepository.findByMovieId(movie); // 영화와 매핑된 장르 값 불러오기
+        log.info(moviesHasGenresList.toString());
         StringBuilder sb = new StringBuilder(); // 여러 장르를 하나의 문자열로 만들기
 
         for (int i = 0; i < moviesHasGenresList.size(); i++) {
