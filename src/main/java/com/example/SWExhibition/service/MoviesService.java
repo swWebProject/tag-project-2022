@@ -1,9 +1,6 @@
 package com.example.SWExhibition.service;
 
-import com.example.SWExhibition.dto.FilmoInfo;
-import com.example.SWExhibition.dto.MovieDto;
-import com.example.SWExhibition.dto.NaverMovieDto;
-import com.example.SWExhibition.dto.ParticipantsDto;
+import com.example.SWExhibition.dto.*;
 import com.example.SWExhibition.entity.*;
 import com.example.SWExhibition.repository.Movie_has_participantsRepository;
 import com.example.SWExhibition.repository.MoviesRepository;
@@ -374,9 +371,9 @@ public class MoviesService {
 
     // 영화 포스터 Url 수정
     @Transactional
-    public Movies updatePoster(String posterUrl, String movieCd) {
-        Movies updated = moviesRepository.findByMovieCd(movieCd);   // 업데이트 할 Entity
-        updated.setPoster(posterUrl);
+    public Movies updatePoster(PosterUrlDto dto) {
+        Movies updated = moviesRepository.findByMovieCd(dto.getMovieCd());   // 업데이트 할 Entity
+        updated.setPoster(dto.getPosterUrl());
         log.info(updated.toString());
 
         return moviesRepository.save(updated);

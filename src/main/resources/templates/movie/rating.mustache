@@ -5,17 +5,30 @@
         <h3 id="movie_star"></h3>
     </div>
 {{/user}}
-<<form id="star_frm" action="/movie/rating" method="post">
-    <div id="star_rating">
-        <!-- https://gurtn.tistory.com/80 -->
-        <p>선택한 별점 표시</p>
-        <span class="star">
-                        ★★★★★
-                        <span>★★★★★</span>
-                        <input id="input_star" type="range" oninput="drawStar(this)" value="1" step="1" min="0"
-                               max="10" name="rating"/>
-                    <input type="hidden" value={{movieInfo.movieCd}} name="movieId">
-                    <input type="hidden" value={{#user}}{{userId}}{{/user}} name="userId">
-                    </span>
+<div class="star_rating">
+    <div class="rating-wrap">
+        <fieldset class="rating">
+            <h3 id="current_value"></h3>
+            <input type="radio" id="star10" name="rating" value="10" onclick="clickStar(this, {{movieInfo.movieCd}})" /><label
+                for="star10" class="full"></label>
+            <input type="radio" id="star9" name="rating" value="9" onclick="clickStar(this, {{movieInfo.movieCd}})" /><label
+                for="star9" class="half"></label>
+            <input type="radio" id="star8" name="rating" value="8" onclick="clickStar(this, {{movieInfo.movieCd}})" /><label
+                for="star8" class="full"></label>
+            <input type="radio" id="star7" name="rating" value="7" onclick="clickStar(this, {{movieInfo.movieCd}})" /><label
+                for="star7" class="half"></label>
+            <input type="radio" id="star6" name="rating" value="6" onclick="clickStar(this, {{movieInfo.movieCd}})" /><label
+                for="star6" class="full"></label>
+            <input type="radio" id="star5" name="rating" value="5" onclick="clickStar(this, {{movieInfo.movieCd}})" /><label
+                for="star5" class="half"></label>
+            <input type="radio" id="star4" name="rating" value="4" onclick="clickStar(this, {{movieInfo.movieCd}})" /><label
+                for="star4" class="full"></label>
+            <input type="radio" id="star3" name="rating" value="3" onclick="clickStar(this, {{movieInfo.movieCd}})" /><label
+                for="star3" class="half"></label>
+            <input type="radio" id="star2" name="rating" value="2" onclick="clickStar(this, {{movieInfo.movieCd}})" /><label
+                for="star2" class="full"></label>
+            <input type="radio" id="star1" name="rating" value="1" onclick="clickStar(this, {{movieInfo.movieCd}})" /><label
+                for="star1" class="half"></label>
+        </fieldset>
     </div>
-</form>
+</div>

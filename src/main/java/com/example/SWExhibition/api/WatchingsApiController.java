@@ -34,7 +34,7 @@ public class WatchingsApiController {
     }
 
     // 보는 중인 영화에 대한 참, 거짓
-    @GetMapping("/api/get/wanting/movieCd={movieCd}")
+    @GetMapping("/api/get/watching/movieCd={movieCd}")
     public ResponseEntity<Boolean> getWatching(@AuthenticationPrincipal PrincipalDetails principalDetails, @PathVariable String movieCd) {
         Boolean existWanting = watchingsService.show(principalDetails, movieCd);
 

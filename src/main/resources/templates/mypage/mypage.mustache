@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -11,6 +12,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/css/mypage.css">
 </head>
+
 
 {{>layouts/header}}
 
@@ -53,10 +55,43 @@
     </div>
 </section>
 
+
 <script>
-    fetch()
-            .then((response) => response.json())
-            .then((data) => console.log(data));
+    /** 마이페이지 정보 fetch 호출 함수 */
+    function callFetchMypageFirst() {
+        fetch('/api/get/wanting')
+                .then(response => response.json())
+                .then(function (json) {
+                    console.log(json);
+                })
+                .catch((err) => {
+                    console.log(err);
+                })
+    }
+
+    function callFetchMypageSecond() {
+        fetch('/api/get/wanting')
+                .then(response => response.json())
+                .then(function (json) {
+                    console.log(json);
+                })
+                .catch((err) => {
+                    console.log(err);
+                })
+    }
+    callFetchMypageSecond();
+
+    function callFetchMypageThird() {
+        fetch('/api/get/watching')
+                .then(response => response.json())
+                .then(function (json) {
+                    console.log(json);
+                })
+                .catch((err) => {
+                    console.log(err);
+                })
+    }
+    callFetchMypageThird();
 </script>
 
 {{>layouts/footer}}
