@@ -34,7 +34,7 @@ public class BoxOfficeService {
     private final String boxOffieUrl = "http://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?"; // 영화 진흥 위원회 일별 박스오피스 api url
     private final String apiKey = "key=e6ce283cc89c58ec3419fe19ade59b0e";   // api 키 값
 
-    private String targetDt = yesterday();   // 어제 날짜
+    private String yesterday = yesterday();   // 어제 날짜
 
 
     // 어제 날짜 구하기 yyyymmdd
@@ -48,12 +48,12 @@ public class BoxOfficeService {
     }
 
     // 영화 정보 불러오기
-    public List<BoxOfficeDto> dailyBoxOfficeInfo() throws ParseException {
+    public List<BoxOfficeDto> dailyBoxOfficeInfo(String date) throws ParseException {
         // 받아온 영화 이름을 url에 넣음
         String url = boxOffieUrl +
                 apiKey +
                 "&targetDt=" +
-                this.targetDt;
+                date;
 
         // 영화 목록 api를 결과를 String 형태로 받음
         String data = restTemplate.getForObject(url, String.class);
@@ -82,10 +82,10 @@ public class BoxOfficeService {
         return boxOfficeDtoList;
     }
 
-    // 박스 오피스 DB에 저장
+    // 전날 박스 오피스 DB에 저장
     @Transactional
     public void save() throws ParseException {
-        List<BoxOfficeDto> boxOfficeDtoList = dailyBoxOfficeInfo();
+        List<BoxOfficeDto> boxOfficeDtoList = dailyBoxOfficeInfo(this.yesterday);
 
         // DB에 없으면 저장
         for (BoxOfficeDto dto : boxOfficeDtoList) {
@@ -107,6 +107,21 @@ public class BoxOfficeService {
 
                 // 저장
                 boxOfficeRepository.save(entity);
+            }
+        }
+    }
+
+    // 특정 날의 박스 오피스로 영화 데이터만 저장
+    @Transactional
+    public void saveMovies(String date) throws ParseException {
+        List<BoxOfficeDto> boxOfficeDtoList = dailyBoxOfficeInfo(date);
+
+        // DB에 없으면 저장
+        for (BoxOfficeDto dto : boxOfficeDtoList) {
+            // DB에 영화가 저장되어 있지 않으면 영화 저장
+            if (!moviesRepository.existsByMovieCd(dto.getMovieCd())) {
+                Movies movies = moviesService.findWithMovieCode(dto.getMovieCd());
+                log.info(movies.toString());
             }
         }
     }

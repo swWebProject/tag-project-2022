@@ -4,6 +4,7 @@ import com.example.SWExhibition.service.BoxOfficeService;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.parser.ParseException;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -26,5 +27,11 @@ public class BoxOfficeApiController {
     @GetMapping("/api/search/dailyBoxOffice")
     public List<?> daiyBoxOffice() {
         return boxOfficeService.returnBoxOffice();
+    }
+
+    // 특정 날의 박스오피스 값으로 영화 데이터 저장
+    @GetMapping("/api/boxoffice/save/movie/targetDate={targetDate}")
+    public void toSaveMovies(@PathVariable String targetDate) throws ParseException {
+        boxOfficeService.saveMovies(targetDate);
     }
 }
