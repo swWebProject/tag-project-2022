@@ -76,6 +76,8 @@ public class UsersController {
         usersService.signUp(userDto);
 
         return "redirect:/user/login";
+
+
     }
 
 }

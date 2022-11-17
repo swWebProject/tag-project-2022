@@ -5,6 +5,7 @@ import com.example.SWExhibition.entity.*;
 import com.example.SWExhibition.repository.Movie_has_participantsRepository;
 import com.example.SWExhibition.repository.MoviesRepository;
 import com.example.SWExhibition.repository.Movies_has_genresRepository;
+import com.sun.xml.bind.util.AttributesImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONArray;
@@ -578,7 +579,8 @@ public class MoviesService {
     // 영화 이름으로 검색
     @Transactional(readOnly = true)
     public List<Movies> searchMovies(String keyword) {
-        List<Movies> movies = moviesRepository.findBymovieNm(keyword);
+        List<Movies> movies = moviesRepository.findByMovieNm(keyword);
+
         List<Movies> movieDtoList = new ArrayList<>();
 
         if (movies.isEmpty()) return null;

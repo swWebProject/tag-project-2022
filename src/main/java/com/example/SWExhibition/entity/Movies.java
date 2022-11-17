@@ -38,7 +38,9 @@ public class Movies {
     private Float averageRating;    // 평균 평점
 
     @ManyToOne
+    @JoinColumn(name = "comment_comment")
     private Comments comments;
+
     @Builder
     public Movies(Long id, String movieCd, String movieNm, String movieNmEn, String poster, String openDt, String nationAlt, Float averageRating) {
         this.id = id;
