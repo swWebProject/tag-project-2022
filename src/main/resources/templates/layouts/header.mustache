@@ -3,15 +3,9 @@
 <!------ header ------>
 <script>
     const clickEnter = () => {
-        const searchKey = document.getElementById('movie_search').value;
-        fetch('api/search/' + `${searchKey}`)
-                .then(response => response.json())
-                .then(function (json) {
-                    console.log(json);
-                })
-                .catch((err) => {
-                    console.log(err);
-                })
+        var movieNm = document.getElementById('movie_search').value;
+        console.log(movieNm)
+        location.href = "/search/" + movieNm
     }
 </script>
 <header>
@@ -24,7 +18,8 @@
         </div>
         <div id="search">
             <i class="fa-solid fa-magnifying-glass"></i>
-            <input id="movie_search" type="text" placeholder="원하는 영화 제목 검색"/>
+            <input id="movie_search" type="text" placeholder="원하는 영화 제목 검색"
+                   onkeyup="if(window.event.keyCode==13){clickEnter();}" />
         </div>
         {{^user}}
             <div id="login_bar">

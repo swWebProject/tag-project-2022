@@ -33,26 +33,28 @@
             {{>movie/wanting}}
 
             {{>movie/watching}}
+        </div>
+    </div>
 
-            <div id="movie_information">
-                <h4>영화 정보</h4>
-                <p>{{movieInfo.movieNm}}</p>
-                <p>{{openYear}} | {{genres}} | {{movieInfo.nationAlt}}</p>
-                <div id="information_div">정보들</div>
-            </div>
+    <div id="movie_information">
+        <h4>영화 정보</h4>
+        <p>{{movieInfo.movieNm}}</p>
+        <p>{{openYear}} | {{genres}} | {{movieInfo.nationAlt}}</p>
+        <div id="information_div">정보들</div>
+    </div>
 
-            <div id="movie_evaluate">
-                <h4>코멘트</h4>
-                <div id="comment_button" action="/">
-                    <textarea name="comment" rows="10" cols="50"></textarea>
-                    <input type="button" value="완료">
-                </div>
-                <div class="movie_evaluate_user">
-                    <p id="comment_user_name">{{#user}}{{nickname}}{{/user}}</p>
-                    <p id="comment_user"></p>
-                </div>
-            </div>
-            <script src="/js/movie.js"></script>
+    <div id="movie_evaluate">
+        <h4>코멘트</h4>
+        <div id="comment_button" action="/">
+            <textarea name="comment" rows="10" cols="50"></textarea>
+            <input type="button" value="완료">
+        </div>
+        <div class="movie_evaluate_user">
+            <p id="comment_user_name">{{#user}}{{nickname}}{{/user}}</p>
+            <p id="comment_user"></p>
+        </div>
+    </div>
+    <script src="/js/movie.js"></script>
 </section>
 
 {{>layouts/footer}}

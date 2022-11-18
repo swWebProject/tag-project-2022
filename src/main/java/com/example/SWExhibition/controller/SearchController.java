@@ -2,33 +2,44 @@ package com.example.SWExhibition.controller;
 
 import com.example.SWExhibition.entity.Movies;
 import com.example.SWExhibition.service.MoviesService;
-import lombok.extern.slf4j.Slf4j;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PathVariable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
-@Slf4j
-@RequestMapping("/home/search")
+@RequiredArgsConstructor
 public class SearchController {
 
     private final MoviesService moviesService;
 
-    public SearchController(MoviesService moviesService) {
-        this.moviesService = moviesService;
-    }
-
-    @GetMapping("/{keyword}")
-    public String searchMovie(@RequestParam String keyword, Model model) {
+    // 검색 결과 페이지로 이동
+    @GetMapping("/search/{keyword}")
+    public String keywordMovieSearchForm(@PathVariable String keyword, Model model) {
+        // 검색 결과 영화 가져오기
         List<Movies> movieList = moviesService.searchMovies(keyword);
-        model.addAttribute("movieList",movieList);
+        List<Movies> searchMovieList = new ArrayList<>();
 
+        if (movieList != null) {
+            for (Movies movie : movieList) {
+                // 연도만 표시
+                if (movie.getOpenDt() != null && !movie.getOpenDt().equals(""))
+                    movie.setOpenDt(movie.getOpenDt().substring(0, 4));
+                else
+                    movie.setOpenDt("미개봉");
 
-        return "home/search";
+                searchMovieList.add(movie);
+            }
+        }
+
+        model.addAttribute("searchMovieList", searchMovieList);
+
+        return "/search/search";
     }
+
 
 }
