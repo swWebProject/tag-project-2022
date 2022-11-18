@@ -22,8 +22,10 @@
                 <h2>주토피디아</h2>
             </a>
         </div>
-        <input id="movie_search" type="text" placeholder="원하는 영화 제목 검색"
-               onkeyup="if(window.event.keyCode==13){clickEnter();}" />
+        <div id="search">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input id="movie_search" type="text" placeholder="원하는 영화 제목 검색"/>
+        </div>
         {{^user}}
             <div id="login_bar">
                 <a href="/">

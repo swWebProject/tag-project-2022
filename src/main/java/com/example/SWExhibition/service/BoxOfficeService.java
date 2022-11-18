@@ -127,10 +127,10 @@ public class BoxOfficeService {
     }
 
     // 자정 때마다 전날 박스오피스 정보 초기화 하고 저장
-    @Scheduled(cron = "0 0 00 * * ?")
+    @Scheduled(cron = "0 2 0 * * ?")
     public void boxOfficeInitialization() throws ParseException {
-        deleteAll();    // 초기화
-        save(); // 저장
+        deleteAll();
+        save();
     }
 
 

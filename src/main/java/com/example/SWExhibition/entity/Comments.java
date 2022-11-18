@@ -13,7 +13,7 @@ import javax.persistence.*;
 @Getter
 @ToString
 @DynamicUpdate  // 변경된 값만 업데이트
-public class Comments {
+public class Comments extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long commentID; // 댓글 ID

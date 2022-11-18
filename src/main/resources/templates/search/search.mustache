@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zootopedia</title>
+    <script src="https://kit.fontawesome.com/c58241218c.js" crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/search.css">
+</head>
+
+
+{{>layouts/header}}
+
+<section id="section">
+    <h3>영화 검색 결과</h3>
+    <div id="search_result">
+        {{^searchMovieList}}
+            <a href="/">
+                <div id="fail">
+                    <i class="fa-regular fa-circle-xmark" id="X"></i>
+                    <h4>Home으로 돌아가려면 클릭하세요.</h4>
+                    <h3>업데이트가 안된 영화이거나, 없는 영화입니다. 다른 검색어를 입력해주세요.</h3>
+                </div>
+            </a>
+        {{/searchMovieList}}
+        {{#searchMovieList}}
+        <a href="/movie/{{movieCd}}">
+            <div class="search_result_movie">
+                <img src="{{poster}}" class="movie_img"></img>
+                <p class="movie_title">{{movieNm}}</p>
+                <div class="movie_open_nation">
+                    <span>{{openDt}}, </span>
+                    <span>{{nationAlt}}</span>
+                </div>
+            </div>
+        </a>
+    {{/searchMovieList}}
+    </div>
+</section>
+
+
+{{>layouts/footer}}

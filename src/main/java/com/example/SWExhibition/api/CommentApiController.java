@@ -24,7 +24,7 @@ public class CommentApiController {
     }
 
     /* UPDATE */
-    @PutMapping({"{movieCd}"})
+    @PutMapping("{movieCd}")
     public ResponseEntity update(@PathVariable String movieCd, @RequestBody CommentRequestDto dto) {
         commentsService.update(Long.valueOf(movieCd), dto);
         return ResponseEntity.ok(movieCd);

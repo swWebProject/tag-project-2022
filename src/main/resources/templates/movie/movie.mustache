@@ -13,6 +13,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap" rel="stylesheet">
 </head>
 
+
 {{>layouts/header}}
 
 <!------ section ------>
@@ -29,41 +30,28 @@
         </div>
 
         <div id="movie_user_want">
-            <div id="user_want_watch">
-                <h6>보고싶어요</h6>
-                <button id="wantButton" type="button" class="movie_user_want_a">
-                    <i class="fa-solid fa-folder-closed"></i>
-                    <input id="wantMovieId" type="hidden" value={{movieInfo.movieCd}} name="movieId">
-                    <input id="wantUserId" type="hidden" value={{#user}}{{userId}}{{/user}} name="userId">
-                </button>
-            </div>
+            {{>movie/wanting}}
 
-            <div id="user_watching">
-                <h6>보는 중</h6>
-                <button id="watchButton" class="movie_user_want_a">
-                    <i class="fa-solid fa-laptop"></i>
-                    <input id="watchMovieId" type="hidden" value={{movieInfo.movieCd}} name="movieId">
-                    <input id="watchUserId" type="hidden" value={{#user}}{{userId}}{{/user}} name="userId">
-                </button>
-            </div>
+            {{>movie/watching}}
 
             <div id="movie_information">
-        <h4>영화 정보</h4>
-        <p>{{movieInfo.movieNm}}</p>
-        <p>{{openYear}} | {{genres}} | {{movieInfo.nationAlt}}</p>
-        <div id="information_div">정보들</div>
-    </div>
-    <div id="movie_evaluate">
-        <h4>코멘트</h4>
-        <div id="comment_button" action="/">
-            <textarea name="comment" rows="10" cols="50"></textarea>
-            <input type="button" value="완료">
-        </div>
-        <div class="movie_evaluate_user">
-            <p id="comment_user_name">{{#user}}{{nickname}}{{/user}}</p>
-            <p id="comment_user"></p>
-        </div>
-    </div>
+                <h4>영화 정보</h4>
+                <p>{{movieInfo.movieNm}}</p>
+                <p>{{openYear}} | {{genres}} | {{movieInfo.nationAlt}}</p>
+                <div id="information_div">정보들</div>
+            </div>
+
+            <div id="movie_evaluate">
+                <h4>코멘트</h4>
+                <div id="comment_button" action="/">
+                    <textarea name="comment" rows="10" cols="50"></textarea>
+                    <input type="button" value="완료">
+                </div>
+                <div class="movie_evaluate_user">
+                    <p id="comment_user_name">{{#user}}{{nickname}}{{/user}}</p>
+                    <p id="comment_user"></p>
+                </div>
+            </div>
             <script src="/js/movie.js"></script>
 </section>
 

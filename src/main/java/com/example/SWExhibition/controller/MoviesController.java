@@ -1,9 +1,7 @@
 package com.example.SWExhibition.controller;
 
-import com.example.SWExhibition.dto.CommentResponseDto;
 import com.example.SWExhibition.entity.Movies;
-import com.example.SWExhibition.repository.RatingsRepository;
-import com.example.SWExhibition.repository.UsersRepository;
+import com.example.SWExhibition.repository.CommentsRepository;
 import com.example.SWExhibition.security.PrincipalDetails;
 import com.example.SWExhibition.service.MoviesService;
 import com.example.SWExhibition.service.Movies_has_genresService;
@@ -24,8 +22,6 @@ public class MoviesController {
 
     private final MoviesService moviesService;
     private final Movies_has_genresService movies_has_genresService;
-    private final RatingsRepository ratingsRepository;
-    private final UsersRepository usersRepository;
 
     // 영화 상세 페이지
     @GetMapping("/movie/{movieCd}")
@@ -44,31 +40,23 @@ public class MoviesController {
         model.addAttribute("openYear", openYear);
 
         //댓글 기능
-        List<CommentResponseDto> comments = (List<CommentResponseDto>) movie.getComments();
+        List<CommentsRepository> comments = (List<CommentsRepository>) movie.getComments();
 
-        /* 댓글 관련 */
+        // 댓글 관련
         if (comments != null && !comments.isEmpty()) {
             model.addAttribute("comments", comments);
         }
 
-        /* 사용자 관련 */
+        // 사용자 관련
         if (user != null) {
-            model.addAttribute("user", user.getNickname());
+            model.addAttribute("userInfo", user.getNickname());
 
-            /*게시글 작성자 본인인지 확인*/
-            if (movie.getComments().getUser().equals(user.getNickname())) {
-                model.addAttribute("writer", true);
+            // 게시글 작성자 본인인지 확인
+            if (user != null && user.getAuthorities().isEmpty()) {
+                model.addAttribute("user", user.getNickname());
             }
-            for (int i = 0; i < comments.size(); i++) {
-                //댓글 작성자 id와 현재 사용자 id를 비교해 true/false 판단
-                boolean isWriter = comments.get(i).getNickname().equals(user.getNickname());
-                log.info("isWriter? : " + isWriter);
-                model.addAttribute("isWriter",isWriter);
-            }
+
         }
-        model.addAttribute("movie", movie);
-
-        return "/movie/movie";
+            return "/movie/movie";
     }
-
 }
