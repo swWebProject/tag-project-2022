@@ -25,10 +25,10 @@ public class Ratings extends BaseTimeEntity {
     private Movies movie;   // 영화 코드
 
     @Column
-    private Long rating;   // 평점
+    private Float rating;   // 평점
 
     @Builder
-    public Ratings(Long id, Users user, Movies movie, Long rating) {
+    public Ratings(Long id, Users user, Movies movie, Float rating) {
         this.id = id;
         this.user = user;
         this.movie = movie;

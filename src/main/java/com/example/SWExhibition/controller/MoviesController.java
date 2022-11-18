@@ -34,6 +34,10 @@ public class MoviesController {
         if (movie.getOpenDt() != null && !movie.getOpenDt().equals(""))
             openYear = movie.getOpenDt().substring(0, 4);
 
+        // 평균 별점이 null이면 0.0으로 설정
+        if (movie.getAverageRating() == null)
+            movie.setAverageRating(0.0f);
+
         // View에 데이터 값 전달
         model.addAttribute("movieInfo", movie);
         model.addAttribute("genres", genres);
@@ -53,7 +57,7 @@ public class MoviesController {
 
             // 게시글 작성자 본인인지 확인
             if (user != null && user.getAuthorities().isEmpty()) {
-                model.addAttribute("user", user.getNickname());
+                model.addAttribute("userInfo", user.getNickname());
             }
 
         }

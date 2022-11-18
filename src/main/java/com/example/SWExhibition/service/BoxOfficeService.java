@@ -11,6 +11,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.springframework.data.domain.Sort;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -134,10 +135,10 @@ public class BoxOfficeService {
     }
 
 
-    // DB에 저장되어 있는 일별 박스오피스 값 주기
+    // 랭킹순으로 일별 박스오피스 값 주기
     @Transactional(readOnly = true)
     public List<BoxOffice> returnBoxOffice() {
-        return boxOfficeRepository.findAll();
+        return boxOfficeRepository.findAll(Sort.by("rank"));
     }
 
     // DB에 값 전부 삭제 하루마다 리셋
@@ -151,7 +152,7 @@ public class BoxOfficeService {
                 .audiAcc((String) item.get("audiAcc"))
                 .audiCnt((String) item.get("audiCnt"))
                 .movieCd((String) item.get("movieCd"))
-                .rank((String) item.get("rank"))
+                .rank(Integer.parseInt((String) item.get("rank")))
                 .build();
     }
 

@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -21,6 +22,11 @@ public class WatchingsApiController {
     // 보는 중인 영화 추가
     @PostMapping("/api/post/watching")
     public ResponseEntity<Integer> postWanting(@AuthenticationPrincipal PrincipalDetails principalDetails, @RequestBody WatchingsDto dto) {
+        // 로그인 상태가 아니면 에러 발생
+        if ( principalDetails == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "로그인 필요!");
+        }
+
         Integer watching = watchingsService.updateWatching(principalDetails, dto);    // 세션 정보와 보내준 값으로 보고 싶은 영화 업데이트 ( 추가 또는 삭제)
 
         return ResponseEntity.status(HttpStatus.OK).body(watching); // 1이면 보고 싶은 영화, 0이면 보고 싶지 않은 영화 ( DB에서 삭제)

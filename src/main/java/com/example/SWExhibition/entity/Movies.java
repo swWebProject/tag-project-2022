@@ -35,7 +35,7 @@ public class Movies {
     private String nationAlt;   // 제작 국가
 
     @Column
-    private Float averageRating;    // 평균 평점
+    private Float averageRating = 0.0f;    // 평균 평점
 
     @ManyToOne
     @JoinColumn(name = "comment_comment")

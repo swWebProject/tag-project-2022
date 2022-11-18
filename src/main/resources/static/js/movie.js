@@ -20,6 +20,7 @@ window.onload = function () {
         console.log(err)
     })
 }
+
 const clickStar = (target, movieCd) => {
 
     const star = target.value;

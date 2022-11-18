@@ -69,6 +69,7 @@ public class RatingsService {
         Users user = usersRepository.findByUserId(dto.getUserId()).orElse(null); // 유저에 대한 정보
         Movies movie = moviesRepository.findByMovieCd(dto.getMovieId()); // 해당 영화에 대한 정보
         Ratings rating = toEntity(dto);
+        rating.setRating(rating.getRating() / 2.0f);
 
         Ratings target = ratingsRepository.findByUserAndMovie(user, movie);
 
@@ -88,8 +89,8 @@ public class RatingsService {
             ratingsRepository.delete(target);
 
         // 영화의 평균 별점 업데이트
-        Movies updatedMovie = moviesRepository.findByMovieCd(target.getMovie().getMovieCd());   // 평균 별점을 업데이트 시킬 영화
-        Float averageRating = ratingsRepository.avg(updatedMovie);  // 평가한 영화의 평균 별점
+        Movies updatedMovie = moviesRepository.findByMovieCd(rating.getMovie().getMovieCd());   // 평균 별점을 업데이트 시킬 영화
+        Float averageRating = Math.round(ratingsRepository.avg(updatedMovie) * 10) / 10.0f;  // 평가한 영화의 평균 별점 (소수점 2자리에서 반올림)
         updatedMovie.setAverageRating(averageRating);   // 새로운 평균 별정 넣기
         moviesRepository.save(updatedMovie);    // 업데이트 시킴
 

@@ -22,6 +22,7 @@ public class RatingsApiController {
     // 평점 정보 받아오기
     @PostMapping("/api/post/movie/rating")
     public Ratings postRating(@RequestBody RatingsDto dto, @AuthenticationPrincipal PrincipalDetails principalDetails) {
+        // 로그인 상태가 아니면 에러 발생
         if ( principalDetails == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "로그인 필요!");
         }
@@ -32,6 +33,7 @@ public class RatingsApiController {
     // 영화 상세 정보 페이지에 평점 정보를 전달할 api
     @GetMapping("/api/get/movie/rating/movieCd={movieCd}")
     public Ratings getRating(@AuthenticationPrincipal PrincipalDetails principalDetails, @PathVariable String movieCd) {
+        // 로그인 상태가 아니면 에러 발생
         if ( principalDetails == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "로그인 필요!");
         }
