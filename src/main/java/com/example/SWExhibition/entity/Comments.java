@@ -15,7 +15,7 @@ import java.time.format.DateTimeFormatter;
 @Getter
 @ToString
 @DynamicUpdate  // 변경된 값만 업데이트
-public class Comments {
+public class Comments extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long commentID; // 댓글 ID
@@ -30,6 +30,7 @@ public class Comments {
 
     @Column(nullable = false)
     private String comment; // 댓글 내용
+
     @ManyToOne
     @JoinColumn(columnDefinition = "INT default 0")
     private Likes likeCnt;  // 좋아요 수

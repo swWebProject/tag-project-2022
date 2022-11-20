@@ -46,8 +46,8 @@ public class CommentDto {
         private Long commentId;
         private String nickname;
         private String comment;
-        private String createDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm"));
-        private String modifiedDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm"));
+        private String createDate;
+        private String modifiedDate;
         private Movies movie;
         private Likes likeCnt;
 
@@ -56,8 +56,8 @@ public class CommentDto {
             this.commentId = comments.getCommentID();
             this.nickname = comments.getUser().getNickname();
             this.comment = comments.getComment();
-            this.createDate = comments.getCreateDate();
-            this.modifiedDate = comments.getModifiedDate();
+            this.createDate = comments.getCreatedDate().format(DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm"));
+            this.modifiedDate = comments.getModifiedDate().format(DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm"));
             this.movie = comments.getMovie();
             this.likeCnt = comments.getLikeCnt();
         }

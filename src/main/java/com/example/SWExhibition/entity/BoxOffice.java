@@ -1,6 +1,9 @@
 package com.example.SWExhibition.entity;
 
-import lombok.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 
@@ -18,7 +21,7 @@ public class BoxOffice {
     private Movies movies; // 영화 객체
 
     @Column(nullable = false)
-    private String rank;    // 순위
+    private Integer rank;    // 순위
 
     @Column
     private String audiCnt; // 해당일 관객수
@@ -27,7 +30,7 @@ public class BoxOffice {
     private String audiAcc; // 누적관객수
 
     @Builder
-    public BoxOffice(Long id, Movies movies, String rank, String audiCnt, String audiAcc) {
+    public BoxOffice(Long id, Movies movies, Integer rank, String audiCnt, String audiAcc) {
         this.id = id;
         this.movies = movies;
         this.rank = rank;

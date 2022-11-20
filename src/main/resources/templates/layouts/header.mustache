@@ -1,6 +1,13 @@
 <body>
 
 <!------ header ------>
+<script>
+    const clickEnter = () => {
+        var movieNm = document.getElementById('movie_search').value;
+        console.log(movieNm)
+        location.href = "/search/" + movieNm
+    }
+</script>
 <header>
     <nav class="navbar">
         <div id="nav_name">
@@ -11,7 +18,8 @@
         </div>
         <div id="search">
             <i class="fa-solid fa-magnifying-glass"></i>
-            <input id="movie_search" type="text" placeholder="원하는 영화 검색">
+            <input id="movie_search" type="text" placeholder="원하는 영화 제목 검색"
+                   onkeyup="if(window.event.keyCode==13){clickEnter();}" />
         </div>
         {{^user}}
             <div id="login_bar">
@@ -32,7 +40,7 @@
                 <h4>홈</h4>
             </a>
             <a href="/mypage/{{userId}}">
-                <h4>{{user.nickname}}</h4>
+                <h4>{{nickname}}</h4>
             </a>
             <a href="/user/logout" methods="post">
                 <h4>로그아웃</h4>

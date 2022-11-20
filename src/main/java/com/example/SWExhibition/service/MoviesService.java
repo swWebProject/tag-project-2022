@@ -1,9 +1,6 @@
 package com.example.SWExhibition.service;
 
-import com.example.SWExhibition.dto.FilmoInfo;
-import com.example.SWExhibition.dto.MovieDto;
-import com.example.SWExhibition.dto.NaverMovieDto;
-import com.example.SWExhibition.dto.ParticipantsDto;
+import com.example.SWExhibition.dto.*;
 import com.example.SWExhibition.entity.*;
 import com.example.SWExhibition.repository.Movie_has_participantsRepository;
 import com.example.SWExhibition.repository.MoviesRepository;
@@ -222,7 +219,7 @@ public class MoviesService {
         for (NaverMovieDto o : naverMovieDtoList) {
             String compareMovieNm = "<b>" + ob.getMovieNm() + "</b>";    // 사이에 <b></b> 값 추가
             // 감독명, 영어 제목 또는 원제를 비교 해서 같으면 저장
-            if (o.getDirector().equals(ob.getDirectors()) && (o.getSubtitle().equalsIgnoreCase(ob.getMovieNmEn()) || compareMovieNm.equals(o.getTitle())) && !moviesRepository.existsByMovieCd(ob.getMovieCd())) {
+            if ((o.getDirector().equals(ob.getDirectors()) || convertName(o.getDirector()).equals(convertName(ob.getDirectors()))) && (o.getSubtitle().equalsIgnoreCase(ob.getMovieNmEn()) || compareMovieNm.equals(o.getTitle())) && !moviesRepository.existsByMovieCd(ob.getMovieCd())) {
                 // 두 Dto를 하나의 Entity로 변환
                 Movies entity = ob.toEntity(o);
                 log.info(entity.toString());
@@ -372,7 +369,15 @@ public class MoviesService {
         return moviesRepository.findByMovieCd(movieCd);
     }
 
+    // 영화 포스터 Url 수정
+    @Transactional
+    public Movies updatePoster(PosterUrlDto dto) {
+        Movies updated = moviesRepository.findByMovieCd(dto.getMovieCd());   // 업데이트 할 Entity
+        updated.setPoster(dto.getPosterUrl());
+        log.info(updated.toString());
 
+        return moviesRepository.save(updated);
+    }
 
     // JSONObject -> Dto, 필요한 데이터만 담음
     private MovieDto toDto(JSONObject item, String directors) {
@@ -569,17 +574,18 @@ public class MoviesService {
         return chosung;
 
     }
-    @Transactional
+
+    // 영화 이름으로 검색
+    @Transactional(readOnly = true)
     public List<Movies> searchMovies(String keyword) {
         List<Movies> movies = moviesRepository.findByMovieNmContains(keyword);
         List<Movies> movieDtoList = new ArrayList<>();
 
         if (movies.isEmpty()) return null;
 
-        for (Movies movie : movies) {
+        for(Movies movie : movies) {
             movieDtoList.add(movie);
         }
         return movieDtoList;
     }
-
 }

@@ -11,8 +11,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap" rel="stylesheet">
-    <script src="/js/movie.js"></script>
 </head>
+
 
 {{>layouts/header}}
 
@@ -30,26 +30,19 @@
         </div>
 
         <div id="movie_user_want">
-            <div id="user_want_watch">
-                <h6>보고싶어요</h6>
-                <a href="" class="movie_user_want_a"><i class="fa-solid fa-folder-closed"></i></a>
-            </div>
-            <div id="user_watching">
-                <h6>보는 중</h6>
-                <a href="" class="movie_user_want_a"><i class="fa-solid fa-laptop"></i></a>
-            </div>
-            <div id="user_want_location">
-                <h6>영화 촬영지 정보</h6>
-                <a href="" class="movie_user_want_a"><i class="fa-solid fa-camera"></i></a>
-            </div>
+            {{>movie/wanting}}
+
+            {{>movie/watching}}
         </div>
     </div>
+
     <div id="movie_information">
         <h4>영화 정보</h4>
         <p>{{movieInfo.movieNm}}</p>
         <p>{{openYear}} | {{genres}} | {{movieInfo.nationAlt}}</p>
         <div id="information_div">정보들</div>
     </div>
+
     <div id="movie_evaluate">
             <div id="comment_button">
             <textarea name="comment" rows="10" cols="50"></textarea>
@@ -63,5 +56,108 @@
                 <p>{{commentID}}</p>
             </div>
     </div>
+    <script src="/js/movie.js"></script>
+
+    <script>
+        window.onload = function () {
+            fetch("/api/get/movie/rating/movieCd=" + {{movieInfo.movieCd}})
+                    .then(function(response){
+                        response.json().then(function (data){
+                            let star = document.querySelectorAll('input');
+                            let c_value = document.querySelector('#current_value');
+                            if(data.rating != null){
+                                for (let i = 0; i < star.length; i++) {
+                                    star[i].addEventListener('click', function() {
+
+                                    });
+
+                                    if(star[i].getAttribute('value') == data.rating) {
+                                        star[i].setAttribute('checked', true);
+                                    }
+                                }
+                            }
+                        })
+                    }).catch(function (err){
+                console.log(err)
+            })
+        }
+
+        const clickReview = () => {
+
+            let comment = document.getElementById("input_comment_textarea").value;
+            let date = new Date();
+
+            let year = date.getFullYear();
+            let month = date.getMonth();
+            let day = date.getDate();
+            let hour = date.getHours();
+            let min = date.getMinutes();
+            let sec = date.getSeconds();
+
+            if (month < 10) {
+                month = String(month).padStart(2, '0');
+            }
+            if (day < 10) {
+                day = String(day).padStart(2, '0');
+            }
+            if (hour < 10) {
+                hour = String(hour).padStart(2, '0');
+            }
+            if (min < 10) {
+                min = String(min).padStart(2, '0');
+            }
+            if (sec < 10) {
+                sec = String(sec).padStart(2, '0');
+            }
+
+            let onDay = `${year}.${month}.${day} ${hour}.${min}.${sec}`;
+
+            const commentData = {
+                key: ,
+                commentId: ,
+                comment: comment,
+                nickname: ,
+                createDate: onDay,
+            }
+
+            fetch('api/movie/save/' + {{movieInfo.movieCd}}, {
+                method: "post",
+                body: JSON.stringify(commentData),
+                headers: { 'Content-Type': 'application/json' }
+            })
+                    .then((response) => response.json())
+                    .then(response => {
+                        console.log("Post review Connected");
+                        console.log(response);
+                    })
+                    .catch((error) => {
+                        console.error('실패 ', error)
+                    })
+
+        }
+
+        const clickDeleteReview = () => {
+
+            const deleteData = {
+                commentId: ,
+                comment: ,
+                movieCd:
+            }
+
+            fetch('api/movie/delete/' + {{movieInfo.movieCd}}, {
+                method: "post",
+                body: JSON.stringify(deleteData),
+                headers: { 'Content-Type': 'application/json' }
+            })
+                    .then((response) => response.json())
+                    .then(response => {
+                        console.log("Post delete review Connected");
+                        console.log(response);
+                    })
+                    .catch((error) => {
+                        console.error('실패 ', error)
+                    })
+        }
+    </script>
 </section>
 {{>layouts/footer}}

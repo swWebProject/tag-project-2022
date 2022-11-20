@@ -7,13 +7,12 @@ import com.example.SWExhibition.entity.Users;
 import com.example.SWExhibition.repository.MoviesRepository;
 import com.example.SWExhibition.repository.RatingsRepository;
 import com.example.SWExhibition.repository.UsersRepository;
+import com.example.SWExhibition.security.PrincipalDetails;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -26,55 +25,69 @@ public class RatingsService {
     private final UsersRepository usersRepository;
 
     // 영화의 평균 평점
+    @Transactional(readOnly = true)
     public Float avgRating(Movies movies) {
         return ratingsRepository.avg(movies);
     }
 
     // 해당 영화의 평가 수
+    @Transactional(readOnly = true)
     public Long countRating(Movies movies) {
         return ratingsRepository.countByMovie(movies);
     }
 
     // 유저가 평가한 영화 리스트
-    public List<Movies> ratedMovie(Users users) {
-        List<Ratings> ratingsList = ratingsRepository.findByUser(users);
+    @Transactional(readOnly = true)
+    public List<Ratings> ratedMovie(PrincipalDetails principalDetails) {
+        Users user = usersRepository.findByUserId(principalDetails.getUsername()).orElse(null); // 유저에 대한 정보
+        List<Ratings> ratingsList = ratingsRepository.findByUser(user);
         log.info(ratingsList.toString());
-        List<Movies> movieList = new ArrayList<>();
-
-        // 평가한 영화 리스트
-        for (Ratings rating : ratingsList) {
-            movieList.add(rating.getMovie());
-        }
         
-        return movieList;
+        return ratingsList;
+    }
+    
+    // 유저와 영화 값에 해당하는 평점 정보 
+    @Transactional(readOnly = true)
+    public Ratings getRating(PrincipalDetails principalDetails, String movieCd) {
+        Users user = usersRepository.findByUserId(principalDetails.getUsername()).orElse(null); // 유저에 대한 정보
+        Movies movie = moviesRepository.findByMovieCd(movieCd); // 해당 영화에 대한 정보
+        
+        return ratingsRepository.findByUserAndMovie(user, movie);
     }
 
     // 저장
     @Transactional
-    public Ratings save(RatingsDto dto) {
+    public Ratings save(RatingsDto dto, PrincipalDetails principalDetails) {
+        dto.setUserId(principalDetails.getUsername());
+        Users user = usersRepository.findByUserId(dto.getUserId()).orElse(null); // 유저에 대한 정보
+        Movies movie = moviesRepository.findByMovieCd(dto.getMovieId()); // 해당 영화에 대한 정보
         Ratings rating = toEntity(dto);
+        rating.setRating(rating.getRating());
 
-        Ratings target = ratingsRepository.findByUserAndMovie(rating.getUser(), rating.getMovie());
+        Ratings target = ratingsRepository.findByUserAndMovie(user, movie);
 
         // 업데이트
-        if (target != null && target.getRating() != rating.getRating()) {
-            rating.setId(target.getId());
-            log.info(rating.toString());
+        if (target != null && target.getRating() != dto.getRating()) {
+            target.setRating(rating.getRating());
+            log.info(target.toString());
 
-            ratingsRepository.save(rating); // 업데이트
+            ratingsRepository.save(target); // 업데이트
         }
         // 새로운 정보면
         else if (target == null)
             ratingsRepository.save(rating); // 그냥 저장
 
-        return rating;
-    }
+        // 별점 값이 0이면 DB에서 삭제
+        else if (dto.getRating() == 0.0f)
+            ratingsRepository.deleteById(target.getId());
 
-    // 현재 날짜와 시간을 알아옴
-    public String ratedDateTime() {
-        LocalDateTime localDateTime = LocalDateTime.now();
+        // 영화의 평균 별점 업데이트
+        Movies updatedMovie = moviesRepository.findByMovieCd(rating.getMovie().getMovieCd());   // 평균 별점을 업데이트 시킬 영화
+        Float averageRating = Math.round(ratingsRepository.avg(updatedMovie) * 10) / 10.0f;  // 평가한 영화의 평균 별점 (소수점 2자리에서 반올림)
+        updatedMovie.setAverageRating(averageRating);   // 새로운 평균 별정 넣기
+        moviesRepository.save(updatedMovie);    // 업데이트 시킴
 
-        return localDateTime.toString();
+        return target;
     }
 
     // Dto -> Entity
@@ -83,7 +96,6 @@ public class RatingsService {
                 .user(usersRepository.findByUserId(ratingsDto.getUserId()).orElse(null))
                 .movie(moviesRepository.findByMovieCd(ratingsDto.getMovieId()))
                 .rating(ratingsDto.getRating())
-                .date(ratedDateTime())
                 .build();
     }
 }

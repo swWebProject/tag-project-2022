@@ -1,9 +1,6 @@
 package com.example.SWExhibition.entity;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
@@ -11,6 +8,7 @@ import javax.persistence.*;
 @Entity
 @NoArgsConstructor
 @Getter
+@Setter
 @ToString
 @DynamicUpdate
 public class Movies {
@@ -37,7 +35,7 @@ public class Movies {
     private String nationAlt;   // 제작 국가
 
     @Column
-    private Float averageRating;    // 평균 평점
+    private Float averageRating = 0.0f;    // 평균 평점
 
     @ManyToOne
     @JoinColumn(name = "comment_comment")

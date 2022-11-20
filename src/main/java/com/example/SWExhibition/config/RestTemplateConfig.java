@@ -20,8 +20,8 @@ public class RestTemplateConfig {
                 .build();
 
         factory.setHttpClient(client);
-        factory.setConnectTimeout(20000);
-        factory.setReadTimeout(50000);
+        factory.setConnectTimeout(200000);
+        factory.setReadTimeout(500000);
 
         return new RestTemplate(factory);
     }

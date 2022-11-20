@@ -1,6 +1,7 @@
 package com.example.SWExhibition.service;
 
 import com.example.SWExhibition.dto.WantingsDto;
+import com.example.SWExhibition.entity.Movies;
 import com.example.SWExhibition.entity.Users;
 import com.example.SWExhibition.entity.Wantings;
 import com.example.SWExhibition.repository.MoviesRepository;
@@ -12,7 +13,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -25,44 +25,48 @@ public class WantingsService {
     private final UsersRepository usersRepository;
 
     @Transactional
-    public Wantings updateWanting(PrincipalDetails principalDetails, WantingsDto dto) {
+    // 보고 싶은 영화 목록에 추가 또는 삭제
+    public Integer updateWanting(PrincipalDetails principalDetails, WantingsDto dto) {
         Wantings entity = toEntity(principalDetails, dto);
         log.info(entity.toString());
 
-        // key 값이 0이 아니면 저장
-        if (dto.getKeyValue() != 0) {
+        // DB에 없으면 저장
+        if (!wantingsRepository.existsByMovieAndUser(entity.getMovie(), entity.getUser())) {
             wantingsRepository.save(entity);
+            return 1;
         }
-        // 0이면 삭제
-        else
+        // 있으면 삭제
+        else {
             wantingsRepository.deleteByMovieAndUser(entity.getMovie(), entity.getUser());
-
-        return entity;
+            return 0;
+        }
     }
 
     // 유저가 보고 싶은 영화 목록
     public List<Wantings> showWantings(PrincipalDetails principalDetails) {
-        Users user = usersRepository.findByUserId(principalDetails.getUsername()).orElse(null); // 유저 정보 가져 오기
+        Users user = usersRepository.findByUserId(principalDetails.getUsername()).orElse(null); // 유저 정보 가져오기
 
         List<Wantings> wantingsList = wantingsRepository.findByUser(user); // 유저가 보고 싶은 영화 목록 반환
         log.info(wantingsList.toString());
 
         return wantingsList;
     }
-
-    // 현재 날짜와 시간을 알아옴
-    public String wantedDate() {
-        LocalDateTime localDateTime = LocalDateTime.now();
-
-        return localDateTime.toString();
+    
+    // 영화와 사용자 정에 해당하는 값 불러오기
+    @Transactional(readOnly = true)
+    public Boolean show(PrincipalDetails principalDetails, String movieCd) {
+        Users user = usersRepository.findByUserId(principalDetails.getUsername()).orElse(null); // 유저 정보 가져오기
+        Movies movie = moviesRepository.findByMovieCd(movieCd); // 요청 영화 정보 가져오기
+        
+        return wantingsRepository.existsByMovieAndUser(movie, user);    // 존재 여부 확인
     }
+
 
     // Dto -> Entity
     public Wantings toEntity(PrincipalDetails principalDetails, WantingsDto dto) {
         return Wantings.builder()
                 .movie(moviesRepository.findByMovieCd(dto.getMovieId()))
                 .user(usersRepository.findByUserId(principalDetails.getUsername()).orElse(null))
-                .date(wantedDate())
                 .build();
     }
 }

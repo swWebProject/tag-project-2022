@@ -1,3 +1,9 @@
+:root {
+    --color-body: #FBF8F1;
+    --color-nav: #F7ECDE;
+    --font-color: rgb(33, 33, 33);
+}
+
 * {
     margin: 0px;
     padding: 0px;
@@ -8,13 +14,14 @@ html, body {
 }
 
 body {
-    background-color: rgb(126, 126, 126);
+    background-color: var(--color-body);
     font-family: 'Nanum Gothic', sans-serif;
     /* footer 하단 고정 : flex 추가 */
     display: flex;
     flex-direction: column;
     /*text-align: center;*/
     margin: 0;
+    padding-top: 73px;
 }
 
 section {
@@ -22,8 +29,16 @@ section {
 }
 /* footer 하단 고정 */
 
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
+}
+
 nav.navbar {
-    background-color: rgb(248, 248, 248);
+    background-color: var(--color-nav);
     width: 100%;
     height: 73px;
     display: flex;
@@ -40,7 +55,7 @@ nav.navbar {
 
 #nav_name > a {
     text-decoration: none;
-    color: black;
+    color: var(--font-color);
 }
 
 #nav_name > a > h2 {
@@ -76,22 +91,17 @@ i.fa-solid {
 #login_bar > a {
     margin: 10px;
     text-decoration: none;
-    color: black;
+    color: var(--font-color);
 }
 
 /* section */
-#movie_a {
+#movie {
     text-decoration: none;
-    color: rgb(248, 248, 248);
-}
-
-#movie_img[src="https://velog.velcdn.com/images/johnbl030102/post/60146e6e-8481-432f-9de6-dd1a7534684a/image.png"] {
-    width: 164px;
-    height: 251px;
+    color: var(--font-color);
 }
 
 #section > h3 {
-    color: rgb(248, 248, 248);
+    color: var(--font-color);
     font-weight: 900;
     margin: 20px 0 0 20px;
 }
@@ -106,7 +116,12 @@ i.fa-solid {
     padding-bottom: 20px;
 }
 
-#new_pTag {
+.new_divTag {
+    color: var(--font-color);
+    text-decoration: none;
+}
+
+.new_divTag {
     color: #f8f8f8;
     display: flex;
     flex-direction:column;
@@ -114,32 +129,47 @@ i.fa-solid {
     width: 165px;
 }
 
-#new_pTag > #movie_rank {
+.new_divTag > .movie_rank {
     font-size: 20px;
     font-weight: 700;
     margin-bottom: 5px;
+    color: var(--font-color);
 }
 
-#new_pTag > #movie_title {
-    font-size: 15px;
+.new_divTag > .movie_title {
+    font-size: 16px;
+    font-weight: 600;
     width: 164px;
     text-overflow:ellipsis;
     white-space:nowrap;
     word-wrap:normal;
     overflow:hidden;
     margin-top: 5px;
+    color: var(--font-color);
 }
 
-#movie_img {
+.movie_img {
     width: 164px;
     height: 251px;
     border-radius: 5px;
-    background-color: rgb(248, 248, 248);
+}
+
+.movieNation_movieOpen {
+    font-size: 13px;
+    margin-top: 1%;
+}
+
+.movieNation_movieOpen > span {
+    color: var(--font-color);
+}
+
+.new_aTag {
+    text-decoration: none;
 }
 
 /*footer*/
 #information {
-    background-color: rgb(248, 248, 248);
+    background-color: var(--color-nav);
     padding-top: 20px;
     padding-bottom: 9px;
     text-align: center;
@@ -151,7 +181,7 @@ i.fa-solid {
 
 #information > .information_inner > a {
     text-decoration: none;
-    color: black;
+    color: var(--font-color);
 }
 
 i.fa-github {
