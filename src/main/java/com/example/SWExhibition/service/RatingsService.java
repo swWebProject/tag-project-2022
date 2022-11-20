@@ -13,7 +13,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -39,18 +38,12 @@ public class RatingsService {
 
     // 유저가 평가한 영화 리스트
     @Transactional(readOnly = true)
-    public List<Movies> ratedMovie(PrincipalDetails principalDetails) {
+    public List<Ratings> ratedMovie(PrincipalDetails principalDetails) {
         Users user = usersRepository.findByUserId(principalDetails.getUsername()).orElse(null); // 유저에 대한 정보
         List<Ratings> ratingsList = ratingsRepository.findByUser(user);
         log.info(ratingsList.toString());
-        List<Movies> movieList = new ArrayList<>();
-
-        // 평가한 영화 리스트
-        for (Ratings rating : ratingsList) {
-            movieList.add(rating.getMovie());
-        }
         
-        return movieList;
+        return ratingsList;
     }
     
     // 유저와 영화 값에 해당하는 평점 정보 
@@ -69,7 +62,7 @@ public class RatingsService {
         Users user = usersRepository.findByUserId(dto.getUserId()).orElse(null); // 유저에 대한 정보
         Movies movie = moviesRepository.findByMovieCd(dto.getMovieId()); // 해당 영화에 대한 정보
         Ratings rating = toEntity(dto);
-        rating.setRating(rating.getRating() / 2.0f);
+        rating.setRating(rating.getRating());
 
         Ratings target = ratingsRepository.findByUserAndMovie(user, movie);
 
@@ -85,8 +78,8 @@ public class RatingsService {
             ratingsRepository.save(rating); // 그냥 저장
 
         // 별점 값이 0이면 DB에서 삭제
-        else if (rating.getRating() == 0)
-            ratingsRepository.delete(target);
+        else if (dto.getRating() == 0.0f)
+            ratingsRepository.deleteById(target.getId());
 
         // 영화의 평균 별점 업데이트
         Movies updatedMovie = moviesRepository.findByMovieCd(rating.getMovie().getMovieCd());   // 평균 별점을 업데이트 시킬 영화

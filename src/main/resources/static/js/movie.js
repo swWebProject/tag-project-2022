@@ -1,26 +1,3 @@
-window.onload = function () {
-    fetch("/api/get/movie/rating/movieCd=20224598")
-        .then(function(response){
-            response.json().then(function (data){
-                let star = document.querySelectorAll('input');
-                let c_value = document.querySelector('#current_value');
-                if(data.rating != null){
-                    for (let i = 0; i < star.length; i++) {
-                        star[i].addEventListener('click', function() {
-
-                        });
-
-                        if(star[i].getAttribute('value') == data.rating) {
-                            star[i].setAttribute('checked', true);
-                        }
-                    }
-                }
-            })
-        }).catch(function (err){
-        console.log(err)
-    })
-}
-
 const clickStar = (target, movieCd) => {
 
     const star = target.value;
@@ -101,3 +78,24 @@ watchButton.addEventListener('click', function () {
             console.error('실패 ', error)
         })
 })
+
+let checkNum = 0;
+function check(num){
+    let obj = document.querySelectorAll('input[type="radio"]');
+    let n = 0;
+
+    for(let i = 10; i >= 0; i--) {
+        if(n == num) {
+            num = i;
+            break;
+        }
+        n++;
+    }
+
+    if(checkNum == num){
+        obj[num].checked = false;
+        checkNum = null;
+    } else{
+        checkNum = num;
+    }
+}

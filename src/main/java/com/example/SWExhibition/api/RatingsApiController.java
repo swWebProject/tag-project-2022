@@ -1,7 +1,6 @@
 package com.example.SWExhibition.api;
 
 import com.example.SWExhibition.dto.RatingsDto;
-import com.example.SWExhibition.entity.Movies;
 import com.example.SWExhibition.entity.Ratings;
 import com.example.SWExhibition.security.PrincipalDetails;
 import com.example.SWExhibition.service.RatingsService;
@@ -43,8 +42,7 @@ public class RatingsApiController {
 
     // 유저가 평가한 영화 목록
     @GetMapping("/api/get/rating")
-    public List<Movies> getWantingList(@AuthenticationPrincipal PrincipalDetails principalDetails) {
-
+    public List<Ratings> getWantingList(@AuthenticationPrincipal PrincipalDetails principalDetails) {
         return ratingsService.ratedMovie(principalDetails);
     }
 }
