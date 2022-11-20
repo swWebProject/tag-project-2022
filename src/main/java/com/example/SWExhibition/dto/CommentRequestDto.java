@@ -7,6 +7,9 @@ import com.example.SWExhibition.entity.Users;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 @Getter @Setter
 public class CommentRequestDto {
 
@@ -16,13 +19,16 @@ public class CommentRequestDto {
         private String comment;
         private Likes likeCnt;
 
+        private String createDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm:ss"));
+
         public Comments toEntity() {
                 Comments comments = Comments.builder()
                         .commentID(commentID)
                         .user(user)
-                        .movie(movie)
+                        .movieCd(movie)
                         .comment(comment)
                         .likeCnt(likeCnt)
+                        .createDate(createDate)
                         .build();
 
                 return comments;

@@ -19,36 +19,31 @@ public class CommentsService {
     private final UsersRepository userRepository;
     private final MoviesRepository moviesRepository;
 
+
     /* CREATE */
     @Transactional
-    public Long commentSave(String nickname, Long id, CommentRequestDto dto) {
+    public Movies commentSave(String nickname, String movieCd, CommentRequestDto dto) {
         Users user = userRepository.findByNickname(nickname);
-        Movies movies = moviesRepository.findById(id).orElseThrow(() ->
-                new IllegalArgumentException("댓글 쓰기 실패: 해당 게시글이 존재하지 않습니다." + id));
-
+        Movies movies = moviesRepository.findByMovieCd(movieCd);
+        if(movies == null) {
+            return null;
+        }
         dto.setUser(user);
         dto.setMovie(movies);
-
+        
         Comments comment = dto.toEntity();
         commentRepository.save(comment);
 
-        return dto.getCommentID();
+        return dto.getMovie();
     }
 
-    /* UPDATE */
+    /* DELETE comment id로 찾아 삭제*/
     @Transactional
-    public void update(Long id, CommentRequestDto dto) {
-        Comments comment = commentRepository.findById(id).orElseThrow(() ->
-                new IllegalArgumentException("해당 댓글이 존재하지 않습니다. " + id));
-
-        comment.update(dto.getComment());
-    }
-
-    /* DELETE */
-    @Transactional
-    public void delete(Long id) {
-        Comments comment = commentRepository.findById(id).orElseThrow(() ->
-                new IllegalArgumentException("해당 댓글이 존재하지 않습니다. id=" + id));
+    public void deleteComment(String movieCd) {
+        Comments comment = commentRepository.findBymovieCd(movieCd);
+        if(comment == null) {
+            throw new IllegalArgumentException("댓글이 삭제되었거나 존재하지 않습니다");
+        }
 
         commentRepository.delete(comment);
     }

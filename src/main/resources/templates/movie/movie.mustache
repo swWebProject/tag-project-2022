@@ -44,15 +44,17 @@
     </div>
 
     <div id="movie_evaluate">
-        <h4>코멘트</h4>
-        <div id="comment_button" action="/">
+            <div id="comment_button">
             <textarea name="comment" rows="10" cols="50"></textarea>
-            <input type="button" value="완료">
-        </div>
-        <div class="movie_evaluate_user">
-            <p id="comment_user_name">{{#user}}{{nickname}}{{/user}}</p>
-            <p id="comment_user"></p>
-        </div>
+               <input type="button" value="완료">
+            </div>
+            <div class="movie_evaluate_user">
+                <p id="comment_user_name">{{#user}}{{nickname}}{{/user}}</p>
+                <p id="comment_user"></p>
+            </div>
+            <div class="movie_comments">
+                <p>{{#comments}}{{commentID}}{{/comments}}</p>
+            </div>
     </div>
     <script src="/js/movie.js"></script>
 
@@ -79,7 +81,33 @@
                 console.log(err)
             })
         }
+
+        const clickReview = () => {
+
+            let comment = document.getElementById("input_comment_textarea").value;
+
+            const commentData = {
+                commentId: null,
+                movieCd: {{movieInfo.movieCd}},
+                comment: comment,
+                likeCnt: null
+            }
+
+            fetch('api/movie/save/' + {{movieInfo.movieCd}}, {
+                method: "post",
+                body: JSON.stringify(commentData),
+                headers: { 'Content-Type': 'application/json' }
+            })
+                    .then((response) => response.json())
+                    .then(response => {
+                        console.log("Post review Connected");
+                        console.log(response);
+                    })
+                    .catch((error) => {
+                        console.error('실패 ', error)
+                    })
+
+        }
     </script>
 </section>
-
 {{>layouts/footer}}

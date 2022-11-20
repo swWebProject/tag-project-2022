@@ -241,6 +241,23 @@ i.fa-ticket {
     cursor: pointer;
 }
 
+.wmovie_title {
+    font-size: 14px;
+    font-weight: 500;
+    width: 124px;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    word-wrap:normal;
+    overflow:hidden;
+    margin-top: 5px;
+    color: var(--font-color);
+}
+
+.wnation_dt {
+    font-size: 13px;
+    margin-top: 1%;
+}
+
 /* section -> 보는 중 영화 담을 박스*/
 #mypage_watching {
     display: flex;
@@ -253,6 +270,23 @@ i.fa-ticket {
     min-height: 184px;
     margin: 10px 10px 0 0;
     cursor: pointer;
+}
+
+.ingmovie_title {
+    font-size: 14px;
+    font-weight: 500;
+    width: 124px;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    word-wrap:normal;
+    overflow:hidden;
+    margin-top: 5px;
+    color: var(--font-color);
+}
+
+.ingOpen_nation {
+    font-size: 13px;
+    margin-top: 1%;
 }
 
 /*footer*/

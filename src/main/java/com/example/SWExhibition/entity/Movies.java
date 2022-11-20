@@ -42,7 +42,7 @@ public class Movies {
     private Comments comments;
 
     @Builder
-    public Movies(Long id, String movieCd, String movieNm, String movieNmEn, String poster, String openDt, String nationAlt, Float averageRating) {
+    public Movies(Long id, String movieCd, String movieNm, String movieNmEn, String poster, String openDt, String nationAlt, Float averageRating,Comments comments) {
         this.id = id;
         this.movieCd = movieCd;
         this.movieNm = movieNm;
@@ -51,5 +51,7 @@ public class Movies {
         this.openDt = openDt;
         this.nationAlt = nationAlt;
         this.averageRating = averageRating;
+        this.comments = comments;
     }
+
 }

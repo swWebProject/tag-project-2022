@@ -32,7 +32,7 @@ public class CommentDto {
             Comments comments = Comments.builder()
                     .commentID(commentID)
                     .user(user)
-                    .movie(movie)
+                    .movieCd(movie)
                     .comment(comment)
                     .likeCnt(likeCnt)
                     .build();
@@ -58,7 +58,7 @@ public class CommentDto {
             this.comment = comments.getComment();
             this.createDate = comments.getCreatedDate().format(DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm"));
             this.modifiedDate = comments.getModifiedDate().format(DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm"));
-            this.movie = comments.getMovie();
+            this.movie = comments.getMovieCd();
             this.likeCnt = comments.getLikeCnt();
         }
     }
