@@ -67,27 +67,35 @@ public class RatingsService {
         Ratings target = ratingsRepository.findByUserAndMovie(user, movie);
 
         // 업데이트
-        if (target != null && target.getRating() != dto.getRating()) {
+        if (target != null && !target.getRating().equals(dto.getRating())) {
             target.setRating(rating.getRating());
             log.info(target.toString());
 
             ratingsRepository.save(target); // 업데이트
         }
         // 새로운 정보면
-        else if (target == null)
+        else if (target == null) 
             ratingsRepository.save(rating); // 그냥 저장
-
-        // 별점 값이 0이면 DB에서 삭제
-        else if (dto.getRating() == 0.0f)
+        
+        // 별점 값이 원래 값이랑 같으면 DB에서 삭제
+        else if (dto.getRating().equals(target.getRating())) 
             ratingsRepository.deleteById(target.getId());
 
-        // 영화의 평균 별점 업데이트
-        Movies updatedMovie = moviesRepository.findByMovieCd(rating.getMovie().getMovieCd());   // 평균 별점을 업데이트 시킬 영화
+        updateAvgRating(dto.getMovieId());  // 평균 별점 업데이트
+
+        return rating;
+    }
+
+    // 영화의 평균 별점 업데이트
+    @Transactional
+    public void updateAvgRating(String movieCd) {
+        Movies updatedMovie = moviesRepository.findByMovieCd(movieCd);   // 평균 별점을 업데이트 시킬 영화
+
         Float averageRating = Math.round(ratingsRepository.avg(updatedMovie) * 10) / 10.0f;  // 평가한 영화의 평균 별점 (소수점 2자리에서 반올림)
         updatedMovie.setAverageRating(averageRating);   // 새로운 평균 별정 넣기
-        moviesRepository.save(updatedMovie);    // 업데이트 시킴
 
-        return target;
+        moviesRepository.save(updatedMovie);    // 업데이트 시킴
+        log.info(updatedMovie.toString());
     }
 
     // Dto -> Entity

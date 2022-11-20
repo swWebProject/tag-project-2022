@@ -1,3 +1,4 @@
+
 const clickStar = (target, movieCd) => {
 
     const star = target.value;
@@ -78,27 +79,3 @@ watchButton.addEventListener('click', function () {
             console.error('실패 ', error)
         })
 })
-
-let checkNum = 0;
-function check(num){
-    let obj = document.querySelectorAll('input[type="radio"]');
-    let n = 0;
-    console.log('function check');
-
-    for(let i = 10; i >= 0; i--) {
-        console.log('function for');
-        if(n == num) {
-            num = i;
-            break;
-        }
-        n++;
-    }
-
-    if(checkNum == num){
-        console.log('checked check');
-        obj[num].checked = false;
-        checkNum = null;
-    } else{
-        checkNum = num;
-    }
-}

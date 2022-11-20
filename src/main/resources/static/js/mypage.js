@@ -16,6 +16,7 @@ function callFetchMypageSecond() {
 
                 let new_aTag = document.createElement('a');
                 new_aTag.setAttribute('class', 'new_aTag');
+                new_aTag.setAttribute('href', `/movie/${myWant.movieCd}`);
 
                 let new_pTag_wImg = document.createElement('img');
                 let new_pTag_wMovieNm = document.createElement('p');
@@ -60,6 +61,7 @@ function callFetchMypageThird() {
 
                 let new_aTag = document.createElement('a');
                 new_aTag.setAttribute('class', 'new_aTag');
+                new_aTag.setAttribute('href', `/movie/${myWatch.movieCd}`);
 
                 let new_pTag_ingImg = document.createElement('img');
                 let new_pTag_ingMovieNm = document.createElement('p');
@@ -88,21 +90,22 @@ function callFetchMypageThird() {
 
 /** 마이페이지 정보 fetch 호출 함수 */
 function callFetchMypageFirst() {
-    fetch('/api/get//api/get/rating')
+    fetch('/api/get/rating')
         .then(response => response.json())
         .then(function (json) {
             console.log(json);
             for (let i = 0; i < json.length; i++) {
-                let myReview_moviemyReview_movie = json[i].movie;
+                let myReview_movie = json[i].movie;
                 let myReview_movie_movieNm = myReview_movie.movieNm;
                 let myReview_movie_nation = myReview_movie.nationAlt;
                 let myReview_movie_openDt = myReview_movie.openDt;
                 let myReview_movie_avgRating = myReview_movie.averageRating;
 
-                let myReview_user = json[i].user;
-                let myReview_user_role = myReview_user.role;
-
                 mypage_div = document.getElementById('mypage_comment');
+
+                let new_aTag = document.createElement('a');
+                new_aTag.setAttribute('class', 'new_aTag');
+                new_aTag.setAttribute('href', `/movie/${myReview_movie.movieCd}`);
 
                 new_mypage_review = document.createElement('div');
                 new_mypage_review.setAttribute('class', 'mypage_review');
@@ -114,19 +117,19 @@ function callFetchMypageFirst() {
 
                 new_pTag_title.append(`${myReview_movie_movieNm}`);
                 new_pTag_information.append(`${myReview_movie_openDt.substr(0, 4)}, ${myReview_movie_nation}, ★ ${myReview_movie_avgRating}`);
-                new_pTag_comment.append(`${myReview_user_role}`);
 
-                new_pTag_title.setAttribute('class', 'mypage_review_in');
-                new_pTag_information.setAttribute('class', 'mypage_review_in');
-                new_hrTag.setAttribute('class', 'mypage_review_in');
-                new_pTag_comment.setAttribute('class', 'mypage_review_in');
+                new_pTag_title.setAttribute('class', 'mypage_review_in_title');
+                new_pTag_information.setAttribute('class', 'mypage_review_in_information');
+                new_hrTag.setAttribute('class', 'mypage_review_in_hr');
+                new_pTag_comment.setAttribute('class', 'mypage_review_in_comment');
 
                 new_mypage_review.append(new_pTag_title);
                 new_mypage_review.append(new_pTag_information);
                 new_mypage_review.append(new_hrTag);
                 new_mypage_review.append(new_pTag_comment);
+                new_aTag.append(new_mypage_review);
 
-                mypage_div.appendChild(new_mypage_review);
+                mypage_div.appendChild(new_aTag);
             }
         })
         .catch((err) => {
