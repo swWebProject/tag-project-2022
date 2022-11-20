@@ -83,8 +83,10 @@ let checkNum = 0;
 function check(num){
     let obj = document.querySelectorAll('input[type="radio"]');
     let n = 0;
+    console.log('function check');
 
     for(let i = 10; i >= 0; i--) {
+        console.log('function for');
         if(n == num) {
             num = i;
             break;
@@ -93,6 +95,7 @@ function check(num){
     }
 
     if(checkNum == num){
+        console.log('checked check');
         obj[num].checked = false;
         checkNum = null;
     } else{
