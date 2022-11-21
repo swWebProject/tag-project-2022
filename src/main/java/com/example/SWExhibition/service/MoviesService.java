@@ -166,7 +166,9 @@ public class MoviesService {
             for (NaverMovieDto o : naverMovieDtoList) {
                 String compareMovieNm = "<b>" + ob.getMovieNm() + "</b>";    // 사이에 <b></b> 값 추가
                 // 감독명, 영어 제목 또는 원제를 비교 해서 같으면 저장
-                if ((o.getDirector().equals(ob.getDirectors()) || convertName(o.getDirector()).equals(convertName(ob.getDirectors()))) && (o.getSubtitle().equalsIgnoreCase(ob.getMovieNmEn()) || compareMovieNm.equals(o.getTitle())) && !moviesRepository.existsByMovieCd(ob.getMovieCd())) {
+                if ((o.getDirector().equals(ob.getDirectors()) || convertName(o.getDirector()).equals(convertName(ob.getDirectors())))
+                        && (o.getSubtitle().equalsIgnoreCase(ob.getMovieNmEn()) || compareMovieNm.equals(o.getTitle()))
+                        && !moviesRepository.existsByMovieCd(ob.getMovieCd()) && !((o.getImage().equals("")) || o.getImage().equals(" "))) {
                     // 두 Dto를 하나의 Entity로 변환
                     Movies entity = ob.toEntity(o);
                     log.info(entity.toString());
@@ -219,7 +221,9 @@ public class MoviesService {
         for (NaverMovieDto o : naverMovieDtoList) {
             String compareMovieNm = "<b>" + ob.getMovieNm() + "</b>";    // 사이에 <b></b> 값 추가
             // 감독명, 영어 제목 또는 원제를 비교 해서 같으면 저장
-            if ((o.getDirector().equals(ob.getDirectors()) || convertName(o.getDirector()).equals(convertName(ob.getDirectors()))) && (o.getSubtitle().equalsIgnoreCase(ob.getMovieNmEn()) || compareMovieNm.equals(o.getTitle())) && !moviesRepository.existsByMovieCd(ob.getMovieCd())) {
+            if ((o.getDirector().equals(ob.getDirectors()) || convertName(o.getDirector()).equals(convertName(ob.getDirectors())))
+                    && (o.getSubtitle().equalsIgnoreCase(ob.getMovieNmEn()) || compareMovieNm.equals(o.getTitle()))
+                    && !moviesRepository.existsByMovieCd(ob.getMovieCd()) && !((o.getImage().equals("")) || o.getImage().equals(" "))) {
                 // 두 Dto를 하나의 Entity로 변환
                 Movies entity = ob.toEntity(o);
                 log.info(entity.toString());

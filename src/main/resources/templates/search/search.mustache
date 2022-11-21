@@ -16,27 +16,27 @@
 {{>layouts/header}}
 
 <section id="section">
-    <div id="search_result">
-        {{^searchMovieList}}
-            <a href="/">
-                <div id="fail">
-                    <i class="fa-regular fa-circle-xmark" id="X"></i>
-                    <h4>Home으로 돌아가려면 클릭하세요.</h4>
-                    <h3>업데이트가 안된 영화이거나, 없는 영화입니다. 다른 검색어를 입력해주세요.</h3>
-                </div>
-            </a>
-        {{/searchMovieList}}
-        {{#searchMovieList}}
-        <a href="/movie/{{movieCd}}">
-            <div class="search_result_movie">
-                <img src="{{poster}}" class="movie_img">
-                <p class="movie_title">{{movieNm}}</p>
-                <div class="movie_open_nation">
-                    <span>{{openDt}}, </span>
-                    <span>{{nationAlt}}</span>
-                </div>
+    {{^searchMovieList}}
+        <a href="/">
+            <div id="fail">
+                <i class="fa-regular fa-circle-xmark" id="X"></i>
+                <h4>Home으로 돌아가려면 클릭하세요.</h4>
+                <h3>업데이트가 안된 영화이거나, 없는 영화입니다. 다른 검색어를 입력해주세요.</h3>
             </div>
         </a>
+    {{/searchMovieList}}
+    <div id="search_result">
+    {{#searchMovieList}}
+            <a href="/movie/{{movieCd}}">
+                <div class="search_result_movie">
+                    <img src="{{poster}}" class="movie_img">
+                    <p class="movie_title">{{movieNm}}</p>
+                    <div class="movie_open_nation">
+                        <span>{{openDt}}, </span>
+                        <span>{{nationAlt}}</span>
+                    </div>
+                </div>
+            </a>
     {{/searchMovieList}}
     </div>
 </section>

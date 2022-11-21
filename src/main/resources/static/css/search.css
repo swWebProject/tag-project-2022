@@ -154,6 +154,7 @@ div.movie_open_nation {
 }
 
 /* section -> serchfail */
+/* section -> serchfail */
 a {
     text-decoration: none;
     color: var(--font-color);
@@ -168,6 +169,10 @@ a {
 #fail > h4 {
     margin: 0 auto;
     margin-bottom: 10px;
+}
+
+#fail > h3 {
+    margin: 0 auto;
 }
 
 #X {

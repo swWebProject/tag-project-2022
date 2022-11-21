@@ -21,11 +21,11 @@ body {
     flex-direction: column;
     /*text-align: center;*/
     margin: 0;
-    padding-top: 73px;
 }
 
 section {
     flex: 1;
+    padding-top: 73px;
 }
 /* footer 하단 고정 */
 

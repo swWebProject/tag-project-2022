@@ -21,7 +21,6 @@ body {
     display: flex;
     flex-direction: column;
     margin: 0;
-    padding-top: 73px;
 }
 
 section {
@@ -31,6 +30,7 @@ section {
     background-color: #f1efe956;
     border: 1px solid rgba(0, 0, 0, 0.03);
     width: 1100px;
+    padding-top: 73px;
 }
 /* footer 하단 고정 */
 
@@ -67,6 +67,7 @@ nav.navbar {
 #nav_name > a > h2 {
     padding: 5px 0 0 12px;
 }
+
 i.fa-solid {
     font-size: 35px;
     padding-top: 2px;
@@ -169,7 +170,7 @@ i.fa-solid {
     display: none;
 }
 
-.rating > label:before{ /* full star 생성하는 css */
+.rating > label:before { /* full star 생성하는 css */
     content: '\f005';
     font-family: FontAwesome;
     margin: 5px;
@@ -306,8 +307,8 @@ i.fa-solid {
 #movie_evaluate > div.movie_evaluate_user {
     margin: 10px 0 10px 0;
     width: 50%;
-    border-top: 1px solid #E9DAC1;
-    border-bottom: 1px solid #E9DAC1;
+    border-top: 1px solid #9191917d;
+    border-bottom: 1px solid #9191917d;
     padding: 8px;
 }
 

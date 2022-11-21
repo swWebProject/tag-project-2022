@@ -10,6 +10,7 @@ import com.example.SWExhibition.repository.WantingsRepository;
 import com.example.SWExhibition.security.PrincipalDetails;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -43,10 +44,12 @@ public class WantingsService {
     }
 
     // 유저가 보고 싶은 영화 목록
+    @Transactional(readOnly = true)
     public List<Wantings> showWantings(PrincipalDetails principalDetails) {
         Users user = usersRepository.findByUserId(principalDetails.getUsername()).orElse(null); // 유저 정보 가져오기
+        Sort sort = sortByModifiedDate();   // modifiedDate를 기준으로 내림차순 정렬
 
-        List<Wantings> wantingsList = wantingsRepository.findByUser(user); // 유저가 보고 싶은 영화 목록 반환
+        List<Wantings> wantingsList = wantingsRepository.findByUser(user, sort); // 유저가 보고 싶은 영화 목록 반환
         log.info(wantingsList.toString());
 
         return wantingsList;
@@ -68,6 +71,11 @@ public class WantingsService {
                 .movie(moviesRepository.findByMovieCd(dto.getMovieId()))
                 .user(usersRepository.findByUserId(principalDetails.getUsername()).orElse(null))
                 .build();
+    }
+
+    // modifiedDate를 기준으로 내림차순 정렬
+    private Sort sortByModifiedDate() {
+        return Sort.by(Sort.Direction.DESC, "modifiedDate");
     }
 }
 

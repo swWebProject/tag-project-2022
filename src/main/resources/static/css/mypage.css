@@ -24,8 +24,17 @@ body {
 
 section {
     flex: 1;
+    padding-top: 73px;
 }
 /* footer 하단 고정 */
+
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
+}
 
 nav.navbar {
     background-color: var(--color-nav);
@@ -164,16 +173,31 @@ div.mypage_review {
     margin-bottom: 7px;
     font-weight: 700;
     font-size: 15px;
+    width: 230px;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    word-wrap:normal;
+    overflow:hidden;
+    color: var(--font-color);
 }
 
 .mypage_review_in_information {
     margin-bottom: 7px;
     font-style: italic;
     font-size: 14px;
+    width: 230px;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    word-wrap:normal;
+    overflow:hidden;
+    color: var(--font-color);
 }
 
 .mypage_review_in_hr {
     margin-bottom: 7px;
+    border: 0;
+    height: 1px;
+    background-color: rgba(119, 118, 104, 0.813);
 }
 
 .mypage_review_in_comment {
@@ -256,6 +280,13 @@ div.mypage_review {
 .wnation_dt {
     font-size: 13px;
     margin-top: 1%;
+    width: 124px;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    word-wrap:normal;
+    overflow:hidden;
+    margin-top: 5px;
+    color: var(--font-color);
 }
 
 /* section -> 보는 중 영화 담을 박스*/
@@ -286,6 +317,13 @@ div.mypage_review {
 .ingOpen_nation {
     font-size: 13px;
     margin-top: 1%;
+    width: 124px;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    word-wrap:normal;
+    overflow:hidden;
+    margin-top: 5px;
+    color: var(--font-color);
 }
 
 /*footer*/
