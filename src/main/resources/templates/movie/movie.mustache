@@ -40,22 +40,24 @@
         <h4>영화 정보</h4>
         <p>{{movieInfo.movieNm}}</p>
         <p>{{openYear}} | {{genres}} | {{movieInfo.nationAlt}}</p>
-        <div id="information_div">정보들</div>
     </div>
 
     <div id="movie_evaluate">
             <div id="comment_button">
-            <textarea name="comment" rows="10" cols="50"></textarea>
-               <input type="button" value="완료">
+            <textarea id="input_comment_textarea" name="comment" rows="10" cols="50"></textarea>
+               <input type="button" value="완료" onclick="clickReview();">
             </div>
+            {{#comments}}
             <div class="movie_evaluate_user">
-                <p id="comment_user_name">{{#user}}{{nickname}}{{/user}}</p>
+                <p id="comment_user_name">{{user.nickname}}</p>
                 <p id="comment_user"></p>
             </div>
             <div class="movie_comments">
-                <p>{{#comments}}{{commentID}}{{/comments}}</p>
+                <p>{{comment}}</p>
             </div>
+            {{/comments}}
     </div>
+
     <script src="/js/movie.js"></script>
 
     <script>
@@ -85,40 +87,14 @@
         const clickReview = () => {
 
             let comment = document.getElementById("input_comment_textarea").value;
-            let date = new Date();
 
-            let year = date.getFullYear();
-            let month = date.getMonth();
-            let day = date.getDate();
-            let hour = date.getHours();
-            let min = date.getMinutes();
-            let sec = date.getSeconds();
-
-            if (month < 10) {
-                month = String(month).padStart(2, '0');
-            }
-            if (day < 10) {
-                day = String(day).padStart(2, '0');
-            }
-            if (hour < 10) {
-                hour = String(hour).padStart(2, '0');
-            }
-            if (min < 10) {
-                min = String(min).padStart(2, '0');
-            }
-            if (sec < 10) {
-                sec = String(sec).padStart(2, '0');
-            }
-
-            let onDay = `${year}.${month}.${day} ${hour}.${min}.${sec}`;
 
             const commentData = {
                 commentId: null,
-                comment: comment,
-                createDate: onDay,
+                comment: comment
             }
 
-            fetch('api/movie/save/' + {{movieInfo.movieCd}}, {
+            fetch('/api/movie/save/' + {{movieInfo.movieCd}}, {
                 method: "post",
                 body: JSON.stringify(commentData),
                 headers: { 'Content-Type': 'application/json' }
@@ -133,6 +109,7 @@
                     })
 
         }
+
 
         const clickDeleteReview = () => {
 

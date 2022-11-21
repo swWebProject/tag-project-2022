@@ -7,8 +7,6 @@ import lombok.ToString;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 @Entity
 @NoArgsConstructor
@@ -35,16 +33,13 @@ public class Comments extends BaseTimeEntity {
     @JoinColumn(columnDefinition = "INT default 0")
     private Likes likeCnt;  // 좋아요 수
 
-    private String createDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm:ss"));
-
     @Builder
-    public Comments(Long commentID, Users user, Movies movieCd, String comment, Likes likeCnt, String createDate) {
+    public Comments(Long commentID, Users user, Movies movieCd, String comment, Likes likeCnt) {
         this.commentID = commentID;
         this.user = user;
         this.movieCd = movieCd;
         this.comment = comment;
         this.likeCnt = likeCnt;
-        this.createDate = createDate;
     }
 
 }

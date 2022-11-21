@@ -18,15 +18,15 @@ public class CommentApiController {
 
     //댓글 저장
     @PostMapping("save/{movieCd}")
-    public ResponseEntity commentSave(@PathVariable String movieCd, @RequestBody CommentRequestDto dto,
-                                      @AuthenticationPrincipal PrincipalDetails user) {
+    public ResponseEntity<?> commentSave(@PathVariable String movieCd, @RequestBody CommentRequestDto dto,
+                                                @AuthenticationPrincipal PrincipalDetails user) {
         return ResponseEntity.ok(commentsService.commentSave(user.getNickname(), movieCd, dto));
     }
 
     /* DELETE */
-    @DeleteMapping("delete/{movieCd}")
-    public ResponseEntity deleteComment(@PathVariable String movieCd) {
-        commentsService.deleteComment(movieCd);
-        return ResponseEntity.ok(movieCd);
+    @DeleteMapping("delete/{id}")
+    public ResponseEntity<?> deleteComment(@PathVariable Long id) {
+        commentsService.deleteComment(id);
+        return ResponseEntity.ok(id);
     }
 }

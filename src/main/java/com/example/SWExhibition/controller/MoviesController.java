@@ -1,8 +1,9 @@
 package com.example.SWExhibition.controller;
 
+import com.example.SWExhibition.entity.Comments;
 import com.example.SWExhibition.entity.Movies;
-import com.example.SWExhibition.repository.CommentsRepository;
 import com.example.SWExhibition.security.PrincipalDetails;
+import com.example.SWExhibition.service.CommentsService;
 import com.example.SWExhibition.service.MoviesService;
 import com.example.SWExhibition.service.Movies_has_genresService;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,7 @@ public class MoviesController {
 
     private final MoviesService moviesService;
     private final Movies_has_genresService movies_has_genresService;
+    private final CommentsService commentsService;
 
     // 영화 상세 페이지
     @GetMapping("/movie/{movieCd}")
@@ -45,7 +47,7 @@ public class MoviesController {
         model.addAttribute("openYear", openYear);
 
         //댓글 기능
-        List<CommentsRepository> comments = (List<CommentsRepository>) movie.getComments();
+        List<Comments> comments = commentsService.show(movie);
 
         // 댓글 관련
         if (comments != null && !comments.isEmpty()) {

@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -37,10 +38,14 @@ public class CommentsService {
         return dto.getMovie();
     }
 
+    public List<Comments> show(Movies movies) {
+        return commentRepository.findByMovieCd(movies);
+    }
+
     /* DELETE comment id로 찾아 삭제*/
     @Transactional
-    public void deleteComment(String movieCd) {
-        Comments comment = commentRepository.findBymovieCd(movieCd);
+    public void deleteComment(Long id) {
+        Comments comment = commentRepository.findById(id).orElse(null);
         if(comment == null) {
             throw new IllegalArgumentException("댓글이 삭제되었거나 존재하지 않습니다");
         }
