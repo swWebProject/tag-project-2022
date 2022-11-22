@@ -22,7 +22,6 @@ public class Likes {
 
     private PrincipalDetails users;
 
-
     public Likes(Comments comments, PrincipalDetails users) {
         this.comments = comments;
         this.users = users;
