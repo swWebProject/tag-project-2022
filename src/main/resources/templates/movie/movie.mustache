@@ -131,6 +131,33 @@
                         console.error('실패 ', error)
                     })
         }
+
+        function commentDeleteEvent() {
+
+            fetch('api/movie/delete/' + {{movieInfo.movieCd}}, {
+                method: 'DELETE'
+            })
+                    .then(response => response.json())
+                    .then(function (json) {
+                        console.log(json);
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    })
+        }
+
+        let comment_update_button = document.createElement('button');
+        let comment_delete_button = document.createElement('button');
+        let comment_like_button = document.createElement('button');
+
+        comment_update_button.setAttribute('id', 'comment_update_button');
+        comment_update_button.setAttribute('onclick', 'commentUpdateEvent();');
+
+        comment_delete_button.setAttribute('id', 'comment_delete_button');
+        comment_delete_button.setAttribute('onclick', 'commentDeleteEvent();');
+
+        comment_like_button.setAttribute('id', 'comment_like_button');
+        comment_like_button.setAttribute('onclick', 'commentLikeEvent();');
     </script>
 </section>
 {{>layouts/footer}}
