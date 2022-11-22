@@ -29,6 +29,7 @@ public class CommentApiController {
         return ResponseEntity.ok(commentsService.commentSave(user.getNickname(), movieCd, dto));
     }
 
+    // 댓글 목록
     @GetMapping("show/{movieCd}")
     public List<Comments> list(@PathVariable String movieCd, @AuthenticationPrincipal PrincipalDetails principalDetails) {
         Movies movie = moviesRepository.findByMovieCd(movieCd);

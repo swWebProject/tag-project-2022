@@ -55,7 +55,7 @@
                         <p id="comment_user_name">{{user.nickname}}</p>
                         <p id="comment_user">
                             {{#isWriter}}
-                                <button id="comment_delete_button" onclick="commentDeleteEvent(this)">삭제</button>
+                                <button id="comment_delete_button" value="{{commentID}}" onclick="commentDeleteEvent(this)">삭제</button>
                             {{/isWriter}}
                         </p>
                     </div>
@@ -147,7 +147,7 @@
 
         function commentDeleteEvent(target) {
 
-            fetch('api/movie/delete/' + target.value, {
+            fetch('/api/movie/delete/' + target.value, {
                 method: 'DELETE'
             })
                     .then(response => response.json())
@@ -157,6 +157,8 @@
                     .catch((err) => {
                         console.log(err);
                     })
+
+            window.location.reload();
         }
 
         let comment_update_button = document.createElement('button');
