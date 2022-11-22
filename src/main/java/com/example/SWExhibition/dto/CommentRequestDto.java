@@ -1,7 +1,6 @@
 package com.example.SWExhibition.dto;
 
 import com.example.SWExhibition.entity.Comments;
-import com.example.SWExhibition.entity.Likes;
 import com.example.SWExhibition.entity.Movies;
 import com.example.SWExhibition.entity.Users;
 import lombok.Getter;
@@ -14,7 +13,6 @@ public class CommentRequestDto {
         private Users user;
         private Movies movie;
         private String comment;
-        private Likes likeCnt;
 
         public Comments toEntity() {
                 Comments comments = Comments.builder()
@@ -22,7 +20,6 @@ public class CommentRequestDto {
                         .user(user)
                         .movieCd(movie)
                         .comment(comment)
-                        .likeCnt(likeCnt)
                         .build();
 
                 return comments;

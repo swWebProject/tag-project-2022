@@ -47,15 +47,24 @@
             <textarea id="input_comment_textarea" name="comment" rows="10" cols="50"></textarea>
                <input type="button" value="완료" onclick="clickReview();">
             </div>
+        <div id="commentBox">
+            {{^comments}}{{/comments}}
             {{#comments}}
-            <div class="movie_evaluate_user">
-                <p id="comment_user_name">{{user.nickname}}</p>
-                <p id="comment_user"></p>
-            </div>
-            <div class="movie_comments">
-                <p>{{comment}}</p>
-            </div>
+                <div class="all_comment">
+                    <div class="movie_evaluate_user">
+                        <p id="comment_user_name">{{user.nickname}}</p>
+                        <p id="comment_user">
+                            {{#isWriter}}
+                                <button id="comment_delete_button" onclick="commentDeleteEvent(this)">삭제</button>
+                            {{/isWriter}}
+                        </p>
+                    </div>
+                    <div class="movie_comments">
+                        <p>{{comment}}</p>
+                    </div>
+                </div>
             {{/comments}}
+        </div>
     </div>
 
     <script src="/js/movie.js"></script>
@@ -82,11 +91,16 @@
                     }).catch(function (err){
                 console.log(err)
             })
+
+            wanting();
+            watching();
+
         }
 
         const clickReview = () => {
 
             let comment = document.getElementById("input_comment_textarea").value;
+
 
 
             const commentData = {
@@ -107,9 +121,8 @@
                     .catch((error) => {
                         console.error('실패 ', error)
                     })
-
+            window.location.reload();
         }
-
 
         const clickDeleteReview = () => {
 
@@ -132,9 +145,9 @@
                     })
         }
 
-        function commentDeleteEvent() {
+        function commentDeleteEvent(target) {
 
-            fetch('api/movie/delete/' + {{movieInfo.movieCd}}, {
+            fetch('api/movie/delete/' + target.value, {
                 method: 'DELETE'
             })
                     .then(response => response.json())
@@ -158,6 +171,116 @@
 
         comment_like_button.setAttribute('id', 'comment_like_button');
         comment_like_button.setAttribute('onclick', 'commentLikeEvent();');
+
+        function viewCommentUnLogin() {
+            fetch('/api/movie/show/' + {{movieInfo.movieCd}})
+                    .then((response) => response.json())
+                    .then(response => {
+                        console.log("show comment Connected");
+                        console.log(response);
+
+                        for (let i = 0; i < response.length; i++) {
+
+                            let comment = response[i].comment;
+                            let userName = response[i].user.nickname;
+
+                            let commentBox = document.getElementById('commentBox');
+
+                            let new_divTag_all_comment = document.createElement('div');
+                            new_divTag_all_comment.setAttribute('class', 'all_comment');
+
+                            let movie_evaluate_user = document.createElement('div');
+                            movie_evaluate_user.setAttribute('class', 'movie_evaluate_user');
+
+                            let comment_user_name = document.createElement('p');
+                            comment_user_name.setAttribute('class', 'comment_user_name');
+                            comment_user_name.append(userName);
+
+                            let comment_user = document.createElement('p');
+                            comment_user.setAttribute('class', 'comment_user');
+
+                            let movie_comments = document.createElement('div');
+                            movie_comments.setAttribute('class', 'movie_comments');
+
+                            let commnetMus = document.createElement('p');
+                            commnetMus.append(comment);
+
+                            movie_evaluate_user.append(comment_user_name);
+                            movie_evaluate_user.append(comment_user);
+                            movie_comments.append(commnetMus);
+
+                            new_divTag_all_comment.append(movie_evaluate_user);
+                            new_divTag_all_comment.append(movie_comments);
+
+                            commentBox.appendChild(new_divTag_all_comment);
+                        }
+                    })
+                    .catch((error) => {
+                        console.error('실패 ', error)
+                    })
+        }
+        viewCommentUnLogin()
+
+        /** 보고싶어요 버튼 fetch */
+        function wanting () {
+            fetch('/api/get/wanting/movieCd=' + {{movieInfo.movieCd}})
+                    .then((response) => response.json())
+                    .then(response => {
+                        console.log("wanting button Connected");
+                        console.log(response);
+
+                        if (response.error === 'Bad Request'){
+                            const myButton_w = document.querySelector('.fa-laptop');
+
+                            myButton_w.classList.replace('fa-check', 'fa-laptop');
+                            return;
+                        }
+
+                        button_check = response;
+
+                        const myButton = document.querySelector('.fa-folder-closed');
+
+                        if (button_check == false) {
+                            myButton.classList.replace('fa-check', 'fa-folder-closed');
+                        } else {
+                            myButton.classList.replace('fa-folder-closed', 'fa-check');
+                        }
+                    })
+                    .catch((error) => {
+                        console.error('실패 ', error)
+                    })
+        }
+
+        function watching() {
+            fetch('/api/get/watching/movieCd=' + {{movieInfo.movieCd}})
+                    .then((response) => response.json())
+                    .then(response => {
+                        console.log("watching button Connected");
+                        console.log(response);
+
+                        if (response.error === 'Bad Request'){
+                            const myButton_w = document.querySelector('.fa-laptop');
+
+                            myButton_w.classList.replace('fa-check', 'fa-laptop');
+                            return;
+                        }
+
+                        let button_check_w = response;
+
+                        const myButton_w = document.querySelector('.fa-laptop');
+
+                            if (button_check_w == false) {
+                                myButton_w.classList.replace('fa-check', 'fa-laptop');
+                            } else {
+                                myButton_w.classList.replace('fa-laptop', 'fa-check');
+                            }
+
+
+                    })
+                    .catch((error) => {
+                        console.error('실패 ', error)
+                    })
+        }
     </script>
 </section>
 {{>layouts/footer}}

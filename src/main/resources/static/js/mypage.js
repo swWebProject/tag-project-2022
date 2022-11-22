@@ -96,10 +96,13 @@ function callFetchMypageFirst() {
             console.log(json);
             for (let i = 0; i < json.length; i++) {
                 let myReview_movie = json[i].movie;
+                let myReview_movie_rating = json[i].rating;
                 let myReview_movie_movieNm = myReview_movie.movieNm;
                 let myReview_movie_nation = myReview_movie.nationAlt;
                 let myReview_movie_openDt = myReview_movie.openDt;
                 let myReview_movie_avgRating = myReview_movie.averageRating;
+
+                let myReview_user = json[i].user;
 
                 mypage_div = document.getElementById('mypage_comment');
 
@@ -107,27 +110,30 @@ function callFetchMypageFirst() {
                 new_aTag.setAttribute('class', 'new_aTag');
                 new_aTag.setAttribute('href', `/movie/${myReview_movie.movieCd}`);
 
-                new_mypage_review = document.createElement('div');
-                new_mypage_review.setAttribute('class', 'mypage_review');
+                let new_divTag = document.createElement('div');
+                new_divTag.setAttribute('class', 'mypage_review');
 
-                new_pTag_title = document.createElement('p');
-                new_pTag_information = document.createElement('p');
-                new_hrTag = document.createElement('hr');
-                new_pTag_comment = document.createElement('p');
+                let new_pTag_myImg = document.createElement('img');
+                let new_pTag_myMovieNm = document.createElement('p');
+                let new_pTag_myOpenNation = document.createElement('p');
+                let new_pTag_myRating = document.createElement('p');
 
-                new_pTag_title.append(`${myReview_movie_movieNm}`);
-                new_pTag_information.append(`${myReview_movie_openDt.substr(0, 4)}, ${myReview_movie_nation}, ★ ${myReview_movie_avgRating}`);
+                new_pTag_myImg.setAttribute('type', 'image');
+                new_pTag_myImg.setAttribute('src', `${myReview_movie.poster}`);
+                new_pTag_myMovieNm.setAttribute('class', 'mymovie_title');
+                new_pTag_myOpenNation.setAttribute('class', 'myOpen_nation');
+                new_pTag_myRating.setAttribute('class', 'avg_rating');
+                new_pTag_myImg.setAttribute('class', 'mymovie_img');
 
-                new_pTag_title.setAttribute('class', 'mypage_review_in_title');
-                new_pTag_information.setAttribute('class', 'mypage_review_in_information');
-                new_hrTag.setAttribute('class', 'mypage_review_in_hr');
-                new_pTag_comment.setAttribute('class', 'mypage_review_in_comment');
+                new_pTag_myMovieNm.append(`${myReview_movie_movieNm}`);
+                new_pTag_myRating.append(`평균 별점 ★ ${myReview_movie_avgRating}, 내 별점 ★ ${myReview_movie_rating}`);
+                new_pTag_myOpenNation.append(`${myReview_movie_openDt.substr(0, 4)}, ${myReview_movie_nation}`);
 
-                new_mypage_review.append(new_pTag_title);
-                new_mypage_review.append(new_pTag_information);
-                new_mypage_review.append(new_hrTag);
-                new_mypage_review.append(new_pTag_comment);
-                new_aTag.append(new_mypage_review);
+                new_divTag.append(new_pTag_myImg);
+                new_divTag.append(new_pTag_myMovieNm);
+                new_divTag.append(new_pTag_myRating);
+                new_divTag.append(new_pTag_myOpenNation);
+                new_aTag.append(new_divTag);
 
                 mypage_div.appendChild(new_aTag);
             }

@@ -41,6 +41,11 @@ public class WantingsApiController {
     // 보고 싶은 영화에 대한 참, 거짓
     @GetMapping("/api/get/wanting/movieCd={movieCd}")
     public ResponseEntity<Boolean> getWanting(@AuthenticationPrincipal PrincipalDetails principalDetails, @PathVariable String movieCd) {
+        // 로그인 상태가 아니면 에러 발생
+        if ( principalDetails == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "로그인 필요!");
+        }
+
         Boolean existWanting = wantingsService.show(principalDetails, movieCd);
         
         return ResponseEntity.status(HttpStatus.OK).body(existWanting);

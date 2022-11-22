@@ -21,6 +21,8 @@ const clickStar = (target, movieCd) => {
         .catch(function (err){
             console.log(err)
         })
+
+    window.location.reload();
 }
 
 /** 보고싶어요 버튼 */
@@ -45,6 +47,8 @@ wantButton.addEventListener('click', function () {
         .then(response => {
             console.log("Post movieSeeing Connected");
             console.log(response);
+
+            window.location.reload();
         })
         .catch((error) => {
             console.error('실패 ', error)
@@ -74,8 +78,12 @@ watchButton.addEventListener('click', function () {
         .then(response => {
             console.log("Post movieSeeing Connected");
             console.log(response);
+
+            window.location.reload();
         })
         .catch((error) => {
             console.error('실패 ', error)
         })
 })
+
+

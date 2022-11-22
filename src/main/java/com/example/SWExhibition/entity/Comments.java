@@ -29,17 +29,12 @@ public class Comments extends BaseTimeEntity {
     @Column(nullable = false)
     private String comment; // 댓글 내용
 
-    @ManyToOne
-    @JoinColumn(columnDefinition = "INT default 0")
-    private Likes likeCnt;  // 좋아요 수
-
     @Builder
-    public Comments(Long commentID, Users user, Movies movieCd, String comment, Likes likeCnt) {
+    public Comments(Long commentID, Users user, Movies movieCd, String comment) {
         this.commentID = commentID;
         this.user = user;
         this.movieCd = movieCd;
         this.comment = comment;
-        this.likeCnt = likeCnt;
     }
 
 }

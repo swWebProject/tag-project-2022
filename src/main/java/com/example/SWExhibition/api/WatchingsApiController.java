@@ -35,6 +35,10 @@ public class WatchingsApiController {
     // 유저의 보고 싶은 영화 목록
     @GetMapping("/api/get/watching")
     public List<Watchings> getWantingList(@AuthenticationPrincipal PrincipalDetails principalDetails) {
+        // 로그인 상태가 아니면 에러 발생
+        if ( principalDetails == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "로그인 필요!");
+        }
 
         return watchingsService.showWatchings(principalDetails);
     }
@@ -42,6 +46,10 @@ public class WatchingsApiController {
     // 보는 중인 영화에 대한 참, 거짓
     @GetMapping("/api/get/watching/movieCd={movieCd}")
     public ResponseEntity<Boolean> getWatching(@AuthenticationPrincipal PrincipalDetails principalDetails, @PathVariable String movieCd) {
+        // 로그인 상태가 아니면 에러 발생
+        if ( principalDetails == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "로그인 필요!");
+        }
         Boolean existWanting = watchingsService.show(principalDetails, movieCd);
 
         return ResponseEntity.status(HttpStatus.OK).body(existWanting);

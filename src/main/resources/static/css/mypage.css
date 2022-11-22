@@ -146,18 +146,12 @@ i.fa-ticket {
 /* section -> mypage comment 담을 박스 */
 #mypage_comment {
     display: flex;
-    margin: 13px 0 0 25px;
-    width: 95%;
-    height: 170px;
-    overflow-x: auto;
-    overflow-y: hidden;
-    white-space: nowrap;
-    padding-bottom: 22px;
-    scroll-padding: 3px;
+    margin: 3px 0 35px 25px;
+    flex-wrap: wrap;
 }
 
 /* mypage 상자들 */
-div.mypage_review {
+/*div.mypage_review {
     min-width: 250px;
     min-height: 170px;
     background-color: #e9dac152;
@@ -167,48 +161,45 @@ div.mypage_review {
     margin-right: 10px;
     white-space: nowrap;
     cursor: pointer;
+}*/
+
+.mymovie_img {
+    width: 124px;
+    height: 184px;
+    margin: 10px 10px 0 0;
 }
 
-.mypage_review_in_title {
-    margin-bottom: 7px;
-    font-weight: 700;
-    font-size: 15px;
-    width: 230px;
-    text-overflow:ellipsis;
-    white-space:nowrap;
-    word-wrap:normal;
-    overflow:hidden;
-    color: var(--font-color);
-}
-
-.mypage_review_in_information {
-    margin-bottom: 7px;
-    font-style: italic;
+.mymovie_title {
     font-size: 14px;
-    width: 230px;
+    font-weight: 550;
+    width: 124px;
     text-overflow:ellipsis;
     white-space:nowrap;
     word-wrap:normal;
     overflow:hidden;
+    margin-top: 5px;
     color: var(--font-color);
 }
 
-.mypage_review_in_hr {
-    margin-bottom: 7px;
-    border: 0;
-    height: 1px;
-    background-color: rgba(119, 118, 104, 0.813);
+.myOpen_nation {
+    font-size: 13px;
+    margin-top: 1%;
+    width: 124px;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    word-wrap:normal;
+    overflow:hidden;
+    margin-top: 5px;
+    color: var(--font-color);
 }
 
-.mypage_review_in_comment {
-    margin-bottom: 7px;
-    width: 250px;
-    height: 105px;
-    overflow-y: auto;
-    white-space: normal;
-    line-height: 20px;
-    padding-right: 3px;
-    padding-left: 1px;
+.myavg_rating {
+    font-size: 13px;
+    font-weight: 550;
+    margin-top: 1%;
+    width: 124px;
+    margin-top: 5px;
+    color: var(--font-color);
 }
 
 /* scroll bar css */
@@ -260,8 +251,8 @@ div.mypage_review {
 }
 
 .new_aTag > div > img {
-    min-width: 124px;
-    min-height: 184px;
+    width: 124px;
+    height: 184px;
     margin: 10px 10px 0 0;
 }
 
@@ -297,8 +288,8 @@ div.mypage_review {
 }
 
 .new_aTag > div > img {
-    min-width: 124px;
-    min-height: 184px;
+    width: 124px;
+    height: 184px;
     margin: 10px 10px 0 0;
 }
 
