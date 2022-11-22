@@ -34,17 +34,14 @@ public class Participants {
     @Column(nullable = false)
     private String repRoleNm;   // 영화인 분류명 (배우 or 감독)
 
-    @Column(columnDefinition = "INT default 0")
-    private Long likeCnt;  // 좋아요 수
 
     @Builder
-    public Participants(Long id, String peopleCd, String peopleNm, String peopleNmEn, String sex, String repRoleNm, Long likeCnt) {
+    public Participants(Long id, String peopleCd, String peopleNm, String peopleNmEn, String sex, String repRoleNm) {
         this.id = id;
         this.peopleCd = peopleCd;
         this.peopleNm = peopleNm;
         this.peopleNmEn = peopleNmEn;
         this.sex = sex;
         this.repRoleNm = repRoleNm;
-        this.likeCnt = likeCnt;
     }
 }

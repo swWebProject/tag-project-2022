@@ -1,7 +1,6 @@
 package com.example.SWExhibition.service;
 
 import com.example.SWExhibition.entity.Comments;
-import com.example.SWExhibition.entity.Likes;
 import com.example.SWExhibition.repository.CommentsRepository;
 import com.example.SWExhibition.repository.LikeRepository;
 import com.example.SWExhibition.security.PrincipalDetails;
