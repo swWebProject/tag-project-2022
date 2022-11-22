@@ -20,5 +20,6 @@ public interface RatingsRepository extends JpaRepository<Ratings, Long> {
     Long countByMovie(Movies movie);    // 해당 영화에 대해 평가한 사람 수
     List<Ratings> findByUser(Users user, Sort sort);  // 유저 값으로 최근 평점한 데이터 순서로 불러오기
     Ratings findByUserAndMovie(Users users, Movies movies);  // 영화, 유저 값으로 데이터 불러오기
+    void deleteByUser(Users users); // 유저 정보에 해당하는 목록 삭제
     boolean existsByMovieAndUser(Movies movie, Users user); // 영화와 유저 값으로 데이터 확인
 }

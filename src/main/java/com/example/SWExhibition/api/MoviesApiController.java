@@ -22,14 +22,14 @@ public class MoviesApiController {
     }
 
     // 영화인의 이름으로 검색하여 필모그래피로 영화 데이터를 DB에 저장
-    @GetMapping("/api/movie/peopleNm={peopleNm}")
+    @GetMapping("/api/save/movie/peopleNm={peopleNm}")
     public void saveMovie(@PathVariable String peopleNm) throws ParseException {
         moviesService.saveAsPeople(peopleNm);
     }
 
     // 영화인의 이름과 참여한 영화로 검색하여 필모그래피로 영화 데이터를 DB에 저장
-    @GetMapping("/api/movie/peopleNm={peopleNm}&movieNm={movieNm}")
-    public void saveMovie1(@RequestParam(value = "peopleNm") String peopleNm, @RequestParam(value = "movieNm") String movieNm) throws ParseException {
+    @GetMapping("/api/save/movie")
+    public void saveDetailedMovie(@RequestParam(value = "peopleNm") String peopleNm, @RequestParam(value = "movieNm") String movieNm) throws ParseException {
         moviesService.saveAsPeople(peopleNm, movieNm);
     }
 

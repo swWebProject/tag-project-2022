@@ -377,6 +377,10 @@ public class MoviesService {
     @Transactional
     public Movies updatePoster(PosterUrlDto dto) {
         Movies updated = moviesRepository.findByMovieCd(dto.getMovieCd());   // 업데이트 할 Entity
+
+        if (updated == null)
+            return null;
+
         updated.setPoster(dto.getPosterUrl());
         log.info(updated.toString());
 
