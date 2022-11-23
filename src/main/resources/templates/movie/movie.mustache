@@ -124,27 +124,6 @@
             window.location.reload();
         }
 
-        const clickDeleteReview = () => {
-
-            const deleteData = {
-                movieCd:{{movieInfo.movieCd}}
-            }
-
-            fetch('api/movie/delete/' + {{movieInfo.movieCd}}, {
-                method: "post",
-                body: JSON.stringify(deleteData),
-                headers: { 'Content-Type': 'application/json' }
-            })
-                    .then((response) => response.json())
-                    .then(response => {
-                        console.log("Post delete review Connected");
-                        console.log(response);
-                    })
-                    .catch((error) => {
-                        console.error('실패 ', error)
-                    })
-        }
-
         function commentDeleteEvent(target) {
 
             fetch('/api/movie/delete/' + target.value, {

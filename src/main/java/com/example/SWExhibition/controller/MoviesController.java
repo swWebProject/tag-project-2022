@@ -34,6 +34,7 @@ public class MoviesController {
         String genres = movies_has_genresService.getGenres(movie);   // 해당 영화와 매핑된 장르 정보들 불러오기
         String openYear = "미개봉";    // 개봉년도 디폴트 값
 
+        // 평균 별점 디폴트 값 설정
         if (movie.getAverageRating() == null)
             movie.setAverageRating(0.0f);
 
