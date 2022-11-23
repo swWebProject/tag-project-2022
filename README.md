@@ -18,3 +18,5 @@
   * HTML
   * CSS
   * JavaScript
+  
+![SW전시회 판넬 (1)](https://user-images.githubusercontent.com/109493189/202847320-19269dd4-e5e9-42ee-9e43-f6b263c069c3.png)
